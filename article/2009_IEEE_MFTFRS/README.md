@@ -1,3 +1,3 @@
 ## [2009_IEEE] MATRIX_FACTORIZATION_TECHNIQUES_FOR_RECOMMENDER_SYSTEMS
 
-![main]('image/main.png')
+![main](./image/main.PNG)
