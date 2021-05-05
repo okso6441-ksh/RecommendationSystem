@@ -9,5 +9,5 @@
 
 ### Article
 [Article](https://github.com/okso6441-ksh/RecommendationSystem/tree/main/article/).
-[detail](https://github.com/okso6441-ksh/RecommendationSystem/blob/main/article/README.md)
+[detail22](https://github.com/okso6441-ksh/RecommendationSystem/blob/main/_post/README.md)
 ### Support or Contact
