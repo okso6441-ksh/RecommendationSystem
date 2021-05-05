@@ -2,12 +2,12 @@
 [GitHub](https://github.com/okso6441-ksh/RecommendationSystem/edit/main/README.md) 
 
 ```markdown
-취준을 위해 추천 시스템을 공부하며 논문과 소스코드를 정리하는 깃헙입니다...
+추천 시스템 공부
 ```
 
 ### Paper
 
 ### Article
-[Article](https://github.com/okso6441-ksh/RecommendationSystem/tree/main/article/).
-[detail22](https://github.com/okso6441-ksh/RecommendationSystem/blob/main/_post/README.md)
+2009_IEEE_MFTFRS [MATRIX_FACTORIZATION_TECHNIQUES_FOR_RECOMMENDER_SYSTEMS](https://github.com/okso6441-ksh/RecommendationSystem/tree/main/article/2009_IEEE_MFTFRS/README.md)
+
 ### Support or Contact
