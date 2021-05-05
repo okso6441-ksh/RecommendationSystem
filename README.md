@@ -1,5 +1,4 @@
-## Welcome to Recommendation System Github Page
-
+## Recommendation System
 [GitHub](https://github.com/okso6441-ksh/RecommendationSystem/edit/main/README.md) 
 
 ```markdown
