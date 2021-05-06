@@ -98,3 +98,7 @@ $[]$
 
 ---
 
+<img src="https://latex.codecogs.com/gif.latex?\text { $f$ }"/>
+
+
+<img src="https://latex.codecogs.com/gif.latex?f_1"/>
