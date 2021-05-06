@@ -28,7 +28,8 @@ explicit feedback(spease) -> + implicit feedback(dense)
 ---
 ### Basic Model
 
-$f$: user-item latent factor space   
+<img src="https://latex.codecogs.com/gif.latex?\text { $f$ }"/>: user-item latent 
+space   
 $q_i \in \mathbb{R}^f$: item vector   
 $p_u \in \mathbb{R}^f$: user vector   
   
@@ -96,3 +97,4 @@ $c_{ui}$ : confidence
 $[]$
 
 ---
+
