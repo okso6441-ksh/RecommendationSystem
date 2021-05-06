@@ -28,9 +28,8 @@ explicit feedback(spease) -> + implicit feedback(dense)
 ---
 ### Basic Model
 
-<img src="https://latex.codecogs.com/gif.latex?\text { $f$ }"/>: user-item latent 
-space   
-$q_i \in \mathbb{R}^f$: item vector   
+<img src="https://latex.codecogs.com/gif.latex?f"/>: user-item latent space  
+<img src="https://latex.codecogs.com/gif.latex?q_i \in \mathbb{R}^f"/>: item vector   
 $p_u \in \mathbb{R}^f$: user vector   
   
 $$\hat{r}=q_i^Tp_u$$: dot product => user-item interaction   
@@ -98,7 +97,6 @@ $[]$
 
 ---
 
-<img src="https://latex.codecogs.com/gif.latex?\text { $f$ }"/>
 
 
 <img src="https://latex.codecogs.com/gif.latex?f_1"/>
