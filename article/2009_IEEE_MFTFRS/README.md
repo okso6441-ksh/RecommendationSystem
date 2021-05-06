@@ -5,7 +5,7 @@
 ---
 
 ### Abstract
-- In Producing product Recomeender System,
+- In Producing product Recomeender System,  
 　Matrix Factorization > Classic NN
 　(+) implict feedback
 　(+) temporal effect
