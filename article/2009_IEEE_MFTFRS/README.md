@@ -2,43 +2,61 @@
 
 ![main](./image/main.PNG)
 
+---
+
 ### Abstract
 - In Producing product Recomeender System,
-Matrix Factorization > Classic NN
-+1) implict feedback
-+2) temporal effect
-+3) confidence levels
+　Matrix Factorization > Classic NN
+　(+) implict feedback
+　(+) temporal effect
+　(+) confidence levels
 
+---
 ### Strategies(2)
-1. Content Filtering
-2. Collaborative Filtering
- 장점: Domain free
- 단점: cold start problem
- Area(2): neighborhood methon
-          latent factor models
+##### a. Content Filtering: user/item profile
+##### b. Collaborative Filtering: relationship user-item interaction
+　ㄴ장점: domain free
+　ㄴ단점: cold start problem
+　ㄴArea(2): neighborhood methods
+　　　　　　latent factor models
+=> 일반적으로는 컨텐츠 기반 기술이, 특정 area에는 collaborative filtering 이 정확도가 높음
 
+---
 ### Methods
-explit feedback
-implic feedback
+explicit feedback(spease) -> + implicit feedback(dense)
 
+---
 ### Basic Model
-$\hat{r}=q_i^Tp_u$
 
-regularized model 
-$min\sum_{(u,i)\in K}(r_{ui}-q_i^Tp_u) + \lambda (\left \| q_i \right \|^2+\left \| p_u \right \|^2)$
+$f$: user-item latent factor space 
+$q_i \in \mathbb{R}^f$: item vector 
+$p_u \in \mathbb{R}^f$: user vector 
+  
+$$\hat{r}=q_i^Tp_u$$: dot product => user-item interaction 
 
-learning algorithm
-minimizing equation
-a. SGD
+SVD - user-item rating matrix(sparse)
+　imputation fill - expensive/distort
+　overfitting -> avoid => regularization
+
+Minimizes the regularized squared error:
+$$min\sum_{(u,i)\in \kappa}(r_{ui}-q_i^Tp_u)+ \lambda (\left \| q_i \right \|^2+\left \| p_u \right \|^2)$$: Error + Regulization 
+
+$\kappa$: set of (u,i) pair
+$r_{ui}$: training set
+
+---
+### Learning Algorithms
+##### a. SGD(Stochastic Gradient Descent)
 $e_{ui}=r_{ui}-q_i^Tp_u$
 - $q_i \leftarrow q_i + \gamma (e_{ui}*p_u-\lambda *q_i)$
 - $p_u \leftarrow p_u + \gamma (e_{ui}*q_i-\lambda *p_u)$
 
-b. ALS(Alternating least squares)
+##### b. ALS(Alternating least squares)
 case1) parallelization -> compute each
 case2) contered on implict data, not sparse
 
-Adding biases: 쏠린 데이터 설명 
+---
+### Adding Biases: 쏠린 데이터 설명 
 
 $b_{ui} = \mu  + b_i+ b_u$ 
 ($\mu$ : global average)
@@ -46,9 +64,10 @@ $b_{ui} = \mu  + b_i+ b_u$
 $\hat{r}_{ui} = \mu+ b_i+ b_u + q_i^Tp_u$
  = bias + interaction
 
-$min_{p,q,b}\sum_{(u,i)\in K}(\mu- b_i- b_u - q_i^Tp_u)^2 + \lambda (\left \| q_i \right \|^2+\left \| p_u \right \|^2 + b_u^2 + b_i^2)$
+$min_{p,q,b}\sum_{(u,i)\in \kappa}(\mu- b_i- b_u - q_i^Tp_u)^2 + \lambda (\left \| q_i \right \|^2+\left \| p_u \right \|^2 + b_u^2 + b_i^2)$
 
-Additional input sources - cold start problem
+---
+### Additional input sources - cold start problem
 implict feedback - 사용자 행동 데이터 
 
 $N(\mu)$
@@ -57,7 +76,8 @@ $\sum_{i\in N(\mu)} x_i$
 
 $| N(\mu)|^{-0.5}\sum_{i \in N(\mu)} x_i^{4.5}$
 
-Temporal Pynamics
+---
+### Temporal Pynamics
 effects
 Dynamic(User)
 $b_i(t)$: item's popularity change
@@ -66,10 +86,13 @@ $p_u(t)$: perference change
 Static(Itme)
 $q_i$: item characteristics
 
-imput with varying confidence levels
+---
+### Input with varying confidence levels
 observed rating $\neq$ same weight/confident
 
 $c_{ui}$ : confidence 
 
 
 $[]$
+
+---
