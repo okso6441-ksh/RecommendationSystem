@@ -6,19 +6,19 @@
 
 ### Abstract
 - In Producing product Recomeender System,  
-　Matrix Factorization > Classic NN
-　(+) implict feedback
-　(+) temporal effect
-　(+) confidence levels
+　Matrix Factorization > Classic NN  
+　(+) implict feedback  
+　(+) temporal effect  
+　(+) confidence levels  
 
 ---
 ### Strategies(2)
 ##### a. Content Filtering: user/item profile
 ##### b. Collaborative Filtering: relationship user-item interaction
-　ㄴ장점: domain free
-　ㄴ단점: cold start problem
-　ㄴArea(2): neighborhood methods
-　　　　　　latent factor models
+　ㄴ장점: domain free  
+　ㄴ단점: cold start problem  
+　ㄴArea(2): neighborhood methods  
+　　　　　　latent factor models  
 => 일반적으로는 컨텐츠 기반 기술이, 특정 area에는 collaborative filtering 이 정확도가 높음
 
 ---
