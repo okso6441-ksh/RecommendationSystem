@@ -28,7 +28,7 @@
 ![matrix](./image/matrix.PNG) 
 
 ---
-### Matrix Factorization sMethods
+### Matrix Factorization Methods
 explicit feedback(spease) -> + implicit feedback(dense)
 * 강점: 추가 정보를 통합 할 수 있음 
 ---
@@ -38,15 +38,16 @@ explicit feedback(spease) -> + implicit feedback(dense)
 <img src="https://latex.codecogs.com/gif.latex?f"/>: user-item latent space  
 <img src="https://latex.codecogs.com/gif.latex?q_i%20%5Cin%20%5Cmathbb%7BR%7D%5Ef"/>: item vector   
 <img src="https://latex.codecogs.com/gif.latex?p_u%20%5Cin%20%5Cmathbb%7BR%7D%5Ef"/>: user vector   
-  
-<img src="https://latex.codecogs.com/gif.latex?5Chat%7Br%7D%3Dq_i%5ETp_u"/>: 추정치(dot product) => user-item interaction   
+          
+<img src="https://latex.codecogs.com/gif.latex?%5Chat%7Br%7D%3Dq_i%5ETp_u"/>: 추정치(dot product) => user-item interaction   
 
 * SVD - user-item rating matrix(sparse)  
 　imputation fill - expensive/distort  
 　overfitting -> avoid => regularization  
   
 * 모델 업데이트    
-<img src="https://latex.codecogs.com/gif.latex?min%5Csum_%7B%28u%2Ci%29%5Cin%20%5Ckappa%7D%28r_%7Bui%7D-q_i%5ETp_u%29&plus;%20%5Clambda%20%28%5Cleft%20%5C%7C%20q_i%20%5Cright%20%5C%7C%5E2&plus;%5Cleft%20%5C%7C%20p_u%20%5Cright%20%5C%7C%5E2%29"/>: (min) Error + Regulization  
+<img src="https://latex.codecogs.com/gif.latex?min%5Csum_%7B%28u%2Ci%29%5Cin%20%5Ckappa%7D%28r_%7Bui%7D-q_i%5ETp_u%29&plus;%20%5Clambda%20%28%5Cleft%20%5C%7C%20q_i%20%5Cright%20%5C%7C%5E2&plus;%5Cleft%20%5C%7C%20p_u%20%5Cright%20%5C%7C%5E2%29"/>
+: (min) Error + Regulization  
 
 <img src="https://latex.codecogs.com/gif.latex?%5Ckappa"/>: set of (u,i) pair training set
 
