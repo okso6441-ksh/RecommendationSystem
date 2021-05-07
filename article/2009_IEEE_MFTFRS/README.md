@@ -75,20 +75,20 @@
 * 상호작용과 관계 없는 변동/쏠림 => 편향/절편  
   - 편향을 식별하여 실제 상호 작용 부분만 모델링 적용  
 
-* 사용자와 아이템 잠재 요인 공간에 매핑, 상호작용이 공간에서 모델링  
+* Bias 식별  
 <img src="https://latex.codecogs.com/gif.latex?%5Cmu"/>: global average  
 <img src="https://latex.codecogs.com/gif.latex?b_i"/>: item bias  
 <img src="https://latex.codecogs.com/gif.latex?b_u"/>: user bias  
-
-* Bias 식별:  
+  
 <img src="https://latex.codecogs.com/gif.latex?b_%7Bui%7D%20%3D%20%5Cmu%20&plus;%20b_i&plus;%20b_u"/>  
   
 * 추정치 수식 업데이트
-<img src="https://latex.codecogs.com/gif.latex?%5Chat%7Br%7D_%7Bui%7D%20%3D%20%5Cmu&plus;%20b_i&plus;%20b_u%20&plus;%20q_i%5ETp_u"/>
- = bias + interaction  
+<img src="https://latex.codecogs.com/gif.latex?%5Chat%7Br%7D_%7Bui%7D%20%3D%20%5Cmu&plus;%20b_i&plus;%20b_u%20&plus;%20q_i%5ETp_u"/>  
+: bias + interaction  
 
 * 학습 모델 업데이트  
-<img src="https://latex.codecogs.com/gif.latex?min_%7Bp%2Cq%2Cb%7D%5Csum_%7B%28u%2Ci%29%5Cin%20%5Ckappa%7D%28r_%7Bui%7D%20-%20%5Cmu-%20b_i-%20b_u%20-%20q_i%5ETp_u%29%5E2%20&plus;%20%5Clambda%20%28%5Cleft%20%5C%7C%20q_i%20%5Cright%20%5C%7C%5E2&plus;%5Cleft%20%5C%7C%20p_u%20%5Cright%20%5C%7C%5E2%20&plus;%20b_u%5E2%20&plus;%20b_i%5E2%29"/>: (min) Error + Regulization + Bias
+<img src="https://latex.codecogs.com/gif.latex?min_%7Bp%2Cq%2Cb%7D%5Csum_%7B%28u%2Ci%29%5Cin%20%5Ckappa%7D%28r_%7Bui%7D%20-%20%5Cmu-%20b_i-%20b_u%20-%20q_i%5ETp_u%29%5E2%20&plus;%20%5Clambda%20%28%5Cleft%20%5C%7C%20q_i%20%5Cright%20%5C%7C%5E2&plus;%5Cleft%20%5C%7C%20p_u%20%5Cright%20%5C%7C%5E2%20&plus;%20b_u%5E2%20&plus;%20b_i%5E2%29"/>  
+: (min) Error + Regulization + Bias
 
 ---
 ### Additional Input Sources 
@@ -130,6 +130,7 @@
   * 신뢰도: 사용 가능한 수치값 => 반복 이벤트로 사용자 의견 반영 가능성 높임  
   * 신뢰 수준별 가중치 부여 
 * 학습 모델 업데이트   
-<img src="https://latex.codecogs.com/gif.latex?min_%7Bp%2Cq%2Cb%7D%5Csum_%7B%28u%2Ci%29%5Cin%20%5Ckappa%7Dc_%7Bui%7D%28r_%7Bui%20-%20%7D%5Cmu-%20b_i-%20b_u%20-%20q_i%5ETp_u%29%5E2%20&plus;%20%5Clambda%20%28%5Cleft%20%5C%7C%20q_i%20%5Cright%20%5C%7C%5E2&plus;%5Cleft%20%5C%7C%20p_u%20%5Cright%20%5C%7C%5E2%20&plus;%20b_u%5E2%20&plus;%20b_i%5E2%29"/>: (min) Error + Regulization + Bias + 가중치 부여  
+<img src="https://latex.codecogs.com/gif.latex?min_%7Bp%2Cq%2Cb%7D%5Csum_%7B%28u%2Ci%29%5Cin%20%5Ckappa%7Dc_%7Bui%7D%28r_%7Bui%20-%20%7D%5Cmu-%20b_i-%20b_u%20-%20q_i%5ETp_u%29%5E2%20&plus;%20%5Clambda%20%28%5Cleft%20%5C%7C%20q_i%20%5Cright%20%5C%7C%5E2&plus;%5Cleft%20%5C%7C%20p_u%20%5Cright%20%5C%7C%5E2%20&plus;%20b_u%5E2%20&plus;%20b_i%5E2%29"/>  
+: (min) Error + Regulization + Bias + 가중치 부여  
 
 <img src="https://latex.codecogs.com/gif.latex?c_%7Bui%7D"/> : confidence   
