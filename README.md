@@ -6,7 +6,7 @@
 ```
 
 ### Paper
-2008_IEEE_CFfIFD [Collaborative Filtering for Implicit Feedback Datasets](https://github.com/okso6441-ksh/RecommendationSystem/tree/main/paper/2008_IEEE_CFfIFD/README.md)
+2008_IEEE_CFfIFD [Collaborative_Filtering_for_Implicit_Feedback_Datasets](https://github.com/okso6441-ksh/RecommendationSystem/tree/main/paper/2008_IEEE_CFfIFD/README.md)
   
 
 ### Article
