@@ -75,11 +75,13 @@
 * 상호작용과 관계 없는 변동/쏠림 => 편향/절편  
   - 편향을 식별하여 실제 상호 작용 부분만 모델링 적용  
 
-* Bias 식별:  
-<img src="https://latex.codecogs.com/gif.latex?b_%7Bui%7D%20%3D%20%5Cmu%20&plus;%20b_i&plus;%20b_u"/>  
+* 사용자와 아이템 잠재 요인 공간에 매핑, 상호작용이 공간에서 모델링  
 <img src="https://latex.codecogs.com/gif.latex?%5Cmu"/>: global average  
 <img src="https://latex.codecogs.com/gif.latex?b_i"/>: item bias  
 <img src="https://latex.codecogs.com/gif.latex?b_u"/>: user bias  
+
+* Bias 식별:  
+<img src="https://latex.codecogs.com/gif.latex?b_%7Bui%7D%20%3D%20%5Cmu%20&plus;%20b_i&plus;%20b_u"/>  
   
 * 추정치 수식 업데이트
 <img src="https://latex.codecogs.com/gif.latex?%5Chat%7Br%7D_%7Bui%7D%20%3D%20%5Cmu&plus;%20b_i&plus;%20b_u%20&plus;%20q_i%5ETp_u"/>
