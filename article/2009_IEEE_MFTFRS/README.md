@@ -77,9 +77,9 @@
 
 * Bias 식별:  
 <img src="https://latex.codecogs.com/gif.latex?b_%7Bui%7D%20%3D%20%5Cmu%20&plus;%20b_i&plus;%20b_u"/>  
-  - <img src="https://latex.codecogs.com/gif.latex?%5Cmu"/>: global average  
-  - <img src="https://latex.codecogs.com/gif.latex?b_i"/>: item bias  
-  - <img src="https://latex.codecogs.com/gif.latex?b_u"/>: user bias  
+<img src="https://latex.codecogs.com/gif.latex?%5Cmu"/>: global average  
+<img src="https://latex.codecogs.com/gif.latex?b_i"/>: item bias  
+<img src="https://latex.codecogs.com/gif.latex?b_u"/>: user bias  
   
 * 추정치 수식 업데이트
 <img src="https://latex.codecogs.com/gif.latex?%5Chat%7Br%7D_%7Bui%7D%20%3D%20%5Cmu&plus;%20b_i&plus;%20b_u%20&plus;%20q_i%5ETp_u"/>
