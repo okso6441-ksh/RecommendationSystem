@@ -23,7 +23,7 @@
 
 ![CP](./image/CP.PNG)
 
-- latent factor models  
+  - latent factor models  
 
 ![matrix](./image/matrix.PNG) 
 
@@ -35,7 +35,7 @@ explicit feedback(spease) -> + implicit feedback(dense)
 ### Matrix Factorization Basic Model
 
 * 사용자와 아이템 잠재 요인 공간에 매핑, 상호작용이 공간에서 모델링  
-<img src="https://latex.codecogs.com/gif.latex?f"/>: user-item latent space  
+<img src="https://latex.codecogs.com/gif.latex?f" align="center"/>: user-item latent space  
 <img src="https://latex.codecogs.com/gif.latex?q_i%20%5Cin%20%5Cmathbb%7BR%7D%5Ef"/>: item vector   
 <img src="https://latex.codecogs.com/gif.latex?p_u%20%5Cin%20%5Cmathbb%7BR%7D%5Ef"/>: user vector   
           
