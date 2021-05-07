@@ -29,7 +29,7 @@
 
 ---
 ### Matrix Factorization Methods
-explicit feedback(spease) -> + implicit feedback(dense)
+* explicit feedback(spease) -> + implicit feedback(dense)
 * 강점: 추가 정보를 통합 할 수 있음 
 ---
 ### Matrix Factorization Basic Model
@@ -76,9 +76,9 @@ explicit feedback(spease) -> + implicit feedback(dense)
   - 편향을 식별하여 실제 상호 작용 부분만 모델링 적용  
 
 * Bias 식별:  
-<img src="https://latex.codecogs.com/gif.latex?b_%7Bui%7D%20%3D%20%5Cmu%20&plus;%20b_i&plus;%20b_u"/>
-  - <img src="https://latex.codecogs.com/gif.latex?%5Cmu"/>: global average
-  - <img src="https://latex.codecogs.com/gif.latex?b_i"/>: item bias
+<img src="https://latex.codecogs.com/gif.latex?b_%7Bui%7D%20%3D%20%5Cmu%20&plus;%20b_i&plus;%20b_u"/>  
+  - <img src="https://latex.codecogs.com/gif.latex?%5Cmu"/>: global average  
+  - <img src="https://latex.codecogs.com/gif.latex?b_i"/>: item bias  
   - <img src="https://latex.codecogs.com/gif.latex?b_u"/>: user bias  
   
 * 추정치 수식 업데이트
@@ -130,4 +130,4 @@ explicit feedback(spease) -> + implicit feedback(dense)
 * 학습 모델 업데이트   
 <img src="https://latex.codecogs.com/gif.latex?min_%7Bp%2Cq%2Cb%7D%5Csum_%7B%28u%2Ci%29%5Cin%20%5Ckappa%7Dc_%7Bui%7D%28r_%7Bui%20-%20%7D%5Cmu-%20b_i-%20b_u%20-%20q_i%5ETp_u%29%5E2%20&plus;%20%5Clambda%20%28%5Cleft%20%5C%7C%20q_i%20%5Cright%20%5C%7C%5E2&plus;%5Cleft%20%5C%7C%20p_u%20%5Cright%20%5C%7C%5E2%20&plus;%20b_u%5E2%20&plus;%20b_i%5E2%29"/>: (min) Error + Regulization + Bias + 가중치 부여  
 
-<img src="https://latex.codecogs.com/gif.latex?c_%7Bui%7D" align="center"/> : confidence   
+<img src="https://latex.codecogs.com/gif.latex?c_%7Bui%7D"/> : confidence   
