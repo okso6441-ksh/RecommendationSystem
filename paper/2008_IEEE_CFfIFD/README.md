@@ -44,14 +44,14 @@ item: i, j
   * explicit feedback: item에 대한 user의 선호도 등급  
     * unknown user-item pair - ignore  
   * implicit feedback: user action에 대한 관찰  
-    * assign all r_ui variables - 0  
+    * assign all <img src="https://latex.codecogs.com/gif.latex?r_ui"> variables - 0  
 
 ---
 ### 3 Previous work  
-##### 3.1 Neighborhood models - common approach   
+#### 3.1 Neighborhood models - common approach   
 * approch  
   * user-oriented: 같은 생각을 가진 사용자의 평가를 기반으로 추정  
-  * item-oriented: 유사 항목에 대해 동일한 사용자가 만든 알려진 등급으초 추정   
+  * item-oriented: 유사 항목에 대해 동일한 사용자가 만든 알려진 등급으로 추정   
   * => user < item : 확장성, 정확도 향상, 추론 설명 적합  
     * 선호 item 파악보다 like-mind user 특정이 어려움  
     * 암시적 피드백과 관련하여 단점 공유  
@@ -59,10 +59,10 @@ item: i, j
 
 * <img src="https://latex.codecogs.com/gif.latex?%5Chat%20r_%7Bui%7D">: item i에 대해 user u가 관찰하지 않은 값, 인접 항목에 대한 평점의 가중 평균   
 <img src="https://latex.codecogs.com/gif.latex?%5Chat%7Br%7D_%7Bui%7D%20%3D%20%7B%7B%5Csum_%7Bj%5Cin%7BS%5Ek%28u%3Bi%29%7D%7Ds_%7Bij%7Dr_%7Buj%7D%7D%20%5Cover%20%7B%20%5Csum_%7Bj%5Cin%20S%5Ek%28i%3Bu%29%7D%20s_%7Bij%7D%20%7D%7D">
-<img src="https://latex.codecogs.com/gif.latex?s_%7Bij%7D">: item i와 item j의 유사성(Pearson 상관계수 기반)  
-<img src="https://latex.codecogs.com/gif.latex?s%5Ek%28i%3Bu%29">: item i와 가장 유사한 user u가 평가된 k개 item 이웃 집합  
+  * <img src="https://latex.codecogs.com/gif.latex?s_%7Bij%7D">: item i와 item j의 유사성(Pearson 상관계수 기반)  
+  * <img src="https://latex.codecogs.com/gif.latex?s%5Ek%28i%3Bu%29">: item i와 가장 유사한 user u가 평가된 k개 item 이웃 집합  
 
-##### 3.2 Latent factor model - alternative approach  
+#### 3.2 Latent factor model - alternative approach  
 * 목표: 관찰된 등급을 설명하는 Latent factor를 발견하는것  
 * pLSA, neural networks, Latent Dirichlet Allocation
 
@@ -73,7 +73,7 @@ item: i, j
 
 * explicit feedback regularized 모델(과적합 피하며 관찰 등급 직접 모델링)    
 <img src="https://latex.codecogs.com/gif.latex?min_%7Bx*%2C%20y*%7D%20%5Csum_%7Br_%7Bu%2Ci%7D%20is%20known%7D%20%28r_%7Bui%7D%20-%20x_u%5ETy_i%29%5E2%20&plus;%20%5Clambda%20%28%5Cleft%20%5C%7C%20x_u%20%5Cright%20%5C%7C%5E2%20&plus;%20%5Cleft%20%5C%7C%20y_i%20%5Cright%20%5C%7C%5E2%29">  
-  * 파라미터: SGD 학습
+  * 파라미터: SGD 학습  
   * 3.1 Neighborhood model 보다 성능 우수 경향  
   * => implicit feedback 모델로 접근 방식 차용  
 
