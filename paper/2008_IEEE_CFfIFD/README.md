@@ -87,33 +87,49 @@ item: i, j
 
 * <img src="https://latex.codecogs.com/gif.latex?p_%7Bui%7D">: <img src="https://latex.codecogs.com/gif.latex?r_%7Bui%7D"> 이진화 파생(이진 변수)  
 * ![main](./image/4-1.PNG)  
-    * user u가 item i를 소비하면 1(선호한다), 소비하지 않으면 0(선호하지 않는다)  
-  
-* 신뢰수준  
+  * user u가 item i를 소비하면 1(선호한다), 소비하지 않으면 0(선호하지 않는다)  
   * <img src="https://latex.codecogs.com/gif.latex?p_%7Bui%7D"> 의 낮은 신뢰도
     * 선호도 이외에 다른 요인으로 결과  
     * 같은 값(0/1) 이라도 다른 의미(다른 신뢰수준)  
-    * => <img src="https://latex.codecogs.com/gif.latex?c_%7Bui%7D">: <img src="https://latex.codecogs.com/gif.latex?c_%7Bui%7D"> 의 신뢰도 측정 변수   
-  
-* <img src="https://latex.codecogs.com/gif.latex?c_%7Bui%7D%20%3D%201%20&plus;%20%5Calpha%20r_%7Bui%7D">  
+    * => <img src="https://latex.codecogs.com/gif.latex?c_%7Bui%7D">: <img src="https://latex.codecogs.com/gif.latex?p_%7Bui%7D"> 의 신뢰도 측정 변수   
+      * <img src="https://latex.codecogs.com/gif.latex?c_%7Bui%7D%20%3D%201%20&plus;%20%5Calpha%20r_%7Bui%7D">  
 
+        * 더 많은 관찰 시 신뢰도 증가(α: 증가율 제어)  
 
+* 목표: user u, item i에 대한 벡터를 찾는것  
+  * <img src="https://latex.codecogs.com/gif.latex?x_u%20%5Cin%20%5Cmathbb%7BR%7D%5Ef%2C%20y_i%20%5Cin%20%5Cmathbb%7BR%7D%5Ef">  
 
+    * 사용자 요인, 항목 요인, 직접 비교할 수 있는 공통 잠재 요인 공간에 매핑(<img src="https://latex.codecogs.com/gif.latex?%5Cmathbb%7BR%7D%5Ef">)    
+  * 선호도 가정 => 내적  
+    * <img src="https://latex.codecogs.com/gif.latex?p_%7Bui%7D%20%3D%20x_u%5ETy_i">  
+    * SVD 와 차이점(explicit feedback)  
+      * 다양한 신뢰수준 설명해야함  
+      * 가능한 모든 (u, i) 쌍 고려 > 관찰 데이터   
+  * 비용함수  
+    * <img src="https://latex.codecogs.com/gif.latex?min_%7Bx*%2Cy*%7D%5Csum_%7Bu%2Ci%7Dc_%7Bui%7D%28p_%7Bui%7D-x_u%5ET%20y_i%29%5E2%20&plus;%20%5Clambda%28%5Csum_u%20%5Cleft%20%5C%7C%20x_u%20%5Cright%20%5C%7C%5E2%20&plus;%20%5Csum_i%20%5Cleft%20%5C%7C%20y_i%20%5Cright%20%5C%7C%5E2%29">  
 
+      * (min) 신뢰도(이진 - 예측치) + 규제  
+      * m: user 수, n: item 수 (수가 많아 SGD같은 최적화 기술 부적합)  
+      * => 효율적 최적화 프로세스 필요  
 
+* 비용함수 user-factors or the item-factors 고정  
+  * quadratic > global minimum >> 교대 최소 제곱 최적화 '프로세스' 필요  
 
+* 최적의 프로세스 제안  
+  * 1) 모든 user factor 재계산  
+    * <img src="https://latex.codecogs.com/gif.latex?x_u%20%3D%20%28Y%5ETC%5EuY%20&plus;%20%5Clambda%20I%29%5E%7B-1%7DY%5ET%20C%5Eu%20p%28u%29">    
 
-* <img src="https://latex.codecogs.com/gif.latex?min_%7Bx*%2Cy*%7D%5Csum_%7Bu%2Ci%7Dc_%7Bui%7D%28p_%7Bui%7D-x_u%5ET%20y_i%29%5E2%20&plus;%20%5Clambda%28%5Csum_u%20%5Cleft%20%5C%7C%20x_u%20%5Cright%20%5C%7C%5E2%20&plus;%20%5Csum_i%20%5Cleft%20%5C%7C%20y_i%20%5Cright%20%5C%7C%5E2%29">  
+      * Y (n*f matrix): 모든 item factor  
+      * <img src="https://latex.codecogs.com/gif.latex?C%5Eu">: 각 user u, <img src="https://latex.codecogs.com/gif.latex?C_%7Bii%7D%5Eu%20%3D%20c_%7Bui%7D"> 인 대각행렬 n X n  
+      * <img src="https://latex.codecogs.com/gif.latex?p%28u%29%20%5Cin%20%5Cmathbb%7BR%7D%5En">: 모든 user 선호도 포함 벡터(<img src="https://latex.codecogs.com/gif.latex?p_%7Bui%7D"> values)  
+      * running time이 input 크기에 선형적(linear)  
+  * 2) item 함수 재계산(병렬 방식)
+    * <img src="https://latex.codecogs.com/gif.latex?y_i%20%3D%20%28X%5ET%20C%5Ei%20X%20&plus;%20%5Clambda%20I%29%5E%7B-1%7D%20X%5ET%20C%5Ei%20p%28i%29">  
 
-* <img src="https://latex.codecogs.com/gif.latex?%5Clambda%28%5Csum_u%20%5Cleft%20%5C%7C%20x_u%20%5Cright%20%5C%7C%5E2%20&plus;%20%5Csum_i%20%5Cleft%20%5C%7C%20y_i%20%5Cright%20%5C%7C%5E2%29">  
-
-* <img src="https://latex.codecogs.com/gif.latex?x_u%20%3D%20%28Y%5ETC%5EuY%20&plus;%20%5Clambda%20I%29%5E%7B-1%7DY%5ET%20C%5Eu%20p%28u%29">
-
-* <img src="https://latex.codecogs.com/gif.latex?y_i%20%3D%20%28X%5ET%20C%5Ei%20X%20&plus;%20%5Clambda%20I%29%5E%7B-1%7D%20X%5ET%20C%5Ei%20p%28i%29">  
-  
-* <img src="https://latex.codecogs.com/gif.latex?c_%7Bui%7D%20%3D%201%20&plus;%20%5Calpha%20log%20%281%20&plus;%20r_%7Bui%7D%20/%20%5Cepsilon%20%29">  
-
-  
+      * A typical number of sweeps is 10  
+      * whole process는 input 크기에 선형적  
+  * 추가적인 대안
+    * <img src="https://latex.codecogs.com/gif.latex?c_%7Bui%7D%20%3D%201%20&plus;%20%5Calpha%20log%20%281%20&plus;%20r_%7Bui%7D%20/%20%5Cepsilon%20%29">  
 
 ---
 ### 5. Explaining recommendations
