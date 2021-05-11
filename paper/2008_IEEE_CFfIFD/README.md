@@ -133,9 +133,23 @@ item: i, j
 
 ---
 ### 5. Explaining recommendations
+* 좋은 추천 + 간략한 설명  
+  * user 신뢰도, 올바른 관점의 추천, 디버깅, 예기치 못한 동작 원인 추적   
+  * 설명 제공을 위한 기술(2)  
+    * a) 간단함> neighborhood-based(or, “memory-based”): 과거 user 행동 직접 추론  
+    * b) 어려움> latent factor models : 과거 user 행동 직접 추상화(추천과 관계 차단됨)  
+      * user 요소 대체 - ALS(alternating least squares model)  
+        * <img src="https://latex.codecogs.com/gif.latex?x_u%20%3D%20%28Y%5ETC%5EuY%20&plus;%20%5Clambda%20I%29%5E%7B-1%7DY%5ET%20C%5Eu%20p%28u%29">  
+        * item i에 대한 user u의 예측 선호도 <img src="https://latex.codecogs.com/gif.latex?%5Chat%20p_%7Bui%7D%20%3D%20y_i%5ETx_u"> 에서 user 요소 <img src="https://latex.codecogs.com/gif.latex?x_u"> 대체 
+        * => <img src="https://latex.codecogs.com/gif.latex?y_i%5ET%28Y%5ETC%5EuY%20&plus;%20%5Clambda%20I%29%5E%7B-1%7D%20Y%5ETC%5Eup%28u%29">   
+          * 간략화 <img src="https://latex.codecogs.com/gif.latex?W%5Eu%20%3D%20%28Y%5ETC%5EuY%20&plus;%20%5Clambda%20I%29%5E-1"> (가중치 f*f 행렬)  
+        * user u의 관점에서 item i, j 사이의 가중치 유사성: <img src="https://latex.codecogs.com/gif.latex?s_%7Bij%7D%5Eu%20%3D%20y_i%5ETW%5Euy_j">  
 
-* <img src="https://latex.codecogs.com/gif.latex?%5Chat%20p%20_%7Bui%7D%20%3D%20%5Csum_%7Bj%3Ar_%7Buj%7D%20%3E%200%7Ds_%7Bij%7D%5Eu%20c_%7Buj%7D">  
+* item i에 대한 user u의 예상 선호도 공식 업데이트  
+  * <img src="https://latex.codecogs.com/gif.latex?%5Chat%20p%20_%7Bui%7D%20%3D%20%5Csum_%7Bj%3Ar_%7Buj%7D%20%3E%200%7Ds_%7Bij%7D%5Eu%20c_%7Buj%7D">   
 
+    * 잠재 요인 모델을 선형 모델로 축소  
+    
 ---  
 ### 6. Experimental study
 
