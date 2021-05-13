@@ -114,8 +114,55 @@ I: 모든 item 집합
       * 훈련 데이터 DS로 훈련   
 --- 
 ### 4 Bayesian Personalized Ranking(BPR)  
+* 개인화 된 순위를 위한 일반적인 방법  
 
 #### 4.1 BPR Optimization Criterion  
+
+* 개인화 된 순위 찾는 베이지안 공식: 사후 확률 최대화(posterior probability)  
+  * <img src="https://latex.codecogs.com/gif.latex?p%28%5CTheta%20%7C%20%3E_u%29%20%5Cpropto%20p%28%3E_u%20%7C%5CTheta%20%29%20p%28%5CTheta%20%29">  
+
+    * 모든 item i ∈ I
+    * Θ: 모델 클래스 매개 변수 벡터  
+    * <img src="https://latex.codecogs.com/gif.latex?%3E_u">: user u 잠재 선호 구조   
+    * 가정:
+      * 모든 사용자는 서로 독립적 행동  
+      * 특정 사용자 (i, j) 순서가 다른 pairs 순서와 무관
+  <br>
+
+* 사용자별 우도 함수(<img src="https://latex.codecogs.com/gif.latex?p%28%3E_u%20%7C%5CTheta%20%29">) 단일 밀도 곱으로 재정의  
+  * <img src="https://latex.codecogs.com/gif.latex?%5Cprod%20_%7Bu%20%5Cin%20U%7D%20p%28%3E_u%20%7C%20%5CTheta%29%20%3D%20%5Cprod_%7B%28u%2Ci%2Cj%29%20%5Cin%20U%20%5Ctimes%20I%20%5Ctimes%20I%20%7D%20p%28i%20%3E_u%20j%7C%5CTheta%29%5E%7B%5Cdelta%20%28%28u%2Ci%2Cj%29%20%5Cin%20D_s%29%7D%20%5Ccdot%20%281-p%28i%3E_u%20j%7C%20%5CTheta%29%29%29%5E%7B%5Cdelta%20%28%28u%2Cj%2C%20i%29%20%5Cnotin%20D_s%29%7D">  
+
+    * 모든 사용자 u ∈ U 에 대해 결합  
+    * δ: indicator function  
+    * ![4-1](./image/4-1.PNG)  
+
+  <br>
+
+* pair 순서 체계의 전체성과 반대칭성에 의한 단순화  
+
+    * <img src="https://latex.codecogs.com/gif.latex?%5Cprod%20_%7Bu%20%5Cin%20U%7D%20p%28%3E_u%20%7C%20%5CTheta%29%20%3D%20%5Cprod_%7B%28u%2Ci%2Cj%29%20%5Cin%20D_s%20%7D%20p%28i%20%3E_u%20j%7C%5CTheta%29">  
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+* BPR-Opt: 개인화 된 랭킹에 대한 일반적 최적화 기준 구성  
+  * 베이지안 분석  
+    * <img src="https://latex.codecogs.com/gif.latex?p%28i%20%3E_uj%7C%5CTheta%29">에 대한 우도 함수(likelihood) 
+    * 모델 파라미터 <img src="https://latex.codecogs.com/gif.latex?p%28%5CTheta%29">에 대한 사전 확률  
+
+
 
 #### 4.2 BPR Learning Algorithm  
 
