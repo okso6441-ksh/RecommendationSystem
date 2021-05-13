@@ -46,12 +46,26 @@
 *▲ 모델 parameters 직접 최적화하지 않음*  
 *▼ item 쌍 기반 최적화 순위 도출*  
 
+* 모델 parameters의 offline learning  
+  * online learning scenarios로 확장   
+
+* one ranking만 학습(개인화 되지 않음)  
+  * BPR 같은 fold-in strategy 사용 가능    
+  * 비 협업 모델 순위 학습 관련 작업  
+  * One direction은 순열 분포 모델링  
+  * SGD 랭킹 모델> 신경망 모델 최적화  
+
+* => 개인 순위별 학습 협업 모델 제안  
+
 --- 
 ### 3 Personalized Ranking  
---- 
+
+
 #### 3.1 Formalization  
 
 #### 3.2 Analysis of the problem setting  
+
+
 --- 
 ### 4 Bayesian Personalized Ranking(BPR)  
 
