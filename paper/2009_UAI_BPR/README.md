@@ -16,9 +16,16 @@
   * => 개인화  된 랭킹에 대한 일반적인 최적화 기준  
   * BPR-Opt 모델 최적화 학습 알고리즘  
     * SGD with bootstrap sampling   
-    
+
 ---
 ### 1. Introduction  
+* Personalization recommendation - win-win : content providers + customers  
+* **Item Recommendation**  
+  * item set에 대한 user-specific ranking 만드는 것  
+  * item에 대한 user preference: user-system 과거 상호작용으로 학습  
+* scenarios  
+  * explicit feedback   
+  * implicit feedback: 실제 시나리오, 자동 추적(간접적), 상대적 수집 쉬움  
 
 ### 2 Related Work  
 
