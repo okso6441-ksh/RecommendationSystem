@@ -81,8 +81,37 @@ I: 모든 item 집합
   * ![3-3](./image/3-3.PNG)  
 
 #### 3.2 Analysis of the problem setting  
+* implicit feedback(positive)  
+  * remaining: negative + **missing values**   
+* 결측치 접근 방안  
+  * ignore  
+    - typical machine learning model: 학습 할 수 없어짐  
 
+* item 추천자 접근 방식
+  * 일반적인 방식  
+    * <img src="https://latex.codecogs.com/gif.latex?%5Chat%20x_%7Bui%7D"> 예측: 사용자 선호도 반영하는 항목에 대한 개인화 된 점수> 점수에 따라 item 정렬> 순위  
+  * 기계 학습(ML) 접근 방식  
+    * (u, i) ∈ S, S: observed data   
+    * positive class label 지정  
+    * (U × I) \ S 다른 모든 조합에 negative 지정 
+      * ![Fig1](./image/Fig1.PNG)  
+    * [최적화] S = 1, 나머지 0 예측
+    * 문제: 순위를 매겨야 하는 모든 요소((U × I) \ S)가 학습 중 negative feedback 으로 제공되어 순위를 매길 수 없음  
+    * 해결: 과적합 방지(규제)  
 
+  * 단일 항목 채점이 아닌 항목 쌍의 순위 최적화  
+    * 누락 값 음수 대체보다 문제를 잘 표현  
+    * 가정: 관찰 항목 > (선호) > 비 관찰 항목
+    * ![Fig2](./image/Fig2.PNG)  
+      * u1이 i1은 보지 않고 i2는 보았으므로 i2를 더 선호한다고 가정  
+      * 둘다 보지 않거나 둘다 본 item 간의 선호도는 추론 할 수 없음  
+    * 공식화: training data DS : U × I × I  
+      * <img src="https://latex.codecogs.com/gif.latex?D_s%20%3A%3D%20%5Cleft%20%5C%7B%20%7B%28u%2C%20i%2C%20j%29%7Ci%20%5Cin%20I_u%5E&plus;%20%5Cwedge%20j%20%5Cin%20I%20%5Csetminus%20I_u%5E&plus;%20%7D%20%5Cright%20%5C%7D">  
+      * (u, i, j) ∈ DS : 사용자 u가 j보다 i를 선호한다고 가정  
+    * 장점(2):  
+      * 훈련 데이터 구성: (positive,  negative) pairs + missing values(infer 대상)  
+        * 훈련 데이터 DS와 테스트 데이터 분리  
+      * 훈련 데이터 DS로 훈련   
 --- 
 ### 4 Bayesian Personalized Ranking(BPR)  
 
