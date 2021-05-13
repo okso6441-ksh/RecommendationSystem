@@ -59,9 +59,26 @@
 
 --- 
 ### 3 Personalized Ranking  
-
+* item recommendation: 사용자에게 item ranking list 제공  
+  * user implicit behavior: positive  
+  * non-observed user-item pairs: negative + missing values  
 
 #### 3.1 Formalization  
+```
+U: 모든 user 집합  
+I: 모든 item 집합  
+```
+* implicit feedback: S ⊆ U ×I  
+![3-1](./image/3-1.PNG)  
+
+* 모든 항목의 개인화된 total ranking: <img src="https://latex.codecogs.com/gif.latex?%3E_u%5Csubset%20I%5E2">   
+  - <img src="https://latex.codecogs.com/gif.latex?%3E_u">: 총 주문 속성  
+
+* (전체) / (반대칭) / (전이성)   
+  * ![3-2](./image/3-2.PNG)  
+
+* 편의를 위한 정의:  
+  * ![3-3](./image/3-3.PNG)  
 
 #### 3.2 Analysis of the problem setting  
 
