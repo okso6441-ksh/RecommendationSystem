@@ -229,6 +229,7 @@ I: 모든 item 집합
 * user-item 유사성 측정에 의존(past)  
 * item 기반 k-NN 모델  
   * <img src="https://latex.codecogs.com/gif.latex?%5Chat%20x_%7Bui%7D%20%3D%20%5Csum_%7Bl%20%5Cin%20I_u%5E&plus;%20%5Cwedge%20l%20%5Cneq%20i%7D%20c_%7Bil%7D">  
+  
     * C : I × I : 대칭 항목 상관 / 항목 유사성 행렬  
     * Θ = C : kNN의 모델 매개 변수
 
@@ -241,6 +242,7 @@ I: 모든 item 집합
 * SVD, minimizes the square-loss> (확장)> 과적합 방지(=규제) + 긍정적 피드백 영향↑(=오류함수 가중치)
 * 최적화 기준  
   * <img src="https://latex.codecogs.com/gif.latex?%5Csum_%7Bu%5Cin%20U%7D%5Csum_%7Bi%5Cin%20I%7D%20c_%7Bui%7D%20%28%3Cw_u%2C%20h_i%3E-1%29%5E2%20&plus;%20%5Clambda%5Cleft%20%5C%7C%20W%20%5Cright%20%5C%7C_f%5E2%20&plus;%20%5Clambda%5Cleft%20%5C%7C%20H%20%5Cright%20%5C%7C_f%5E2">  
+
     * <img src="https://latex.codecogs.com/gif.latex?c_%7Bui%7D">: 튜플 (u, i) 가중치  
   * Hu et al.)  긍정적 피드백 위해 c_ui 추정 추가 데이터 + 나머지 c_ui = 1 설정  
   * Pan et al.) 긍정적 피드백 c_ui = 1 설정 + 나머지 더 낮은 상수 제안  
@@ -272,4 +274,4 @@ I: 모든 item 집합
 * Fig6에 <img src="https://latex.codecogs.com/gif.latex?np_%7Bmax%7D"> 참고  
 
 --- 
-### 7 Conclusion  
+### 7. Conclusion  
