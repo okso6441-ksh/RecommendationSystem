@@ -10,6 +10,7 @@
   
 2009_UAI_BPR [BPR: Bayesian Personalized Ranking from Implicit Feedback](https://github.com/okso6441-ksh/RecommendationSystem/tree/main/paper/2009_UAI_BPR/README.md)
 
+2017_arXiv_Neural_CF [Neural Collaborative Filtering](https://github.com/okso6441-ksh/RecommendationSystem/tree/main/paper/2017_arXiv_Neural_CF/README.md)
 
 ### Article
 2009_IEEE_MFTFRS [MATRIX_FACTORIZATION_TECHNIQUES_FOR_RECOMMENDER_SYSTEMS](https://github.com/okso6441-ksh/RecommendationSystem/tree/main/article/2009_IEEE_MFTFRS/README.md)
