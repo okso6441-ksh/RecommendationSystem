@@ -123,7 +123,7 @@ I: 모든 item 집합
 
     * 모든 item i ∈ I
     * Θ: 모델 클래스 매개 변수 벡터  
-    * <img src="https://latex.codecogs.com/gif.latex?%3E_u">: user u 잠재 선호 구조   
+    * <img src="https://latex.codecogs.com/gif.latex?%3E_u">: 개인화 된 총 주문, user u 잠재 선호 구조   
     * 가정:
       * 모든 사용자는 서로 독립적 행동  
       * 특정 사용자 (i, j) 순서가 다른 pairs 순서와 무관
@@ -142,27 +142,47 @@ I: 모든 item 집합
 
     * <img src="https://latex.codecogs.com/gif.latex?%5Cprod%20_%7Bu%20%5Cin%20U%7D%20p%28%3E_u%20%7C%20%5CTheta%29%20%3D%20%5Cprod_%7B%28u%2Ci%2Cj%29%20%5Cin%20D_s%20%7D%20p%28i%20%3E_u%20j%7C%5CTheta%29">  
 
+<br>
+
+* item j보다 item i를 실제로 선호 할 개별 확률 정의  
+  * 속성(전체성 반대칭성 전이성) 충족되어야 함  
+    * <img src="https://latex.codecogs.com/gif.latex?p%28i%3E_uj%7C%5CTheta%29%20%3A%3D%20%5Csigma%20%28%5Chat%20x_%7Buij%7D%20%28%5Ctheta%29%29">    
+
+      * σ: logistic sigmoid <img src="https://latex.codecogs.com/gif.latex?%5Csigma%20%28x%29%20%3A%3D%20%5Cfrac%7B1%7D%7B1&plus;e%5E%7B-x%7D%7D">  
+      * <img src="https://latex.codecogs.com/gif.latex?%5Chat%20x_%7Buij%7D%28%5CTheta%29">: user u, item i, item j 사이 특수 관계 모델 파라미터 변수 벡터 Θ 임의의 실수 함수
+        * 관계 모델링 기본 모델 클래스로 위임(MF, adaptive kNN)      
+      * <img src="https://latex.codecogs.com/gif.latex?%3E_u"> 통계적 모델링 가능  
+
+<br>
+
+* 일반 사전 밀도 p(Θ) 도입  
+  * <img src="https://latex.codecogs.com/gif.latex?p%28%5CTheta%29%20%5Csim%20N%280%2C%20%5Csum_%7B%5CTheta%7D%29">   
+  
+* 알려지지 않은 하이퍼 파라미터 수 줄이기 위해 설정  
+  * <img src="https://latex.codecogs.com/gif.latex?%5Csum_%5CTheta%20%3D%20%5Clambda_%5CTheta%20I">  
+
+* 개인화 된 순위 BPR-Opt 일반 최적화 기준 도출  
+  * ![4-2](./image/4-2.PNG)  
+    * <img src="https://latex.codecogs.com/gif.latex?%5Clambda_%5CTheta">: 모델별 규제 매개변수    
 
 
+##### 4.1.1 Analogies to AUC optimization
+* The AUC per user   
+  * <img src="https://latex.codecogs.com/gif.latex?AUC%28u%29%20%3A%3D%20%5Cfrac%7B1%7D%7B%5Cleft%20%7C%20I_u%5E&plus;%20%5Cright%20%7C%5Cleft%20%7C%20I%20%5Csetminus%20I_u%5E&plus;%20%5Cright%20%7C%7D%20%5Csum_%7Bi%20%5Cin%20I_u%5E&plus;%7D%20%5Csum_%7Bj%20%5Cin%20%5Cleft%20%7CI%20%5Csetminus%20I_u%5E&plus;%20%5Cright%20%7C%7D%20%5Cdelta%20%28%5Chat%20x_%7Buij%7D%20%3E%200%29">  
 
+* AUC 평균  
+  * <img src="https://latex.codecogs.com/gif.latex?AUC%20%3A%3D%20%5Cfrac%7B1%7D%7B%5Cleft%20%5B%20U%20%5Cright%20%5D%7D%5Csum_%7Bu%20%5Cin%20U%7D%20AUC%28u%29">  
 
-
-
-
-
-
-
-
-
-
-
-
-* BPR-Opt: 개인화 된 랭킹에 대한 일반적 최적화 기준 구성  
-  * 베이지안 분석  
-    * <img src="https://latex.codecogs.com/gif.latex?p%28i%20%3E_uj%7C%5CTheta%29">에 대한 우도 함수(likelihood) 
-    * 모델 파라미터 <img src="https://latex.codecogs.com/gif.latex?p%28%5CTheta%29">에 대한 사전 확률  
-
-
+* DS 표기법  
+  * <img src="https://latex.codecogs.com/gif.latex?AUC%28u%29%20%3D%20%5Csum_%7B%28u%2Ci%2Cj%29%20%5Cin%20D_s%7D%20z_u%20%5Cdelta%20%28%5Chat%20x_%7Buij%7D%20%3E%200%29">  
+  * <img src="https://latex.codecogs.com/gif.latex?z_u">: 정규화 상수  
+    * <img src="https://latex.codecogs.com/gif.latex?z_u%20%3D%20%5Cfrac%7B1%7D%7B%5Cleft%20%7C%20U%20%5Cright%20%7C%5Cleft%20%7C%20I_u%5E&plus;%20%5Cright%20%7C%5Cleft%20%7C%20I%20%5Csetminus%20I_u%5E&plus;%20%5Cright%20%7C%7D">  
+  * BPR-Opt의 유사: 정규화 상수, 손실함수만 다름  
+  * δ (x> 0): Heaviside 함수(계단)와 동일한 미분 X 손실(non-differentiable loss )   
+    * ![4-3](./image/4-3.PNG)  
+  * => 미분 가능한 손실 대체: ln σ(x), motivated by MLE   
+    * σ 와 유사한 모양의 함수(휴리스틱)  
+    * ![Fig3](./image/Fig3.PNG)  
 
 #### 4.2 BPR Learning Algorithm  
 
