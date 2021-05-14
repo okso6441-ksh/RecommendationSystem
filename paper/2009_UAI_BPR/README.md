@@ -233,14 +233,32 @@ I: 모든 item 집합
     * Θ = C : kNN의 모델 매개 변수
 
 * ranking 작업:  
-* BPR-Opt 기준 최적화 > LearnBPR 사용 달성    
+  * BPR-Opt 기준 최적화 > LearnBPR 사용 달성    
 
 --- 
 ### 5 Relations to other methods  
-
 #### 5.1 Weighted Regularized Matrix Factorization (WR-MF)  
+* SVD, minimizes the square-loss> (확장)> 과적합 방지(=규제) + 긍정적 피드백 영향↑(=오류함수 가중치)
+* 최적화 기준  
+  * <img src="https://latex.codecogs.com/gif.latex?%5Csum_%7Bu%5Cin%20U%7D%5Csum_%7Bi%5Cin%20I%7D%20c_%7Bui%7D%20%28%3Cw_u%2C%20h_i%3E-1%29%5E2%20&plus;%20%5Clambda%5Cleft%20%5C%7C%20W%20%5Cright%20%5C%7C_f%5E2%20&plus;%20%5Clambda%5Cleft%20%5C%7C%20H%20%5Cright%20%5C%7C_f%5E2">  
+    * <img src="https://latex.codecogs.com/gif.latex?c_%7Bui%7D">: 튜플 (u, i) 가중치  
+  * Hu et al.)  긍정적 피드백 위해 c_ui 추정 추가 데이터 + 나머지 c_ui = 1 설정  
+  * Pan et al.) 긍정적 피드백 c_ui = 1 설정 + 나머지 더 낮은 상수 제안  
 
 #### 5.2 Maximum Margin Matrix Factorization(MMMF)  
+* Weimer et al.) 서수 순위(ordinal ranking) MMF(최대 마진 MF)  
+* ratings - explicit feedback scenarios 위해 설계  
+  * 관찰 => rating = 1  
+  * 결측 => rating = 0  
+  * ![3-1](./image/3-1.PNG)   
+
+* 최적화 기준
+  * <img src="https://latex.codecogs.com/gif.latex?%5Csum_%7B%28u%2C%20i%2C%20j%29%20%5Cin%20D_s%7D%20max%280%2C1-%3Cw_m%2C%20h_i%20-%20h_j%3E%29%20&plus;%20%5Clambda_w%20%5Cleft%20%5C%7C%20W%20%5Cright%20%5C%7C_f%5E2%20&plus;%20%5Clambda_h%20%5Cleft%20%5C%7C%20H%20%5Cright%20%5C%7C_f%5E2">  
+  * BPR과 차이점: 
+    * error functions: hinge loss: smooth, MLE    
+      * hinge loss: <img src="https://latex.codecogs.com/gif.latex?%5Cell%28y%29%20%3D%20%5Cmax%280%2C%201-t%20%5Ccdot%20y%29">  
+    * 적용: MF에만 적용    
+
 --- 
 ### 6. Evaluation  
 
@@ -254,3 +272,32 @@ I: 모든 item 집합
 --- 
 ### 7 Conclusion  
 
+Both Pan et al. and Hu et al. have presented a matrix factorization method for item prediction from implicit feedback. 
+
+Thus the model class is the same as we described in Section 4.3.1, 
+
+i.e. Xˆ := W Ht with the matrices W : |U| × k and H : |U| × k. 
+
+The optimization criterion and learning method differ substantially from our approach. 
+
+Their method is an adaption of a SVD, which minimizes the square-loss. 
+
+Their extensions are regularization to prevent overfitting and weights in the error function to increase the impact of positive feedback.
+
+In total their optimization criterion is:
+공식
+where cui are not model parameters but apriori given weights for each tuple (u, i).
+
+Hu et al. have additional data to estimate cui for positive feedback and they set cui = 1 for the rest. 
+
+Pan et al. suggest to set cui = 1 for positive feedback and choose lower constants for the rest.
+
+First of all, it is obvious that this optimization is on instance level (one item) instead of pair level (two items) as BPR. 
+
+Apart from this, their optimization is a leastsquare which is known to correspond to the MLE for normally distributed random variables. 
+
+However, the task of item prediction is actually not a regression (quantitative), but a classification (qualitative) one, so the logistic optimization is more appropriate.
+
+A strong point of WR-MF is that it can be learned in O(iter (|S| k2 +k3(|I|+|U|))) provided that cui is constant for non-positive pairs.  
+
+Our evaluation indicates that LearnBPR usually converges after a subsample of m · |S| single update steps even though there are much more triples to learn from.
