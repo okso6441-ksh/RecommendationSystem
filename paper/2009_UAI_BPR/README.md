@@ -185,12 +185,56 @@ I: 모든 item 집합
     * ![Fig3](./image/Fig3.PNG)  
 
 #### 4.2 BPR Learning Algorithm  
+* 미분 가능 > SGD(최적 X)> LearnBPR(SGD + bootstrap) 제안  
+  * ![Fig4](./image/Fig4.PNG)  
+
+* **LearnBPR(SGD + bootstrap):** 무작위로 (균일 분포 된) 트리플을 선택하는 SGD 알고리즘  
+
+* user-wise gradient descent vs LearnBPR
+  * ![Fig5](./image/Fig5.PNG)  
 
 #### 4.3 Learning models with BPR  
+* LearnBPR로 MF kNN 학습 방법  
+
+* <img src="https://latex.codecogs.com/gif.latex?%5Chat%20x_%7Buij%7D%20%3A%3D%20%5Chat%20x_%7Bui%7D%20-%20%5Chat%20x_%7Buj%7D">  
+
+  * triples (u, i, j) ∈ DS  
+  * 모델에 대해 다른 기준으로 최적화함으로 더 나은 순위 기대  
+  * 단일 값으로 회귀하지 않고 차이로 분류  
 
 ##### 4.3.1 Matrix Factorization  
+* 예측 문제를 행렬 추정 문제로 변환  
+  * <img src="https://latex.codecogs.com/gif.latex?%5Chat%20x_%7Bui%7D%20%3D%3E%20X%20%3A%20U%20%5Ctimes%20I">   
+
+    * X: 대상 행렬  
+    * W: 순위 행렬  
+  * 근사: |U| × k , H : |I| × k  
+    * k: 근사치 차원/순위  
+  
+* 예측공식  
+  * <img src="https://latex.codecogs.com/gif.latex?%5Chat%20x_%7Bui%7D%20%3D%20%3Cw_u%2C%20h_i%3E%20%3D%20%5Csum_%7Bf%3D1%7D%5Ek%20w_%7Buf%7D%20%5Ccdot%20h_%7Bif%7D">    
+
+    * <img src="https://latex.codecogs.com/gif.latex?w_u">: W의 user u를 설명하는 특징 벡터  
+    * <img src="https://latex.codecogs.com/gif.latex?h_i">: H의 각 행, item i 설명  
+
+* 모델 매개 변수  
+  * Θ = (W, H)  
+    * 잠재변수: 관찰되지 않은 속성  
+
+* ranking 작업: 사용자가 한 항목을 다른 항목보다 선호하는지 평가하는 작업      
+  * BPR-Opt 기준 최적화 > LearnBPR 사용 달성    
+    * LearnBPR: 변수 θ에 대한 <img src="https://latex.codecogs.com/gif.latex?%5Chat%20x_%7Buij%7D"> 기울기만 알면 가능   
 
 ##### 4.3.2 Adaptive k-Nearest-Neighbor  
+* user-item 유사성 측정에 의존(past)  
+* item 기반 k-NN 모델  
+  * <img src="https://latex.codecogs.com/gif.latex?%5Chat%20x_%7Bui%7D%20%3D%20%5Csum_%7Bl%20%5Cin%20I_u%5E&plus;%20%5Cwedge%20l%20%5Cneq%20i%7D%20c_%7Bil%7D">  
+    * C : I × I : 대칭 항목 상관 / 항목 유사성 행렬  
+    * Θ = C : kNN의 모델 매개 변수
+
+* ranking 작업:  
+* BPR-Opt 기준 최적화 > LearnBPR 사용 달성    
+
 --- 
 ### 5 Relations to other methods  
 
