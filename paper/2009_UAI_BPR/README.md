@@ -261,43 +261,15 @@ I: 모든 item 집합
 
 --- 
 ### 6. Evaluation  
-
 #### 6.1 Datasets  
-
+ * Rossmann, Netflix  
 #### 6.2 Evaluation Methodology  
-
+ * Leave one out, AUC  
 #### 6.3 Results and Discussion  
-
+* ![Fig6](./image/Fig6.PNG)   
 #### 6.4 Non-personalized ranking  
+* 개인화 되지 않은 순위 방식: 모든 사용자가 동일 순위  
+* Fig6에 <img src="https://latex.codecogs.com/gif.latex?np_%7Bmax%7D"> 참고  
+
 --- 
 ### 7 Conclusion  
-
-Both Pan et al. and Hu et al. have presented a matrix factorization method for item prediction from implicit feedback. 
-
-Thus the model class is the same as we described in Section 4.3.1, 
-
-i.e. Xˆ := W Ht with the matrices W : |U| × k and H : |U| × k. 
-
-The optimization criterion and learning method differ substantially from our approach. 
-
-Their method is an adaption of a SVD, which minimizes the square-loss. 
-
-Their extensions are regularization to prevent overfitting and weights in the error function to increase the impact of positive feedback.
-
-In total their optimization criterion is:
-공식
-where cui are not model parameters but apriori given weights for each tuple (u, i).
-
-Hu et al. have additional data to estimate cui for positive feedback and they set cui = 1 for the rest. 
-
-Pan et al. suggest to set cui = 1 for positive feedback and choose lower constants for the rest.
-
-First of all, it is obvious that this optimization is on instance level (one item) instead of pair level (two items) as BPR. 
-
-Apart from this, their optimization is a leastsquare which is known to correspond to the MLE for normally distributed random variables. 
-
-However, the task of item prediction is actually not a regression (quantitative), but a classification (qualitative) one, so the logistic optimization is more appropriate.
-
-A strong point of WR-MF is that it can be learned in O(iter (|S| k2 +k3(|I|+|U|))) provided that cui is constant for non-positive pairs.  
-
-Our evaluation indicates that LearnBPR usually converges after a subsample of m · |S| single update steps even though there are much more triples to learn from.
