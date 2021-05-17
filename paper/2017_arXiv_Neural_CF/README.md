@@ -269,6 +269,3 @@
 * Google: Wide & Deep Learning  
 
 ---
-
-### 6. CONCLUSION AND FUTURE WORK  
-
