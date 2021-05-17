@@ -97,127 +97,122 @@
 
 ---
 
-### 3. NEURAL COLLABORATIVE FILTERING  
-
-
-We first present the general NCF framework, elaborating how to learn NCF with a probabilistic model that emphasizes the binary property of implicit data. 
-먼저 일반적인 NCF 프레임 워크를 제시하고 암시 적 데이터의 이진 속성을 강조하는 확률 모델을 사용하여 NCF를 학습하는 방법을 자세히 설명합니다.
-
-We then show that MF can be expressed and generalized under NCF.
-그런 다음 MF가 NCF 하에서 표현되고 일반화 될 수 있음을 보여줍니다.
-
-To explore DNNs for collaborative filtering, we then propose an instantiation of NCF, using a multi-layer perceptron (MLP) to learn the user–item interaction function. 
-협업 필터링을위한 DNN을 탐색하기 위해 사용자 항목 상호 작용 기능을 학습하기 위해 다중 레이어 퍼셉트론 (MLP)을 사용하여 NCF의 인스턴스화를 제안합니다.
-
-Lastly, we present a new neural matrix factorization model, which ensembles MF and MLP under the NCF framework; it unifies the strengths of linearity of MF and non-linearity of MLP for modelling the user–item latent structures.
-마지막으로 NCF 프레임 워크에서 MF와 MLP를 앙상블하는 새로운 신경 매트릭스 분해 모델을 제시합니다. 사용자 항목 잠재 구조를 모델링하기 위해 MF의 선형성과 MLP의 비선형 성의 강점을 통합합니다.
-
-
+### 3. NEURAL COLLABORATIVE FILTERING(NCF)  
 #### 3.1 General Framework  
+* ![Fig2](./image/Fig2.PNG)   
+  * 다중 레이어(아래에서 위로)  
+    * 입력 레이어(희소)  
+      * <img src="https://latex.codecogs.com/gif.latex?v_u%5EU">: 사용자 u 피쳐 벡터  
+      * <img src="https://latex.codecogs.com/gif.latex?v_i%5EI">: 항목 i 피쳐 벡터  
+      * 사용자, 항목 ID만 원-핫 입력으로 사용=> 이진 희소 벡터(cold-start 해결 위한 조정 쉬움)  
+    * 임베딩 레이어 => 사용자 (항목)에 대한 잠재 벡터     
+      * 희소 표현 -> dense vector 투영 => 완전 연결 계층(a fully connected layer)  
+    * 신경 협업 필터링 레이어: 예측 점수에 매핑  
+      * 사용자-항목 상호 작용의 특정 잠재 구조를 발견  
+      * Layer X: model’s capability 결정  
+    * 출력 레이어: 예측 점수(<img src="https://latex.codecogs.com/gif.latex?%5Chat%20y_%7Bui%7D">)  
+    * 점별 손실 최소화: <img src="https://latex.codecogs.com/gif.latex?y_%7Bui%7D%20-%20%5Chat%20y_%7Bui%7D">   
+     
+* *다른 모델 훈련 방법:* 쌍별 학습(베이지안 개인화 순위, 마진 기반 손실을 사용)  
+
+<br>
+
+* NCF 예측 모델 공식화  
+  * ![3-1](./image/3-1.PNG)   
+    * 사용자 잠재 인자 행렬: <img src="https://latex.codecogs.com/gif.latex?P%20%5Cin%20R%5E%7BM%20%5Ctimes%20K%7D">  
+    * 항목 잠재 인자 행렬:  <img src="https://latex.codecogs.com/gif.latex?Q%20%5Cin%20R%5E%7BM%20%5Ctimes%20K%7D">  
+    * <img src="https://latex.codecogs.com/gif.latex?%5CTheta_f">: 상호 작용 **함수 f**의 모델 매개 변수  
+
+    <br>
+
+    * 함수 f: 다층 신경망, X개의 NCF 레이어로 구성  
+      * ![3-2](./image/3-2.PNG)   
+        * <img src="https://latex.codecogs.com/gif.latex?%5CO_%7Bout%7D">: 출력 레이어 매핑 함수    
+        * <img src="https://latex.codecogs.com/gif.latex?%5CO_%7Bx%7D">: x번째 NCF 레이어 매핑 함수   
 
 
-To permit a full neural treatment of collaborative filtering, we adopt a multi-layer representation to model a user–item interaction yui as shown in Figure 2, where the output of one layer serves as the input of the next one. 
-협업 필터링의 완전한 신경 처리를 허용하기 위해 그림 2에 표시된 것처럼 다중 레이어 표현을 채택하여 사용자 항목 상호 작용 yui를 모델링합니다. 여기서 한 레이어의 출력이 다음 레이어의 입력으로 사용됩니다.
+##### 3.1.1 Learning NCF  
+* 점별 방법: 회귀(오차 제곱)  
+  * ![3-3](./image/3-3.PNG)    
+    * <img src="https://latex.codecogs.com/gif.latex?Y">: <img src="https://latex.codecogs.com/gif.latex?Y">에서 관찰된 상호 작용 집합  
+    * <img src="https://latex.codecogs.com/gif.latex?Y%5E-">: 관찰되지 않은 모든 상호 작용(negative instances set)   
+    * <img src="https://latex.codecogs.com/gif.latex?w_%7Bui%7D">: (u, i) 가중치, 하이퍼파라미터
 
-The bottom input layer consists of two feature vectors vUu and vIi that describe user u and item i, respectively; they can be customized to support a wide range of modelling of users and items, such as context-aware, content-based, and neighborbased. 
-하단 입력 계층은 사용자 u와 항목 i를 각각 설명하는 두 개의 특징 벡터 vUu 및 vIi로 구성됩니다. 컨텍스트 인식, 컨텐츠 기반 및 이웃 기반과 같은 사용자 및 항목의 광범위한 모델링을 지원하도록 사용자 정의 할 수 있습니다.
+<br>
 
-Since this work focuses on the pure collaborative filtering setting, we use only the identity of a user and an item as the input feature, transforming it to a binarized sparse vector with one-hot encoding. 
-이 작업은 순수 협업 필터링 설정에 초점을 맞추기 때문에 사용자와 항목의 ID 만 입력 기능으로 사용하여 원-핫 인코딩을 사용하는 이진화 된 희소 벡터로 변환합니다.
+  * 한계: 암시적 데이터의 경우 <img src="https://latex.codecogs.com/gif.latex?y_%7Bui%7D">가 이진화 된 0/1 로 u, i 상호작용 여부만 나타냄    
 
-Note that with such a generic feature representation for inputs, our method can be easily adjusted to address the cold-start problem by using content features to represent users and items.
-입력에 대한 이러한 일반 기능 표현을 사용하면 콘텐츠 기능을 사용하여 사용자 및 항목을 표시함으로써 콜드 스타트 ​​문제를 해결하도록 방법을 쉽게 조정할 수 있습니다.
+* 확률적 접근방식  
+  * <img src="https://latex.codecogs.com/gif.latex?y_%7Bui%7D">: 레이블, 1=관련 있음 0=관련 없음  
+  * <img src="https://latex.codecogs.com/gif.latex?%5Chat%20y_%7Bui%7D">: i u 관련 예측 점수  
 
-Above the input layer is the embedding layer; it is a fully connected layer that projects the sparse representation to a dense vector. 
-입력 레이어 위에는 임베딩 레이어가 있습니다. 희소 표현을 조밀 한 벡터로 투영하는 완전 연결 계층입니다.
+* <img src="https://latex.codecogs.com/gif.latex?%5Chat%20y_%7Bui%7D"> 범위 제한  
+  * [0, 1]: NCF 확률적 설명(e.g., the Logistic or Probit function)  
 
-The obtained user (item) embedding can be seen as the latent vector for user (item) in the context of latent factor model. 
-획득 한 사용자 (항목) 임베딩은 잠재 인자 모델의 맥락에서 사용자 (항목)에 대한 잠재 벡터로 볼 수 있습니다.
-
-The user embedding and item embedding are then fed into a multi-layer neural architecture, which we term as neural collaborative filtering layers, to map the latent vectors to prediction scores. 
-그런 다음 사용자 임베딩 및 항목 임베딩은 잠재 벡터를 예측 점수에 매핑하기 위해 신경 협업 필터링 레이어라고하는 다중 레이어 신경 아키텍처에 입력됩니다.
-
-Each layer of the neural CF layers can be customized to discover certain latent structures of user–item interactions. 
-신경 CF 계층의 각 계층은 사용자-항목 상호 작용의 특정 잠재 구조를 발견하도록 사용자 지정할 수 있습니다.
-
-The dimension of the last hidden layer X determines the model’s capability. 
-마지막 은닉층 X의 차원은 모델의 기능을 결정합니다.
-
-The final output layer is the predicted score ˆyui, and training is performed by minimizing the pointwise loss between ˆyui and its target value yui. 
-최종 출력 레이어는 예측 된 점수 ˆyui이고 ˆyui와 목표 값 yui 사이의 점별 손실을 최소화하여 훈련을 수행합니다.
-
-We note that another way to train the model is by performing pairwise learning, such as using the Bayesian Personalized Ranking and margin-based loss. 
-모델을 훈련하는 또 다른 방법은 베이지안 개인화 순위 및 마진 기반 손실을 사용하는 것과 같은 쌍별 학습을 수행하는 것입니다.
-
-As the focus of the paper is on the neural network modelling part, we leave the extension to pairwise learning of NCF as a future work.
-논문의 초점이 신경망 모델링 부분에 있으므로 향후 작업으로 NCF의 쌍별 학습에 대한 확장을 남겨 둡니다.
-
-We now formulate the NCF’s predictive model as
-이제 NCF의 예측 모델을 다음과 같이 공식화합니다.
-(3)
-where P ∈ R M×K and Q ∈ R N×K, denoting the latent factor matrix for users and items, respectively; and Θf denotes the model parameters of the interaction function f. 
-여기서 P ∈ R MxK 및 Q ∈ R NxK, 각각 사용자 및 항목에 대한 잠재 인자 행렬을 나타냅니다. Θf는 상호 작용 함수 f의 모델 매개 변수를 나타냅니다.
-
-Since the function f is defined as a multi-layer neural network, it can be formulated as
-함수 f는 다층 신경망으로 정의되므로 다음과 같이 공식화 할 수 있습니다.
-(4)
-where φout and φx respectively denote the mapping function for the output layer and x-th neural collaborative filtering (CF) layer, and there are X neural CF layers in total.
-여기서 φout과 φx는 각각 출력 레이어와 x 번째 신경 협력 필터링 (CF) 레이어에 대한 매핑 함수를 나타내며 총 X 개의 신경 CF 레이어가 있습니다.
-
-##### 3.1.1 Learning NCF
-
-To learn model parameters, existing pointwise methods largely perform a regression with squared loss:
-모델 매개 변수를 학습하기 위해 기존의 점별 방법은 대체로 손실 제곱으로 회귀를 수행합니다.
-(5)
-where Y denotes the set of observed interactions in Y, and Y − denotes the set of negative instances, which can be all (or sampled from) unobserved interactions; and wui is a hyperparameter denoting the weight of training instance (u, i).
-여기서 Y는 Y에서 관찰 된 상호 작용의 집합을 나타내고, Y-는 관찰되지 않은 상호 작용 모두 (또는 샘플링) 될 수있는 음성 인스턴스의 집합을 나타냅니다. wui는 훈련 인스턴스 (u, i)의 가중치를 나타내는 하이퍼 파라미터입니다.
-
-While the squared loss can be explained by assuming that observations are generated from a Gaussian distribution, we point out that it may not tally well with implicit data.
-제곱 손실은 관측 값이 가우스 분포에서 생성된다고 가정하여 설명 할 수 있지만 암시 적 데이터에서는 잘 집계되지 않을 수 있음을 지적합니다.
-
-This is because for implicit data, the target value yui is a binarized 1 or 0 denoting whether u has interacted with i. 
-이는 암시 적 데이터의 경우 대상 값 yui가 u가 i와 상호 작용했는지 여부를 나타내는 이진화 된 1 또는 0이기 때문입니다.
-
-In what follows, we present a probabilistic approach for learning the pointwise NCF that pays special attention to the binary property of implicit data.
-다음에서는 암시 적 데이터의 이진 속성에 특별한주의를 기울이는 포인트 별 NCF 학습을위한 확률 적 접근 방식을 제시합니다.
-
-Considering the one-class nature of implicit feedback, we can view the value of yui as a label — 1 means item i is relevant to u, and 0 otherwise. 
-암시 적 피드백의 단일 클래스 특성을 고려하면 yui의 값을 레이블로 볼 수 있습니다. 1은 항목 i가 u와 관련이 있음을 의미하고 그렇지 않으면 0을 의미합니다.
-
-The prediction score ˆyui then represents how likely i is relevant to u. 
-예측 점수 ˆyui는 i가 u와 얼마나 관련이 있는지를 나타냅니다.
-
-To endow NCF with such a probabilistic explanation, we need to constrain the output ˆyui in the range of [0, 1], which can be easily achieved by using a probabilistic function (e.g., the Logistic or Probit function) as the activation function for the output layer φout. 
-NCF에 이러한 확률 적 설명을 부여하려면 출력 ˆyui를 [0, 1] 범위로 제한해야합니다. 이는 확률 적 함수 (예 : Logistic 또는 Probit 함수)를 활성화 함수로 사용하여 쉽게 얻을 수 있습니다. 출력 레이어 φout.
-
-With the above settings, we then define the likelihood function as 
-위의 설정을 사용하여 우도 함수를 다음과 같이 정의합니다.
-(6)
-Taking the negative logarithm of the likelihood, we reach
-우도의 음의 로그를 취하면
-(7)
-This is the objective function to minimize for the NCF methods, and its optimization can be done by performing stochastic gradient descent (SGD). 
-이것은 NCF 방법에 대해 최소화하는 목적 함수이며 확률 적 경사 하강 법 (SGD)을 수행하여 최적화 할 수 있습니다.
-
-Careful readers might have realized that it is the same as the binary cross-entropy loss, also known as log loss. 
-주의 깊은 독자라면 이것이 로그 손실이라고도하는 이진 교차 엔트로피 손실과 동일하다는 것을 깨달았을 것입니다.
-
-By employing a probabilistic treatment for NCF, we address recommendation with implicit feedback as a binary classification problem. 
-NCF에 대한 확률 적 처리를 사용하여 암시 적 피드백을 이진 분류 문제로 사용하여 권장 사항을 해결합니다.
-
-As the classificationaware log loss has rarely been investigated in recommendation literature, we explore it in this work and empirically show its effectiveness in Section 4.3. 
-분류 인식 로그 손실은 추천 문헌에서 거의 조사되지 않았기 때문에이 작업에서이를 탐색하고 4.3 절에서 그 효과를 경험적으로 보여줍니다.
-
-For the negative instances Y−, we uniformly sample them from unobserved interactions in each iteration and control the sampling ratio w.r.t. the number of observed interactions. 
-음의 인스턴스 Y-의 경우 각 반복에서 관찰되지 않은 상호 작용에서 균일하게 샘플링하고 샘플링 비율 w.r.t를 제어합니다. 관찰 된 상호 작용의 수.
-
-While a nonuniform sampling strategy (e.g., item popularity-biased) might further improve the performance, we leave the exploration as a future work.
-불균일 한 샘플링 전략 (예 : 항목 인기도 편향)이 성능을 더욱 향상시킬 수 있지만, 우리는 탐색을 향후 작업으로 남겨 둡니다.
+* min(NCF 목적함수) = 우도함수 + 음의 로그, 최적화(SGD)  
+  * ![3-4](./image/3-4.PNG)    
+    * binary cross-entropy loss -> 이진 분류 문제로 사용  
 
 #### 3.2 Generalized Matrix Factorization (GMF)  
+* MF: NCF 프레임워크의 특별한 경우로 해석    
+  * NCF 대규모 factorization models군 모방  
+
+* 임베딩 벡터: <- 입력 레이어(원-핫), 사용자/항목 잠재 벡터      
+  * <img src="https://latex.codecogs.com/gif.latex?p_u">: 사용자 잠재 벡터 => <img src="https://latex.codecogs.com/gif.latex?P%5ETv_u%5EU">  
+  * <img src="https://latex.codecogs.com/gif.latex?q_i">: 항목 잠재 벡터 => <img src="https://latex.codecogs.com/gif.latex?Q%5ETv_i%5EI">   
+
+* 첫번째 NCF 레이어 매핑 함수  
+  * ![3-5](./image/3-5.PNG)    
+    * <img src="https://latex.codecogs.com/gif.latex?%5Co">: 벡터의 요소 별 곱> 출력 레이어에 투영  
+  * ![3-6](./image/3-6.PNG)    
+    * <img src="https://latex.codecogs.com/gif.latex?a_%7Bout%7D">:출력 레이어 활성화 함수   
+    * h: 출력 레이어 edge 가중치 
+  * (9)를 MF 모델로 복구  
+    * <img src="https://latex.codecogs.com/gif.latex?a_%7Bout%7D"> = 항등함수  
+    * h = 1(균일 벡터)  
+
+* 쉽게 일반화/확장 가능=> GMF    
+
 #### 3.3 Multi-Layer Perceptron (MLP)  
+* 벡터 연결 구조 한계: user - item 간 잠재 피쳐 상호 작용 고쳐 X, CF 효과 모델링에 부족  
+* 극복: 표준 MLP: user - item 간 잠재 피쳐 상호 작용 학습, 연결된 벡터에 숨겨진 레이어 추가  
+  * 유연성, 비선형성을 부여  
+
+* NCF 프레임워크의 MLP 모델  
+  * ![3-7](./image/3-7.PNG)    
+    * <img src="https://latex.codecogs.com/gif.latex?W_x">: x번째 레이어 퍼셉트론에 대한 가중치 행렬  
+    * <img src="https://latex.codecogs.com/gif.latex?b_x">: x번째 레이어 퍼셉트론에 대한 바이어스 벡터  
+    * <img src="https://latex.codecogs.com/gif.latex?a_x">: x번째 레이어 퍼셉트론에 대한 활성화 함수(sigmoid, tanh => ReLU)  
+
+* 네트워크 구조 설계: tower pattern(하단 레이어가 가장 넓고 점점 적은 뉴런 배치) => 추상화  
+
 #### 3.4 Fusion of GMF and MLP  
+* NCF 인스턴스(2)  
+  * GMF: 선형 커널, 잠재 피쳐 상호 작용을 모델링  
+  * MLP: 비선형 커널, 데이터에서 상호 작용 함수를 학습  
+
+* NeuMF = GMF(선형) + MLP(비선형)   
+  * 1) 동일한 임베딩 레이어 공유
+    * ![(11)](./image/(11).PNG)    
+    * 성능 제한: 최적 임베팅 크기가 달라 최적의 앙상블 얻지 X    
+  * 2) 상호 작용 함수의 출력을 결합  
+    * ![(12)](./image/(12).PNG)      
+      * <img src="https://latex.codecogs.com/gif.latex?p_u%5EG">: GMF 사용자 임베딩  
+      * <img src="https://latex.codecogs.com/gif.latex?p_u%5EM">: MLP 사용자 임베딩  
+  * 매개변수: back-propagation로 계산  
+
 ##### 3.4.1 Pre-training  
+* NeuMF 초기화: 사전 훈련 된 GMF / MLP 사용  
+  * 1. 수렴 될 때까지 무작위 초기화로 GMF와 MLP를 훈련  
+  * 2. 해당 모델 매개 변수를 NeuMF 매개 변수의 해당 부분에 대한 초기화로 사용  
+  * 3. 출력 레이어에서 가중치 조정  
+    * ![(13)](./image/(13).PNG)     
+      * <img src="https://latex.codecogs.com/gif.latex?h%5E%7BGMF%7D">: 사전 훈련된 GMF 모델 h 벡터  
+      * <img src="https://latex.codecogs.com/gif.latex?h%5E%7BMLP%7D">: 사전 훈련된 MLP 모델 h 벡터   
+      * <img src="https://latex.codecogs.com/gif.latex?%5Calpha">: 사전 학습 된 두 모델 간의 절충을 결정하는 하이퍼 파라미터    
+  * 4. 최적화: Adam  
+  * 5. 사전 훈련 된 매개 변수를 NeuMF에 입력
+  * 6. 최적화: vanilla SGD    
 
 ---
 
@@ -244,199 +239,6 @@ While a nonuniform sampling strategy (e.g., item popularity-biased) might furthe
 
 
 
-
-
-
-
-
-
-
-
-
-
-
-
-3.2 Generalized Matrix Factorization (GMF) 
-
-We now show how MF can be interpreted as a special case of our NCF framework. 
-이제 MF가 NCF 프레임 워크의 특별한 경우로 어떻게 해석 될 수 있는지 보여줍니다.
-
-As MF is the most popular model for recommendation and has been investigated extensively in literature, being able to recover it allows NCF to mimic a large family of factorization models.
-MF는 추천을위한 가장 인기있는 모델이고 문헌에서 광범위하게 조사되었으므로이를 복구 할 수 있으면 NCF가 대규모 인수 분해 모델 제품군을 모방 할 수 있습니다.
-
-Due to the one-hot encoding of user (item) ID of the input layer, the obtained embedding vector can be seen as the latent vector of user (item). 
-입력 레이어의 사용자 (아이템) ID의 원-핫 인코딩으로 인해 획득 된 임베딩 벡터는 사용자 (아이템)의 잠재 벡터로 볼 수 있습니다.
-
-Let the user latent vector pu be PT vUu and item latent vector qi be QT vIi. 
-사용자 잠재 벡터 pu를 PT vUu로하고 항목 잠재 벡터 qi를 QT vIi로 설정합니다.
-
-We define the mapping function of the first neural CF layer as
-첫 번째 신경 CF 레이어의 매핑 기능을 다음과 같이 정의합니다.
-(8)
-where  denotes the element-wise product of vectors. 
-여기서는 벡터의 요소 별 곱을 나타냅니다.
-
-We then project the vector to the output layer:
-그런 다음 벡터를 출력 레이어에 투영합니다.
-(9)
-where aout and h denote the activation function and edge weights of the output layer, respectively. 
-여기서 aout과 h는 각각 출력 레이어의 활성화 함수와 간선 가중치를 나타냅니다.
-
-Intuitively, if we use an identity function for aout and enforce h to be a uniform vector of 1, we can exactly recover the MF model.
-직관적으로 aout에 대해 항등 함수를 사용하고 h를 1의 균일 벡터로 강제하면 MF 모델을 정확하게 복구 할 수 있습니다.
-
-Under the NCF framework, MF can be easily generalized and extended. 
-NCF 프레임 워크에서 MF는 쉽게 일반화되고 확장 될 수 있습니다.
-
-For example, if we allow h to be learnt from data without the uniform constraint, it will result in a variant of MF that allows varying importance of latent dimensions. 
-예를 들어, 균일 한 제약없이 데이터에서 h를 학습 할 수 있도록 허용하면 잠재 차원의 다양한 중요성을 허용하는 MF 변형이 생성됩니다.
-
-And if we use a non-linear function for aout, it will generalize MF to a non-linear setting which might be more expressive than the linear MF model. 
-그리고 우리가 aout에 대해 비선형 함수를 사용하면 MF를 선형 MF 모델보다 더 표현력이있을 수있는 비선형 설정으로 일반화합니다.
-
-In this work, we implement a generalized version of MF under NCF that uses the sigmoid function σ(x) = 1/(1 + e−x) as aout and learns h from data with the log loss (Section 3.1.1). 
-이 작업에서는 시그 모이 드 함수 σ (x) = 1 / (1 + e-x)를 aout으로 사용하고 로그 손실이있는 데이터에서 h를 학습하는 NCF 하에서 일반화 된 버전의 MF를 구현합니다 (섹션 3.1.1).
-
-We term it as GMF, short for Generalized Matrix Factorization.
-우리는 이것을 Generalized Matrix Factorization의 줄임말 인 GMF라고합니다.
-
-3.3 Multi-Layer Perceptron (MLP)
-
-Since NCF adopts two pathways to model users and items, it is intuitive to combine the features of two pathways by concatenating them. 
-NCF는 사용자와 항목을 모델링하기 위해 두 가지 경로를 채택하고 있기 때문에 두 경로를 연결하여 두 경로의 특징을 결합하는 것이 직관적입니다.
-
-This design has been widely adopted in multimodal deep learning work. 
-이 디자인은 멀티 모달 딥 러닝 작업에 널리 채택되었습니다.
-
-However, simply a vector concatenation does not account for any interactions between user and item latent features, which is insufficient for modelling the collaborative filtering effect. 
-그러나 단순히 벡터 연결은 사용자와 항목 잠재 기능 간의 상호 작용을 고려하지 않으므로 협업 필터링 효과를 모델링하는 데 충분하지 않습니다.
-
-To address this issue, we propose to add hidden layers on the concatenated vector, using a standard MLP to learn the interaction between user and item latent features. 
-이 문제를 해결하기 위해 표준 MLP를 사용하여 사용자와 항목 잠재 기능 간의 상호 작용을 학습하여 연결된 벡터에 숨겨진 레이어를 추가 할 것을 제안합니다.
-
-In this sense, we can endow the model a large level of flexibility and non-linearity to learn the interactions between pu and qi , rather than the way of GMF that uses only a fixed element-wise product on them. 
-이러한 의미에서 우리는 모델에 고정 된 요소 별 제품 만 사용하는 GMF 방식이 아니라 pu와 qi 간의 상호 작용을 학습하기 위해 모델에 큰 수준의 유연성과 비선형 성을 부여 할 수 있습니다.
-
-More precisely, the MLP model under our NCF framework is defined as
-보다 정확하게는 NCF 프레임 워크의 MLP 모델은 다음과 같이 정의됩니다.
-(10)
-where Wx, bx, and ax denote the weight matrix, bias vector, and activation function for the x-th layer’s perceptron, respectively. 
-여기서 Wx, bx 및 ax는 각각 x 번째 레이어의 퍼셉트론에 대한 가중치 행렬, 바이어스 벡터 및 활성화 함수를 나타냅니다.
-
-For activation functions of MLP layers, one can freely choose sigmoid, hyperbolic tangent (tanh), and Rectifier (ReLU), among others. 
-MLP 레이어의 활성화 기능의 경우, 무엇보다도 시그 모이 드, 쌍곡 탄젠트 (tanh) 및 정류기 (ReLU)를 자유롭게 선택할 수 있습니다.
-
-We would like to analyze each function: 
-각 기능을 분석하고 싶습니다.
-
-1) The sigmoid function restricts each neuron to be in (0,1), which may limit the model’s performance; and it is known to suffer from saturation, where neurons stop learning when their output is near either 0 or 1. 
-1) 시그 모이 드 함수는 각 뉴런이 (0,1)에 있도록 제한하여 모델의 성능을 제한 할 수 있습니다. 뉴런의 출력이 0 또는 1에 가까울 때 학습을 중단하는 포화 상태로 고통받는 것으로 알려져 있습니다.
-
-2) Even though tanh is a better choice and has been widely adopted [6, 44], it only alleviates the issues of sigmoid to a certain extent, since it can be seen as a rescaled version of sigmoid (tanh(x/2) = 2σ(x) − 1).  
-2) tanh가 더 나은 선택이고 널리 채택되었지만 [6, 44], 시그 모이 드의 크기가 조정 된 버전으로 볼 수 있기 때문에 시그 모이 드 문제를 어느 정도 완화 할뿐입니다 (tanh (x / 2) = 2σ (x) − 1).
-
-과
-And 
-3) as such, we opt for ReLU, which is more biologically plausible and proven to be non-saturated [9]; moreover, it encourages sparse activations, being well-suited for sparse data and making the model less likely to be overfitting. 
-
-3) 따라서 우리는 생물학적으로 더 타당하고 포화되지 않은 것으로 입증 된 ReLU를 선택합니다 [9]; 또한 희소 활성화를 장려하고 희소 데이터에 적합하며 모델이 과적 합 될 가능성을 줄입니다.
-
-Our empirical results show that ReLU yields slightly better performance than tanh, which in turn is significantly better than sigmoid.
-우리의 경험적 결과에 따르면 ReLU는 tanh보다 약간 더 나은 성능을 제공하며, 이는 시그 모이 드보다 훨씬 우수합니다.
-
-As for the design of network structure, a common solution is to follow a tower pattern, where the bottom layer is the widest and each successive layer has a smaller number of neurons (as in Figure 2). 
-네트워크 구조의 설계와 관련하여 일반적인 솔루션은 타워 패턴을 따르는 것입니다. 여기서 하단 레이어는 가장 넓고 연속되는 각 레이어에는 더 적은 수의 뉴런이 있습니다 (그림 2 참조).
-
-The premise is that by using a small number of hidden units for higher layers, they can learn more abstractive features of data [10]. 
-전제는 상위 계층에 대해 적은 수의 은닉 유닛을 사용함으로써 데이터의 더 추상적 인 특징을 학습 할 수 있다는 것입니다 [10].
-
-We empirically implement the tower structure, halving the layer size for each successive higher layer.
-우리는 타워 구조를 경험적으로 구현하여 연속적인 상위 레이어마다 레이어 크기를 절반으로 줄입니다.
-
-3.4 Fusion of GMF and MLP
-
-So far we have developed two instantiations of NCF — GMF that applies a linear kernel to model the latent feature interactions, and MLP that uses a non-linear kernel to learn the interaction function from data. 
-지금까지 NCF의 두 가지 인스턴스화를 개발했습니다. 선형 커널을 적용하여 잠재 기능 상호 작용을 모델링하는 GMF와 비선형 커널을 사용하여 데이터에서 상호 작용 함수를 학습하는 MLP입니다.
-
-The question then arises:
-그런 다음 질문이 발생합니다.
-
-how can we fuse GMF and MLP under the NCF framework, so that they can mutually reinforce each other to better model the complex user-iterm interactions?
-NCF 프레임 워크에서 GMF와 MLP를 융합하여 복잡한 사용자 -iterm 상호 작용을 더 잘 모델링하기 위해 서로를 강화할 수있는 방법은 무엇입니까?
-
-A straightforward solution is to let GMF and MLP share the same embedding layer, and then combine the outputs of their interaction functions. 
-간단한 해결책은 GMF와 MLP가 동일한 임베딩 레이어를 공유하도록 한 다음 상호 작용 함수의 출력을 결합하는 것입니다.
-
-This way shares a similar spirit with the well-known Neural Tensor Network (NTN).
-이 방식은 잘 알려진 NTN (Neural Tensor Network)과 유사한 정신을 공유합니다.
-
-Specifically, the model for combining GMF with a one-layer MLP can be formulated as
-구체적으로 GMF와 1 계층 MLP를 결합하는 모델은 다음과 같이 공식화 할 수 있습니다.
-(11)
-However, sharing embeddings of GMF and MLP might limit the performance of the fused model. 
-그러나 GMF 및 MLP의 임베딩을 공유하면 융합 모델의 성능이 제한 될 수 있습니다.
-
-For example, it implies that GMF and MLP must use the same size of embeddings; for datasets where the optimal embedding size of the two models varies a lot, this solution may fail to obtain the optimal ensemble.
-예를 들어, GMF와 MLP는 동일한 크기의 임베딩을 사용해야 함을 의미합니다. 두 모델의 최적 임베딩 크기가 많이 다른 데이터 세트의 경우이 솔루션은 최적의 앙상블을 얻지 못할 수 있습니다.
-
-To provide more flexibility to the fused model, we allow GMF and MLP to learn separate embeddings, and combine the two models by concatenating their last hidden layer.
-융합 모델에 더 많은 유연성을 제공하기 위해 GMF와 MLP가 별도의 임베딩을 학습하고 마지막 숨겨진 레이어를 연결하여 두 모델을 결합 할 수 있습니다.
-
-Figure 3 illustrates our proposal, the formulation of which is given as follows
-그림 3은 우리의 제안을 보여 주며, 그 공식은 다음과 같습니다.
-(12)
-where pGu and pMu denote the user embedding for GMF and MLP parts, respectively; and similar notations of qGi and qMi for item embeddings. 
-여기서 pGu 및 pMu는 각각 GMF 및 MLP 부분에 대한 사용자 임베딩을 나타냅니다. 및 항목 임베딩에 대한 qGi 및 qMi의 유사한 표기법.
-
-As discussed before, we use ReLU as the activation function of MLP layers. 
-앞서 논의했듯이 MLP 계층의 활성화 기능으로 ReLU를 사용합니다.
-
-This model combines the linearity of MF and non-linearity of DNNs for modelling user–item latent structures. 
-이 모델은 사용자 항목 잠재 구조를 모델링하기 위해 MF의 선형성과 DNN의 비선형 성을 결합합니다.
-
-We dub this model “NeuMF”, short for Neural Matrix Factorization. 
-이 모델을 Neural Matrix Factorization의 약자로 "NeuMF"라고합니다.
-
-The derivative of the model w.r.t. each model parameter can be calculated with standard back-propagation, which is omitted here due to space limitation.
-모델 w.r.t. 각 모델 매개 변수는 표준 역전 파로 계산할 수 있으며 공간 제한으로 인해 여기서 생략됩니다.
-
-3.4.1 Pre-training
-
-Due to the non-convexity of the objective function of NeuMF, gradient-based optimization methods only find locally-optimal solutions. 
-NeuMF의 목적 함수가 볼록하지 않기 때문에 그래디언트 기반 최적화 방법은 로컬에서 최적화 된 솔루션 만 찾습니다.
-
-It is reported that the initialization plays an important role for the convergence and performance of deep learning models [7]. 
-초기화는 딥 러닝 모델의 수렴 및 성능에 중요한 역할을하는 것으로보고되었습니다 [7].
-
-Since NeuMF is an ensemble of GMF nd MLP, we propose to initialize NeuMF using the pretrained models of GMF and MLP.
-NeuMF는 GMF 및 MLP의 앙상블이므로 사전 훈련 된 GMF 및 MLP 모델을 사용하여 NeuMF를 초기화 할 것을 제안합니다.
-
-We first train GMF and MLP with random initializations until convergence. 
-먼저 수렴 될 때까지 무작위 초기화로 GMF와 MLP를 훈련합니다.
-
-We then use their model parameters as the initialization for the corresponding parts of NeuMF’s parameters. 
-그런 다음 해당 모델 매개 변수를 NeuMF 매개 변수의 해당 부분에 대한 초기화로 사용합니다.
-
-The only tweak is on the output layer, where we concatenate weights of the two models with 
-유일한 조정은 출력 레이어에 있습니다. 여기서 두 모델의 가중치를
-(13)
-where hGMF and hMLP denote the h vector of the pretrained GMF and MLP model, respectively; and α is a hyper-parameter determining the trade-off between the two pre-trained models.
-여기서 hGMF 및 hMLP는 각각 사전 훈련 된 GMF 및 MLP 모델의 h 벡터를 나타냅니다. α는 사전 학습 된 두 모델 간의 절충을 결정하는 하이퍼 매개 변수입니다.
-
-For training GMF and MLP from scratch, we adopt the Adaptive Moment Estimation (Adam) [20], which adapts the learning rate for each parameter by performing smaller updates for frequent and larger updates for infrequent parameters. 
-GMF 및 MLP를 처음부터 훈련하기 위해 적응 형 모멘트 추정 (Adam) [20]을 채택합니다.이 방법은 자주 사용하지 않는 매개 변수에 대해 더 작은 업데이트를 수행하고 더 큰 업데이트를 수행하여 각 매개 변수에 대한 학습률을 조정합니다.
-
-The Adam method yields faster convergence for both models than the vanilla SGD and relieves the pain of tuning the learning rate. 
-Adam 방법은 바닐라 SGD보다 두 모델에 대해 더 빠른 수렴을 제공하고 학습 속도를 조정하는 데 따른 고통을 덜어줍니다.
-
-After feeding pre-trained parameters into NeuMF, we optimize it with the vanilla SGD, rather than Adam. 
-사전 훈련 된 매개 변수를 NeuMF에 입력 한 후 Adam이 아닌 바닐라 SGD를 사용하여 최적화합니다.
-
-This is because Adam needs to save momentum information for updating parameters properly. 
-이는 Adam이 매개 변수를 올바르게 업데이트하기 위해 운동량 정보를 저장해야하기 때문입니다.
-
-As we initialize NeuMF with pre-trained model parameters only and forgo saving the momentum information, it is unsuitable to further optimize NeuMF with momentum-based methods.
-사전 훈련 된 모델 매개 변수로만 NeuMF를 초기화하고 운동량 정보를 저장하지 않기 때문에 운동량 기반 방법으로 NeuMF를 더 최적화하는 것은 적합하지 않습니다.
 
 4. EXPERIMENTS
 
