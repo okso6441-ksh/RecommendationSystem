@@ -6,17 +6,10 @@
 
 ### ABSTRACT    
 * implicit feedback, 협업 필터링 문제 해결 위한 신경망  
-* 협업 필터링: user item 상호작용-MF/잠재 특성-내적 의존  
-* NCF(Neural networkbased Collaborative Filtering): 내적 신경 아키텍처로 대체한 프레임워크 제안  
+* 협업 필터링: user item 상호작용-MF/잠재 특성-내적(dot product) 의존  
+* **NCF**(Neural networkbased Collaborative Filtering): 내적 신경 아키텍처로 대체한 프레임워크 제안  
   * 일반적, MF 표현 가능, 비선형성, MLP로 user-item 상호작용 학습  
 
-
-
-Extensive experiments on two real-world datasets show significant improvements of our proposed NCF framework over the state-of-the-art methods.
-2 개의 실제 데이터 세트에 대한 광범위한 실험은 최첨단 방법에 비해 제안 된 NCF 프레임 워크의 상당한 개선을 보여줍니다.
-
-Empirical evidence shows that using deeper layers of neural networks offers better recommendation performance.
-경험적 증거에 따르면 더 깊은 신경망 계층을 사용하면 추천 성능이 향상됩니다.
 ---
 
 ### Keywords  
@@ -24,240 +17,89 @@ Empirical evidence shows that using deeper layers of neural networks offers bett
 ---
 
 ### 1. INTRODUCTION  
+* 개인화 된 추천 시스템의 핵심: 협업 필터링(과거 상호 작용)> item에 대한 user의 선호도를 모델링  
+  * 협업 필터링 기술
+    * MF: user item latent space 투영(project)> 잠재 특징 벡터> 내적 = user item 상호작용    
+      * MF 향상: neighbor-based 모델과 통합, 항목 콘텐츠의 topic model 과 결합, features 모델링을 위해 factorization machines  
+      * inner product로 인한 성능 저하 가능성 존재: 복잡한 구조를 캡처하는데 충분치 않을 수 있음  
+
+* 신경망: 수작업 아닌 데이터에서 상호작용 학습        
+  * DNN: (보조 정보) item의 텍스트 설명, 음악의 오디오 기능, 이미지의 시각적 콘텐츠 등=> 여전히 MF 사용(내적으로 user item 잠재 피쳐 벡터 결합)     
+
+* explicit feedback  
+  * 자동 추적(수집 용이), 사용자 선호도 간접 반영(만족도 관찰X), 부정적 피드백 부족  
+
+* 목표: DNN 활용 잡음 있는 암시적 피드벡 모델링  
+  * 1. NCF 고안: 신경망 기반 CF 일반 프레임워크   
+  * 2. MPL 활용  
 
 ---
 
 ### 2. PRELIMINARIES  
 #### 2.1 Learning from Implicit Data  
+* 사용자 암시적 피드백 , user item 상호 작용 행렬 Y   
+* <img src="https://latex.codecogs.com/gif.latex?Y%20%5Cin%20R%5E%7BM%20%5Ctimes%20N%7D">  
+
+  * M: 사용자 수  
+  * N: 항목 수  
+* 사용자 u, 항목 i 상호작용 <img src="https://latex.codecogs.com/gif.latex?y_%7Bui%7D">  
+
+  * ![2-1](./image/2-1.PNG)  
+    * 상호작용 ≠ 선호도  
+    * 암시적 데이터(noisy signals) => 관찰X/결측치 존재 => 부정적 피드백 부족    
+
+* 관찰되지 않은 항목 점수 추정 문제(추상화)  
+  * 접근: Model-based approaches  
+    * 가정: 데이터가 기본 모델에 의해 생성/설명  
+  * <img src="https://latex.codecogs.com/gif.latex?%5Chat%20y_%7Bui%7D%20%3D%20f%28u%2C%20i%20%7C%20%5CTheta%29">    
+
+    * <img src="https://latex.codecogs.com/gif.latex?%5Chat%20y_%7Bui%7D">: 상호 작용 예측 점수  
+    * Θ: 모델 매개 변수  
+    * f: 모델 매개 변수를 예측 점수 함수(상호 작용 함수)  
+  * Θ 추정 접근 방식: 목적함수 최적화하는 기계 학습 사용   
+
+* 목적함수(2)  
+  * 점 손실(pointwise loss): 제곱 오차 최소화(회귀)  
+    * <img src="https://latex.codecogs.com/gif.latex?y_%7Bui%7D%20-%20%5Chat%20y_%7Bui%7D">     
+    * 관찰X: 부정 간주  
+  * 쌍 손실(pairwise loss): 관찰 항목 순위 > 관찰 X 항목 순위 => 여백 최대화  
+    * <img src="https://latex.codecogs.com/gif.latex?%5Chat%20y_%7Bui%7D%20%3C-%3E%20%5Chat%20y_%7Buj%7D">       
+
+<br>
+
+* NCF: 상호작용 함수 f 매개 변수화  
+  * pointwise/pairwise loss 모두 지원  
+
 #### 2.2 Matrix Factorization   
+* MF: user item < (연결) > 잠재 피쳐 실수 값 벡터   
+* <img src="https://latex.codecogs.com/gif.latex?%5Chat%20y_%7Bui%7D"> = 상호작용  = 잠재벡터 내적  
+  * ![2-2](./image/2-2.PNG)  
+    * user, item 잠재 벡터: <img src="https://latex.codecogs.com/gif.latex?p_u">, <img src="https://latex.codecogs.com/gif.latex?q_i">
+    * K: 잠재 공간 차원  
+  * 가정: 양방향 상호 작용 모델링(two-way interaction) => **선형 모델**   
+    * 잠재 공간의 각 차원이 서로 독립(independent)  
+    * 동일한 가중치로 선형 결합(linearly combining with same weight)   
+
+* MF(내적) 표현 한계: 단순하고 고정된 내적으로 저차원 잠재 벡터 공간에서 사용자 항목간의 복잡한 상호작용 추정 시 제한 존재
+  * 설정(2)   
+    * 1. user item 동일 잠재 공간 매핑, 두 사용자 간 유사성 = 내적(코사인) 측정  
+    * 2. 자카드 지수(Jaccard coefficient)를 두 사용자의 근거 유사성(groundtruth similarity)으로 사용  
+  * ![Fig1](./image/Fig1.PNG)   
+    * (a) 사용자 간 유사성 s23(0.66) > s12(0.5) > s13(0.4)  
+    * (b) 잠재공간에서 p1, p2, p3 관계 표현   
+    * user4 예측
+      * (a) s41(0.6)> s43(0.4)> s42(0.2): user1과 가장 유사, user2와 가장 거리가 멂       
+      * (b) p4를 p1에 가장 가깝게 배치하면 순위 손실 발생   
+* 극복: 
+  * 1) 많은 수의 잠재 요인 K 사용  
+    * 희소 벡터에서 과적합 등 문제 발생  
+  * 2) **DNN**  
 
 ---
 
 ### 3. NEURAL COLLABORATIVE FILTERING  
-#### 3.1 General Framework  
-#### 3.2 Generalized Matrix Factorization (GMF)  
-#### 3.3 Multi-Layer Perceptron (MLP)  
-#### 3.4 Fusion of GMF and MLP  
-##### 3.4.1 Pre-training  
 
----
 
-### 4. EXPERIMENTS  
-#### 4.1 Experimental Settings  
-#### 4.2 Performance Comparison (RQ1)  
-##### 4.2.1 Utility of Pre-training  
-
-#### 4.3 Log Loss with Negative Sampling (RQ2)  
-#### 4.4 Is Deep Learning Helpful? (RQ3)  
-
----
-
-### 5. RELATED WORK  
-
----
-
-### 6. CONCLUSION AND FUTURE WORK  
-
----
-
-### 7. REFERENCES  
-
-
-
-
-1. INTRODUCTION
-In the era of information explosion, recommender systems play a pivotal role in alleviating information overload, having been widely adopted by many online services, including E-commerce, online news and social media sites. 
-정보 폭발 시대에 추천 시스템은 전자 상거래, 온라인 뉴스 및 소셜 미디어 사이트를 비롯한 많은 온라인 서비스에서 널리 채택되어 정보 과부하를 완화하는 데 중요한 역할을합니다.
-
-The key to a personalized recommender system is in modelling users’ preference on items based on their past interactions (e.g., ratings and clicks), known as collaborative filtering [31, 46]. 
-개인화 된 추천 시스템의 핵심은 협업 필터링으로 알려진 과거 상호 작용 (예 : 평가 및 클릭)을 기반으로 항목에 대한 사용자의 선호도를 모델링하는 것입니다 [31, 46].
-
-Among the various collaborative filtering techniques, matrix factorization (MF) is the most popular one, which projects users and items into a shared latent space, using a vector of latent features to represent a user or an item.
-다양한 협업 필터링 기술 중에서 매트릭스 인수 분해 (MF)는 사용자와 항목을 공유 된 잠재 공간으로 투영하는 가장 인기있는 기술로, 사용자 또는 항목을 나타내는 잠재 특징 벡터를 사용합니다.
-
-Thereafter a user’s interaction on an item is modelled as the inner product of their latent vectors.
-그 후 항목에 대한 사용자의 상호 작용은 잠재 벡터의 내부 곱으로 모델링됩니다.
-
-Popularized by the Netflix Prize, MF has become the defacto approach to latent factor model-based recommendation. 
-Netflix Prize에 의해 대중화 된 MF는 잠재 요인 모델 기반 추천에 대한 사실상의 접근 방식이되었습니다.
-
-Much research effort has been devoted to enhancing MF, such as integrating it with neighbor-based models [21], combining it with topic models of item content [38], and extending it to factorization machines [26] for a generic modelling of features. 
-이웃 기반 모델과 통합 [21], 항목 콘텐츠의 주제 모델과 결합 [38], 기능의 일반 모델링을 위해 인수 분해 기계 [26]로 확장하는 등 MF를 향상시키는 데 많은 연구 노력이 기울여졌습니다. .
-
-Despite the effectiveness of MF for collaborative filtering, it is well-known that its performance can be hindered by the simple choice of the interaction function — inner product. 
-협업 필터링에 대한 MF의 효과에도 불구하고 상호 작용 기능 (내부 제품)의 간단한 선택으로 인해 성능이 저하 될 수 있다는 것은 잘 알려져 있습니다.
-
-For example, for the task of rating prediction on explicit feedback, it is well known that the performance of the MF model can be improved by incorporating user and item bias terms into the interaction function1. 
-예를 들어, 명시 적 피드백에 대한 평가 예측 작업의 경우 사용자 및 항목 바이어스 용어를 상호 작용 함수 1에 통합하여 MF 모델의 성능을 향상시킬 수 있다는 것은 잘 알려져 있습니다.
-
-While it seems to be just a trivial tweak for the inner product operator, it points to the positive effect of designing a better, dedicated interaction function for modelling the latent feature interactions between users and items. 
-내부 제품 연산자에게는 사소한 조정 인 것처럼 보이지만 사용자와 항목 간의 잠재적 인 기능 상호 작용을 모델링하기 위해 더 나은 전용 상호 작용 기능을 설계하는 긍정적 인 효과를 나타냅니다.
-
-The inner product, which simply combines the multiplication of latent features linearly, may not be sufficient to capture the complex structure of user interaction data.
-단순히 잠재 특징의 곱셈을 선형으로 결합하는 내적은 사용자 상호 작용 데이터의 복잡한 구조를 캡처하는 데 충분하지 않을 수 있습니다.
-
-This paper explores the use of deep neural networks for learning the interaction function from data, rather than a handcraft that has been done by many previous work. 
-이 백서에서는 많은 이전 작업에서 수행 한 수공예가 아닌 데이터에서 상호 작용 기능을 학습하기 위해 심층 신경망을 사용하는 방법을 탐구합니다.
-
-The neural network has been proven to be capable of approximating any continuous function [17], and more recently deep neural networks (DNNs) have been found to be effective in several domains, ranging from computer vision, speech recognition, to text processing [5, 10, 15, 47]. 
-신경망은 연속적인 기능을 근사 할 수있는 것으로 입증되었으며 [17] 최근에는 컴퓨터 비전, 음성 인식, 텍스트 처리에 이르는 여러 영역에서 효과적인 것으로 밝혀진 심층 신경망 (DNN)이 발견되었습니다 [5 , 10, 15, 47].
-
-However, there is relatively little work on employing DNNs for recommendation in contrast to the vast amount of literature on MF methods. 
-그러나 MF 방법에 대한 방대한 양의 문헌과 대조적으로 추천을 위해 DNN을 사용하는 작업은 상대적으로 거의 없습니다.
-
-Although some recent advances have applied DNNs to recommendation tasks and shown promising results, they mostly used DNNs to model auxiliary information, such as textual description of items, audio features of musics, and visual content of images. 
-최근 몇 가지 발전이 DNN을 추천 작업에 적용하고 유망한 결과를 보였지만, 주로 DNN을 사용하여 항목의 텍스트 설명, 음악의 오디오 기능, 이미지의 시각적 콘텐츠와 같은 보조 정보를 모델링했습니다.
-
-With regards to modelling the key collaborative filtering effect, they still resorted to MF, combining user and item latent features using an inner product.
-핵심 협업 필터링 효과의 모델링과 관련하여 그들은 여전히 ​​MF에 의지하여 내부 제품을 사용하여 사용자 및 항목 잠재 기능을 결합했습니다.
-
-This work addresses the aforementioned research problems by formalizing a neural network modelling approach for collaborative filtering. 
-이 작업은 협업 필터링을위한 신경망 모델링 접근 방식을 공식화하여 앞서 언급 한 연구 문제를 해결합니다.
-
-We focus on implicit feedback, which indirectly reflects users’ preference through behaviours like watching videos, purchasing products and clicking items.
-동영상 시청, 제품 구매, 항목 클릭과 같은 행동을 통해 사용자의 선호도를 간접적으로 반영하는 암시 적 피드백에 중점을 둡니다.
-
-Compared to explicit feedback (i.e., ratings and reviews), implicit feedback can be tracked automatically and is thus much easier to collect for content providers. 
-명시 적 피드백 (예 : 평가 및 리뷰)과 비교하여 암시 적 피드백은 자동으로 추적 될 수 있으므로 콘텐츠 제공 업체를 위해 수집하기가 훨씬 쉽습니다.
-
-However, it is more challenging to utilize, since user satisfaction is not observed and there is a natural scarcity of negative feedback.
-그러나 사용자 만족도가 관찰되지 않고 부정적인 피드백이 자연적으로 부족하기 때문에 활용하기가 더 어렵습니다.
-
-In this paper, we explore the central theme of how to utilize DNNs to model noisy implicit feedback signals.
-이 백서에서는 DNN을 활용하여 잡음이있는 암시 적 피드백 신호를 모델링하는 방법의 중심 주제를 탐색합니다.
-
-The main contributions of this work are as follows.
-이 작업의 주요 공헌은 다음과 같습니다.
-
-1. We present a neural network architecture to model latent features of users and items and devise a general framework NCF for collaborative filtering based on neural networks.
-1. 사용자 및 항목의 잠재 특징을 모델링하기위한 신경망 아키텍처를 제시하고 신경망 기반 협업 필터링을위한 일반 프레임 워크 NCF를 고안합니다.
-
-2. We show that MF can be interpreted as a specialization of NCF and utilize a multi-layer perceptron to endow NCF modelling with a high level of non-linearities.
-2. 우리는 MF가 NCF의 전문화로 해석 될 수 있고 높은 수준의 비선형 성을 가진 NCF 모델링을 부여하기 위해 다층 퍼셉트론을 활용할 수 있음을 보여줍니다.
-
-3. We perform extensive experiments on two real-world datasets to demonstrate the effectiveness of our NCF approaches and the promise of deep learning for collaborative filtering.
-3. 우리는 NCF 접근법의 효율성과 협업 필터링을위한 딥 러닝의 가능성을 입증하기 위해 두 개의 실제 데이터 세트에 대한 광범위한 실험을 수행합니다.
-
-2. PRELIMINARIES
-We first formalize the problem and discuss existing solutions for collaborative filtering with implicit feedback. 
-먼저 문제를 공식화하고 암시 적 피드백으로 협업 필터링을위한 기존 솔루션에 대해 논의합니다.
-
-We then shortly recapitulate the widely used MF model, highlighting its limitation caused by using an inner product.
-그런 다음 널리 사용되는 MF 모델을 간단히 요약하여 내부 제품 사용으로 인한 한계를 강조합니다.
-
-2.1 Learning from Implicit Data
-2.1 암시 적 데이터에서 학습
-
-Let M and N denote the number of users and items, respectively. 
-M과 N은 각각 사용자와 항목 수를 나타냅니다.
-
-We define the user–item interaction matrix Y ∈ R M×N from users’ implicit feedback as,
-사용자의 암시 적 피드백에서 사용자 항목 상호 작용 행렬 Y ∈ R MxN을 다음과 같이 정의합니다.
-(1)
-Here a value of 1 for yui indicates that there is an interaction between user u and item i; however, it does not mean u actually likes i. 
-여기서 yui에 대한 값 1은 사용자 u와 항목 i 사이에 상호 작용이 있음을 나타냅니다. 그러나 그것은 당신이 실제로 i를 좋아한다는 것을 의미하지는 않습니다.
-
-Similarly, a value of 0 does not necessarily mean u does not like i, it can be that the user is not aware of the item. 
-마찬가지로 값이 0이라고해서 반드시 u가 i를 좋아하지 않는다는 의미는 아니며 사용자가 항목을 인식하지 못할 수 있습니다.
-
-This poses challenges in learning from implicit data, since it provides only noisy signals about users’ preference. 
-이는 사용자의 선호도에 대한 시끄러운 신호 만 제공하므로 암시 적 데이터에서 학습하는 데 어려움이 있습니다.
-
-While observed entries at least reflect users’ interest on items, the unobserved entries can be just missing data and there is a natural scarcity of negative feedback.
-관찰 된 항목은 적어도 항목에 대한 사용자의 관심을 반영하지만, 관찰되지 않은 항목은 데이터가 누락 될 수 있으며 부정적인 피드백이 자연적으로 부족합니다.
-
-The recommendation problem with implicit feedback is formulated as the problem of estimating the scores of unobserved entries in Y, which are used for ranking the items.
-암시 적 피드백이있는 추천 문제는 항목 순위를 지정하는 데 사용되는 Y에서 관찰되지 않은 항목의 점수를 추정하는 문제로 공식화됩니다.
-
-Model-based approaches assume that data can be generated (or described) by an underlying model. 
-모델 기반 접근 방식은 데이터가 기본 모델에 의해 생성 (또는 설명) 될 수 있다고 가정합니다.
-
-Formally, they can be abstracted as learning ˆyui = f(u, i|Θ), where ˆyui denotes the predicted score of interaction yui, Θ denotes model parameters, and f denotes the function that maps model parameters to the predicted score (which we term as an interaction function).
-공식적으로는 학습 ˆyui = f (u, i | Θ)로 추상화 할 수 있습니다. 여기서 ˆyui는 상호 작용의 예측 점수 yui, Θ는 모델 매개 변수, f는 모델 매개 변수를 예측 점수 ( 상호 작용 함수로 용어).
-
-To estimate parameters Θ, existing approaches generally follow the machine learning paradigm that optimizes an objective function. 
-매개 변수 Θ를 추정하기 위해 기존 접근 방식은 일반적으로 목적 함수를 최적화하는 기계 학습 패러다임을 따릅니다.
-
-Two types of objective functions are most commonly used in literature — pointwise loss and pairwise loss. 
-두 가지 유형의 목적 함수가 문헌에서 가장 일반적으로 사용됩니다. 점 손실과 쌍 손실입니다.
-
-As a natural extension of abundant work on explicit feedback, methods on pointwise learning usually follow a regression framework by minimizing the squared loss between ˆyui and its target value yui.
-명시 적 피드백에 대한 풍부한 작업의 자연스러운 확장으로서 포인트 별 학습 방법은 일반적으로 ˆyui와 목표 값 yui 간의 제곱 손실을 최소화하여 회귀 프레임 워크를 따릅니다.
-
-To handle the absence of negative data, they have either treated all unobserved entries as negative feedback, or sampled negative instances from unobserved entries [14]. 
-부정적인 데이터의 부재를 처리하기 위해 그들은 관찰되지 않은 모든 항목을 부정적인 피드백으로 처리하거나 관찰되지 않은 항목에서 샘플링 된 부정적인 인스턴스를 처리했습니다 [14].
-
-For pairwise learning [27, 44], the idea is that observed entries should be ranked higher than the unobserved ones. 
-쌍별 학습 [27, 44]의 경우 관찰 된 항목은 관찰되지 않은 항목보다 순위가 높아야한다는 생각입니다.
-
-As such, instead of minimizing the loss between ˆyui and yui, pairwise learning maximizes the margin between observed entry ˆyui and unobserved entry ˆyuj . 
-따라서 ˆyui와 yui 사이의 손실을 최소화하는 대신 pairwise learning은 관찰 된 항목 ˆyui와 관찰되지 않은 항목 ˆyuj 사이의 여백을 최대화합니다.
-
-Moving one step forward, our NCF framework parameterizes the interaction function f using neural networks to estimate ˆyui. 
-한 단계 더 나아가 우리의 NCF 프레임 워크는 ˆyui를 추정하기 위해 신경망을 사용하여 상호 작용 함수 f를 매개 변수화합니다.
-
-As such, it naturally supports both pointwise and pairwise learning.
-따라서 자연스럽게 포인트 학습과 쌍 학습을 모두 지원합니다.
-
-2.2 Matrix Factorization
-
-MF associates each user and item with a real-valued vector of latent features. 
-
-Let pu and qi denote the latent vector for user u and item i, respectively; MF estimates an interaction yui as the inner product of pu and qi:
-pu와 qi는 각각 사용자 u와 항목 i에 대한 잠재 벡터를 나타냅니다. MF는 상호 작용 yui를 pu와 qi의 내부 곱으로 추정합니다.
-(2)
-where K denotes the dimension of the latent space. 
-여기서 K는 잠재 공간의 차원을 나타냅니다.
-
-As we can see, MF models the two-way interaction of user and item latent factors, assuming each dimension of the latent space is independent of each other and linearly combining them with the same weight. 
-보시다시피 MF는 잠재 공간의 각 차원이 서로 독립적이고 동일한 가중치로 선형 결합된다고 가정하여 사용자 및 항목 잠재 요인의 양방향 상호 작용을 모델링합니다.
-
-As such, MF can be deemed as a linear model of latent factors.
-따라서 MF는 잠재 요인의 선형 모델로 간주 될 수 있습니다.
-
-Figure 1 illustrates how the inner product function can limit the expressiveness of MF. 
-그림 1은 내적 기능이 MF의 표현력을 제한 할 수있는 방법을 보여줍니다.
-
-There are two settings to be stated clearly beforehand to understand the example well.
-예제를 잘 이해하기 위해 미리 명확하게 명시해야 할 두 가지 설정이 있습니다.
-
-First, since MF maps users and items to the same latent space, the similarity between two users can also be measured with an inner product, or equivalently2 , the cosine of the angle between their latent vectors. 
-첫째, MF는 사용자와 항목을 동일한 잠재 공간에 매핑하기 때문에 두 사용자 간의 유사성은 내부 곱 (잠재 벡터 사이 각도의 코사인)으로도 측정 할 수 있습니다.
-
-Second, without loss of generality, we use the Jaccard coefficient3 as the groundtruth similarity of two users that MF needs to recover.
-둘째, 일반성을 잃지 않고 Jaccard 계수 3를 MF가 복구해야하는 두 사용자의 근거 유사성으로 사용합니다.
-
-Let us first focus on the first three rows (users) in Figure 1a. 
-먼저 그림 1a의 처음 세 행 (사용자)에 초점을 맞 춥니 다.
-
-It is easy to have s23(0.66) > s12(0.5) > s13(0.4).
-s23 (0.66)> s12 (0.5)> s13 (0.4)을 쉽게 가질 수 있습니다.
-
-As such, the geometric relations of p1, p2, and p3 in the latent space can be plotted as in Figure 1b. 
-이와 같이 잠재 공간에서 p1, p2, p3의 기하학적 관계는 그림 1b와 같이 그려 질 수 있습니다.
-
-Now, let us consider a new user u4, whose input is given as the dashed line in Figure 1a. 
-이제 입력이 그림 1a에서 점선으로 제공되는 새로운 사용자 u4를 고려해 보겠습니다.
-
-We can have s41(0.6) > s43(0.4) > s42(0.2), meaning that u4 is most similar to u1, followed by u3, and lastly u2. 
-s41 (0.6)> s43 (0.4)> s42 (0.2)를 가질 수 있습니다. 즉, u4는 u1, u3, 마지막으로 u2와 가장 유사합니다.
-
-However, if a MF model places p4 closest to p1 (the two options are shown in Figure 1b with dashed lines), it will result in p4 closer to p2 than p3 , which unfortunately will incur a large ranking loss.
-그러나 MF 모델이 p4를 p1에 가장 가깝게 배치하면 (두 옵션이 점선으로 그림 1b에 표시됨) p4가 p3보다 p2에 더 가까워져 불행히도 큰 순위 손실이 발생합니다.
-
-The above example shows the possible limitation of MF caused by the use of a simple and fixed inner product to estimate complex user–item interactions in the low-dimensional latent space. 
-위의 예는 단순하고 고정 된 내부 제품을 사용하여 저 차원 잠복 공간에서 복잡한 사용자 항목 상호 작용을 추정 할 때 발생할 수있는 MF의 가능한 제한을 보여줍니다.
-
-We note that one way to resolve the issue is to use a large number of latent factors K. 
-문제를 해결하는 한 가지 방법은 많은 수의 잠재 요인 K를 사용하는 것입니다.
-
-However, it may adversely hurt the generalization of the model (e.g., overfitting the data), especially in sparse settings [26]. 
-그러나 특히 희소 설정에서 모델의 일반화 (예 : 데이터 과적 합)에 악영향을 미칠 수 있습니다 [26].
-
-In this work, we address the limitation by learning the interaction function using DNNs from data.
-이 작업에서는 데이터에서 DNN을 사용하여 상호 작용 함수를 학습하여 한계를 해결합니다.
-
-3. NEURAL COLLABORATIVE FILTERING
 We first present the general NCF framework, elaborating how to learn NCF with a probabilistic model that emphasizes the binary property of implicit data. 
 먼저 일반적인 NCF 프레임 워크를 제시하고 암시 적 데이터의 이진 속성을 강조하는 확률 모델을 사용하여 NCF를 학습하는 방법을 자세히 설명합니다.
 
@@ -270,7 +112,9 @@ To explore DNNs for collaborative filtering, we then propose an instantiation of
 Lastly, we present a new neural matrix factorization model, which ensembles MF and MLP under the NCF framework; it unifies the strengths of linearity of MF and non-linearity of MLP for modelling the user–item latent structures.
 마지막으로 NCF 프레임 워크에서 MF와 MLP를 앙상블하는 새로운 신경 매트릭스 분해 모델을 제시합니다. 사용자 항목 잠재 구조를 모델링하기 위해 MF의 선형성과 MLP의 비선형 성의 강점을 통합합니다.
 
-3.1 General Framework
+
+#### 3.1 General Framework  
+
 
 To permit a full neural treatment of collaborative filtering, we adopt a multi-layer representation to model a user–item interaction yui as shown in Figure 2, where the output of one layer serves as the input of the next one. 
 협업 필터링의 완전한 신경 처리를 허용하기 위해 그림 2에 표시된 것처럼 다중 레이어 표현을 채택하여 사용자 항목 상호 작용 yui를 모델링합니다. 여기서 한 레이어의 출력이 다음 레이어의 입력으로 사용됩니다.
@@ -320,7 +164,7 @@ Since the function f is defined as a multi-layer neural network, it can be formu
 where φout and φx respectively denote the mapping function for the output layer and x-th neural collaborative filtering (CF) layer, and there are X neural CF layers in total.
 여기서 φout과 φx는 각각 출력 레이어와 x 번째 신경 협력 필터링 (CF) 레이어에 대한 매핑 함수를 나타내며 총 X 개의 신경 CF 레이어가 있습니다.
 
-3.1.1 Learning NCF
+##### 3.1.1 Learning NCF
 
 To learn model parameters, existing pointwise methods largely perform a regression with squared loss:
 모델 매개 변수를 학습하기 위해 기존의 점별 방법은 대체로 손실 제곱으로 회귀를 수행합니다.
@@ -369,6 +213,48 @@ For the negative instances Y−, we uniformly sample them from unobserved intera
 
 While a nonuniform sampling strategy (e.g., item popularity-biased) might further improve the performance, we leave the exploration as a future work.
 불균일 한 샘플링 전략 (예 : 항목 인기도 편향)이 성능을 더욱 향상시킬 수 있지만, 우리는 탐색을 향후 작업으로 남겨 둡니다.
+
+#### 3.2 Generalized Matrix Factorization (GMF)  
+#### 3.3 Multi-Layer Perceptron (MLP)  
+#### 3.4 Fusion of GMF and MLP  
+##### 3.4.1 Pre-training  
+
+---
+
+### 4. EXPERIMENTS  
+#### 4.1 Experimental Settings  
+#### 4.2 Performance Comparison (RQ1)  
+##### 4.2.1 Utility of Pre-training  
+
+#### 4.3 Log Loss with Negative Sampling (RQ2)  
+#### 4.4 Is Deep Learning Helpful? (RQ3)  
+
+---
+
+### 5. RELATED WORK  
+
+---
+
+### 6. CONCLUSION AND FUTURE WORK  
+
+---
+
+### 7. REFERENCES  
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 3.2 Generalized Matrix Factorization (GMF) 
 
