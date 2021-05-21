@@ -163,77 +163,34 @@
 
 ### IV. FMS VS. SVMS
 #### A. SVM model
+* SVM 모델 방정식: 내적(변환 된 입력 x, 모델 매개 변수 w)   
+  * <img src="https://latex.codecogs.com/gif.latex?w%3A%5Chat%20y%28x%29%20%3D%20%3C%5Cphi%20%28x%29%2C%20w%3E">    
 
-The model equation of an SVM [6] can be expressed as the dot product between the transformed input x and model parameters w: yˆ(x) = hφ(x), wi, where φ is a mapping from the feature space R n into a more complex space F. 
-SVM [6]의 모델 방정식은 변환 된 입력 x와 모델 매개 변수 w 간의 내적으로 표현할 수 있습니다. yˆ (x) = hφ (x), wi, 여기서 φ는 특성 공간 R n에서 다음으로의 매핑입니다. 더 복잡한 공간 F.
+    * φ: feature space <img src="https://latex.codecogs.com/gif.latex?%5Cmathbb%7BR%7D%5En">에 매핑  
+      * φ와 관련있는 커널:  
+        * ![4-1](./image/4-1.PNG)  
 
-
-The mapping φ is related to the kernel with:
-매핑 φ는 다음과 같은 커널과 관련이 있습니다.
-
-* ![(4-1)](./image/(4-1).PNG)
-
-In the following, we discuss the relationships of FMs and SVMs by analyzing the primal form of the SVMs3
-.
-다음에서는 SVM의 원시 형태를 분석하여 FM과 SVM의 관계를 논의합니다 3
-.
-
-1) Linear kernel: The most simple kernel is the linear kernel: Kl(x, z) := 1+hx, zi, which corresponds to the mapping φ(x) := (1, x1, . . . , xn). 
-1) 선형 커널 : 가장 간단한 커널은 선형 커널입니다. Kl (x, z) : = 1 + hx, zi, 매핑 φ (x) : = (1, x1,..., xn)에 해당합니다. .
-
-
-And thus the model equation of a linear SVM can be rewritten as:
-따라서 선형 SVM의 모델 방정식을 다음과 같이 다시 작성할 수 있습니다.
-
-* ![(7)](./image/(7).PNG)
-
-It is obvious that a linear SVM (eq. (7)) is identical to a FM of degree d = 1 (eq. (5)).
-선형 SVM (등식 (7))이 d = 1 (등식 (5))의 FM과 동일하다는 것은 분명합니다.
-
-
-2) Polynomial kernel: The polynomial kernel allows the SVM to model higher interactions between variables. 
-2) 다항 커널 : 다항 커널을 사용하면 SVM이 변수 간의 더 높은 상호 작용을 모델링 할 수 있습니다.
-
-
-It is defined as K(x, z) := (hx, zi + 1)d. 
-K (x, z) : = (hx, zi + 1) d로 정의됩니다.
-
-
-E.g. for d = 2 this corresponds to the following mapping:
-예 : d = 2 인 경우 다음 매핑에 해당합니다.
-
-* ![(8)](./image/(8).PNG)
-
-In practice, SVMs are solved in the dual form and the mapping φ is not performed explicitly. 
-실제로 SVM은 이중 형식으로 해결되며 매핑 φ는 명시 적으로 수행되지 않습니다.
-
-
-Nevertheless, the primal and dual have the same solution (optimum), so all our arguments about the primal hold also for the dual form.
-그럼에도 불구하고 원초와 이원은 같은 해 (최적)를 가지고 있으므로 원초에 대한 우리의 모든 주장은 이원 형식에도 적용됩니다.
-
-
-And so, the model equation for polynomial SVMs can be rewritten as:
-따라서 다항식 SVM에 대한 모델 방정식을 다음과 같이 다시 작성할 수 있습니다.
-
-* ![(9)](./image/(9).PNG)
-
-where the model parameters are:
-(공식) (symmetric matrix)
-모델 매개 변수는 다음과 같습니다.
-(공식) (대칭 행렬)
-
-
-Comparing a polynomial SVM (eq. (9)) to a FM (eq. (1)), one can see that both model all nested interactions up to degree d = 2. 
-다항식 SVM (예 : (9))을 FM (예 : (1))과 비교하면 두 가지 모두 d = 2까지 모든 중첩 상호 작용을 모델링한다는 것을 알 수 있습니다.
-
-
-The main difference between SVMs and FMs is the parametrization: all interaction parameters wi,j of SVMs are completely independent, e.g. wi,j and wi,l. 
-SVM과 FM의 주요 차이점은 매개 변수화입니다. SVM의 모든 상호 작용 매개 변수 wi, j는 완전히 독립적입니다. wi, j 및 wi, l.
-
-
-In contrast to this the interaction parameters of FMs are factorized and thus hvi , vj i and hvi , vli depend on each other as they overlap and share parameters (here vi).
-이와 대조적으로 FM의 상호 작용 매개 변수는 분해되므로 hvi, vj i 및 hvi, vli는 매개 변수가 겹치고 공유하기 때문에 서로 의존합니다 (여기서는 vi).
-
+* SVMs  
+  * 1) Linear kernel(선형커널): 가장 간단한 커널
+    * <img src="https://latex.codecogs.com/gif.latex?K_1%28x%2C%20z%29%20%3A%3D%201&plus;%3Cx%2Cz%3E">  
+    * 매핑: <img src="https://latex.codecogs.com/gif.latex?%5Cphi%20%28x%29%20%3A%3D%20%281%2C%20x_1%2C%20...%2C%20x_n%29">  
+    * 모델 방정식:
+      * ![(7)](./image/(7).PNG)  
+        * 등식 (7) == 등식 (5) (d=1)  
+  * 2) Polynomial kernel(다항 커널): SVM이 변수 간의 더 높은 상호 작용을 모델링 가능   
+    * <img src="https://latex.codecogs.com/gif.latex?K%28x%2C%20z%29%20%3A%3D%20%28%3Cx%2Cz%3E&plus;1%29%5Ed">  
+    * d=2, 매핑: ![(8)](./image/(8).PNG)  
+    * dual form, 매핑 φ는 명시 적으로 수행되지 X   
+    <br>
+    * the primal solution (optimum) == dual solution (optimum)  
+    * ∴ primal에 대한 주장이 dual 형식에도 적용됨  
+    *  모델 방정식:  
+      * ![(9)](./image/(9).PNG)  
+        * 모델 매개 변수: <img src="https://latex.codecogs.com/gif.latex?w_0%20%5Cin%20%5Cmathbb%7BR%7D%2C%20w%20%5Cin%20%5Cmathbb%7BR%7D%5En%2C%20W%5E%7B%282%29%7D%20%5Cin%20%5Cmathbb%7BR%7D%5E%7Bn%20%5Ctimes%20n%7D"> (symmetric matrix 대칭 행렬)
+    
+* SVM - FM 주요 차이점: 매개 변수화   
+  * SVM: 모든 상호 작용 매개 변수 <img src="https://latex.codecogs.com/gif.latex?w_%7Bi%2Cj%7D"> 완전히 독립적  
+  * 상호 작용 매개 변수는 분해(factorized), <img src="https://latex.codecogs.com/gif.latex?%3Cv_i%2C%20v_j%3E%20and%20%3Cv_i%2C%20v_l%3E"> 매개 변수가 겹치고 공유(<img src="https://latex.codecogs.com/gif.latex?v_i">), 서로 의존  
 
 #### B. Parameter Estimation Under Sparsity
 B. 희소성에서 모수 추정
