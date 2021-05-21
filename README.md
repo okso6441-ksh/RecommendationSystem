@@ -10,6 +10,8 @@
   
 2009_UAI_BPR [BPR: Bayesian Personalized Ranking from Implicit Feedback](https://github.com/okso6441-ksh/RecommendationSystem/tree/main/paper/2009_UAI_BPR/README.md)
 
+2010_CSIE_FM [Factorization Machines](https://github.com/okso6441-ksh/RecommendationSystem/tree/main/paper/2010_CSIE_FM/README.md)
+
 2012_IEEE_LARS [LARS: A Location-Aware Recommender System](https://github.com/okso6441-ksh/RecommendationSystem/tree/main/paper/2012_IEEE_LARS/README.md)
 
 2017_arXiv_Neural_CF [Neural Collaborative Filtering](https://github.com/okso6441-ksh/RecommendationSystem/tree/main/paper/2017_arXiv_Neural_CF/README.md)
