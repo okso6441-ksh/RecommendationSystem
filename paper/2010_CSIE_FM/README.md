@@ -70,11 +70,12 @@
 특정 시간 t ∈ R 
 등급 r ∈ {1, 2, 3, 4, 5} 
 ```
-사용자 U = {Alice (A), Bob (B), Charlie (C), . . .}
-항목 I = {Titanic (TI), Notting Hill (NH), Star Wars (SW), Star Trek (ST), . . .}
+사용자 U = {Alice (A), Bob (B), Charlie (C), . . .}  
+항목 I = {Titanic (TI), Notting Hill (NH), Star Wars (SW), Star Trek (ST), . . .}  
 
-관찰 된 데이터 S = {(A, TI, 2010-1, 5),(A, NH, 2010-2, 3),(A, SW, 2010-4, 1), (B, SW, 2009-5, 4),(B, ST, 2009-8, 5), (C, TI, 2009-9, 1),(C, SW, 2009-12, 5)}
-
+관찰 된 데이터   
+S = {(A, TI, 2010-1, 5),(A, NH, 2010-2, 3),(A, SW, 2010-4, 1), (B, SW, 2009-5, 4),(B, ST, 2009-8, 5), (C, TI, 2009-9, 1),(C, SW, 2009-12, 5)}
+  
 * ![Fig1](./image/Fig1.PNG)  
   * S에서 feature 벡터를 생성하는 방법  
   * |U| active user 이진 표시기 변수(파란색): 트랜잭션당 1 active user   
@@ -90,7 +91,7 @@
 #### A. Factorization Machine Model  
 ##### 1) Model Equation: 
 * 2-way FM(d = 2): 변수 간의 모든 단일 및 쌍별 상호 작용 캡처  
-  * ![(1)](./image/(1).PNG)
+  * ![(1)](./image/(1).PNG)  
     * <img src="https://latex.codecogs.com/gif.latex?w_0">: 전역 편향  
     * <img src="https://latex.codecogs.com/gif.latex?w_i">: i 번째 변수의 강도  
     * <img src="https://latex.codecogs.com/gif.latex?%5Chat%20w_%7Bi%2Cj%7D">: <vi, vj> i, j 변수 간의 *상호 작용을 인수 분해하여 모델링*   
@@ -187,11 +188,11 @@
     * d=2, 매핑: ![(8)](./image/(8).PNG)  
     * dual form, 매핑 φ는 명시 적으로 수행되지 X   
     <br>
-    * the primal solution (optimum) == dual solution (optimum)  
-    * ∴ primal에 대한 주장이 dual 형식에도 적용됨  
-    *  모델 방정식:  
-      * ![(9)](./image/(9).PNG)  
-        * 모델 매개 변수: <img src="https://latex.codecogs.com/gif.latex?w_0%20%5Cin%20%5Cmathbb%7BR%7D%2C%20w%20%5Cin%20%5Cmathbb%7BR%7D%5En%2C%20W%5E%7B%282%29%7D%20%5Cin%20%5Cmathbb%7BR%7D%5E%7Bn%20%5Ctimes%20n%7D"> (symmetric matrix 대칭 행렬)
+    * the primal solution (optimum) == dual solution (optimum)    
+    * ∴ primal에 대한 주장이 dual 형식에도 적용됨    
+    *  모델 방정식:    
+      * ![(9)](./image/(9).PNG)    
+        * 모델 매개 변수: <img src="https://latex.codecogs.com/gif.latex?w_0%20%5Cin%20%5Cmathbb%7BR%7D%2C%20w%20%5Cin%20%5Cmathbb%7BR%7D%5En%2C%20W%5E%7B%282%29%7D%20%5Cin%20%5Cmathbb%7BR%7D%5E%7Bn%20%5Ctimes%20n%7D"> (symmetric matrix 대칭 행렬)    
     
 * SVM - FM 주요 차이점: 매개 변수화   
   * SVM: 모든 상호 작용 매개 변수 <img src="https://latex.codecogs.com/gif.latex?w_%7Bi%2Cj%7D"> 완전히 독립적  
