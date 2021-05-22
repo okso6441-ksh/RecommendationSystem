@@ -43,6 +43,7 @@
 * 가장 일반적인 예측 작업  
   * <img src="https://latex.codecogs.com/gif.latex?y%20%3A%20%5Cmathbb%7BR%7D%5En%20%5Crightarrow%20T">  
     * <img src="https://latex.codecogs.com/gif.latex?x%20%5Cin%20%5Cmathbb%7BR%7D%5En">: 실수 값 feature 벡터   
+    
     * T: target domain(e.g. T = R for regression or T = {+, −} for classification)  
 
 * 훈련 데이터 세트(pairwise): <img src="https://latex.codecogs.com/gif.latex?D%20%3D%20%5Cleft%20%5C%7B%20%28x%5E%7B%281%29%7D%2C%20y%5E%7B%281%29%7D%29%2C%20%28x%5E%7B%282%29%7D%2C%20y%5E%7B%282%29%7D%29%2C%20...%20%5Cright%20%5C%7D">  
@@ -188,7 +189,7 @@ S = {(A, TI, 2010-1, 5),(A, NH, 2010-2, 3),(A, SW, 2010-4, 1), (B, SW, 2009-5, 4
     * d=2, 매핑: ![(8)](./image/(8).PNG)  
     * dual form, 매핑 φ는 명시 적으로 수행되지 X   
     <br>
-    
+
     * the primal solution (optimum) == dual solution (optimum)    
   
     * ∴ primal에 대한 주장이 dual 형식에도 적용됨    
