@@ -4,209 +4,80 @@
 
 ---
 ### ABSTRACT  
+* 비선형 feature 변환 포함 일반화 된 선형 모델: 희소 입력이 있는 대규모 회귀/분류 문제 사용  
+  * 일반화: feature 엔지니어링 노력 필요  
+    * feature 엔지니어링 ↓, (희소, 저차원 고밀도 임베딩) DNN 일반화 ↑   
+* Wide & Deep learning 제안  
+  * memorization + generalization  
+  * wide linear models + deep neural networks  
+* Google Play 제작 평가  
+* TensorFlow 오픈 소스  
 
-Generalized linear models with nonlinear feature transformations are widely used for large-scale regression and classification problems with sparse inputs. 
-비선형 특성 변환이있는 일반화 된 선형 모델은 희소 입력이있는 대규모 회귀 및 분류 문제에 널리 사용됩니다.
-
-
-Memorization of feature interactions through a wide set of cross-product feature transformations are effective and interpretable, while generalization requires more feature engineering effort. 
-다양한 제품 간 기능 변환을 통해 기능 상호 작용을 암기하는 것은 효과적이고 해석 가능하지만 일반화에는 더 많은 기능 엔지니어링 노력이 필요합니다.
-
-
-With less feature engineering, deep neural networks can generalize better to unseen feature combinations through low-dimensional dense embeddings learned for the sparse features. 
-기능 엔지니어링이 적을수록 심층 신경망은 희소 기능에 대해 학습 된 저 차원 고밀도 임베딩을 통해 보이지 않는 기능 조합을 더 잘 일반화 할 수 있습니다.
-
-
-However, deep neural networks with embeddings can over-generalize and recommend less relevant items when the user-item interactions are sparse and high-rank. 
-그러나 임베딩이있는 심층 신경망은 사용자 항목 상호 작용이 드물고 순위가 높을 때 관련성이 낮은 항목을 지나치게 일반화하고 권장 할 수 있습니다.
-
-
-In this paper, we present Wide & Deep learning—jointly trained wide linear models and deep neural networks—to combine the benefits of memorization and generalization for recommender systems. 
-이 백서에서는 추천 시스템에 대한 암기 및 일반화의 이점을 결합하기 위해 공동 훈련 된 와이드 선형 모델과 심층 신경망 인 Wide & Deep Learning을 제시합니다.
-
-
-We productionized and evaluated the system on Google Play, a commercial mobile app store with over one billion active users and over one million apps. 
-우리는 10 억 명 이상의 활성 사용자와 백만 개 이상의 앱을 보유한 상업용 모바일 앱 스토어 인 Google Play에서 시스템을 제작하고 평가했습니다.
-
-
-Online experiment results show that Wide & Deep significantly increased app acquisitions compared with wide-only and deep-only models. 
-온라인 실험 결과에 따르면 Wide & Deep은 와이드 전용 및 딥 전용 모델에 비해 앱 획득이 크게 증가했습니다.
-
-
-We have also open-sourced our implementation in TensorFlow.
-또한 TensorFlow에서 구현 한 오픈 소스도 있습니다.
-
-
-#### CCS Concepts
-* Computing methodologies → Machine learning; Neural networks; Supervised learning; •Information systems → Recommender systems;
-CCS 개념
-• 컴퓨팅 방법론 → 기계 학습; 신경망; 지도 학습; • 정보 시스템 → 추천 시스템;
-
+#### CCS Concepts 비교 사례 연구  
+* Computing methodologies → Machine learning; Neural networks; Supervised learning;  
+* Information systems → Recommender systems;  
 
 #### Keywords
-* Wide & Deep Learning, Recommender Systems.
+* Wide & Deep Learning, Recommender Systems.  
 
 ---
 ### 1. INTRODUCTION
+|input query | RS | output |
+|---|---|---|
+|user / contextual info|ranking system|a ranked list of items|
 
-A recommender system can be viewed as a search ranking system, where the input query is a set of user and contextual information, and the output is a ranked list of items. 
-추천 시스템은 검색 순위 시스템으로 볼 수 있습니다. 여기서 입력 쿼리는 사용자 및 컨텍스트 정보의 집합이고 출력은 항목의 순위 목록입니다.
+* challenge: 두가지 모두 달성  
+  * memorization: items/features 동시 발생 학습, 과거 데이터에서 correlation 활용  
+    * based) topical and directly    
+  * generalization: 상관 관계의 전이성을 기반, 과거에 한 번도 발생X/거의 발생X 새로운 features 조합 탐색    
+    * based) 다양성을 향상  
+* 원-핫 인코딩 > 이진화 된 희소 특성  
 
-Given a query, the recommendation task is to find the relevant items in a database and then rank the items based on certain objectives, such as clicks or purchases. 
-쿼리가 주어지면 추천 작업은 데이터베이스에서 관련 항목을 찾은 다음 클릭 또는 구매와 같은 특정 목표에 따라 항목의 순위를 매기는 것입니다.
+* 임베딩 기반 모델(FM, DNN) query-item > 저차원 고밀도 임베딩 벡터 학습 > 일반화(쿼리 항목 feature)    
+  * query-item matrix(sparse) & high-rank > 저차원 표현 학습 어려움 => 지나친 일반화     
 
+* 교차 제품 변환(cross-product transformations)  
+  * (sparse features) > morization ↑ (“exception rules”) 기억 - 더 적은 매개변수    
+    * feature pair 동시 발생 - target label 연관 설명  
+  * 제한: 학습 데이터에 없는 feature pairs(query, item)으로 일반화 X   
 
-One challenge in recommender systems, similar to the general search ranking problem, is to achieve both memorization and generalization. 
-일반 검색 순위 문제와 유사한 추천 시스템의 한 가지 과제는 암기와 일반화를 모두 달성하는 것입니다.
-
-
-Memorization can be loosely defined as learning the frequent co-occurrence of items or features and exploiting the correlation available in the historical data. 
-암기는 항목 또는 기능의 빈번한 동시 발생을 학습하고 과거 데이터에서 사용할 수있는 상관 관계를 활용하는 것으로 느슨하게 정의 할 수 있습니다.
-
-
-Generalization, on the other hand, is based on transitivity of correlation and explores new feature combinations that ression are widely used because they are simple, scalable and interpretable. 
-반면 일반화는 상관 관계의 전이성을 기반으로하며 단순하고 확장 가능하며 해석 가능하기 때문에 ression이 널리 사용되는 새로운 기능 조합을 탐색합니다.
-
-
-The models are often trained on binarized sparse features with one-hot encoding. 
-모델은 종종 원-핫 인코딩을 사용하여 이진화 된 희소 특성에 대해 학습됩니다.
-
-
-E.g., the binary feature “user_installed_app=netflix” has value 1 if the user installed Netflix. 
-예를 들어 사용자가 Netflix를 설치 한 경우 바이너리 기능 'user_installed_app = netflix'는 값 1을 갖습니다.
-
-
-Memorization can  be achieved effectively using cross-product transformations over sparse features, such as AND(user_installed_app=netflix, impression_app=pandora”), whose value is 1 if the user installed Netflix and then is later shown Pandora. 
-AND (user_installed_app = netflix, pression_app = pandora”)와 같은 희소 기능에 대한 교차 제품 변환을 사용하여 효과적으로 암기를 수행 할 수 있습니다. 사용자가 Netflix를 설치 한 다음 나중에 Pandora를 표시하면 값이 1입니다.
-
-This explains how the co-occurrence of a feature pair correlates with the target label. 
-이것은 기능 쌍의 동시 발생이 대상 레이블과 어떻게 연관되는지 설명합니다.
-
-
-Generalization can be added by using features that are less granular, such as AND(user_installed_category=video, impression_category=music), but manual feature engineering is often required. 
-AND (user_installed_category = video, pression_category = music)와 같이 덜 세분화 된 기능을 사용하여 일반화를 추가 할 수 있지만 수동 기능 엔지니어링이 필요한 경우가 많습니다.
-
-
-One limitation of cross-product transformations is that they do not generalize to query-item feature pairs that have not appeared in the training data. 
-교차 제품 변환의 한 가지 제한은 학습 데이터에 나타나지 않은 쿼리 항목 특성 쌍으로 일반화되지 않는다는 것입니다.
-
-
-Embedding-based models, such as factorization machines [5] or deep neural networks, can generalize to previously unseen query-item feature pairs by learning a low-dimensional dense embedding vector for each query and item feature, with less burden of feature engineering. 
-Factorization Machine [5] 또는 심층 신경망과 같은 임베딩 기반 모델은 기능 엔지니어링의 부담을 줄이면서 각 쿼리 및 항목 기능에 대한 저 차원 고밀도 임베딩 벡터를 학습하여 이전에 보지 못한 쿼리 항목 기능 쌍으로 일반화 할 수 있습니다.
-
-
-However, it is difficult to learn effective low-dimensional representations for queries and items when the underlying query-item matrix is sparse and high-rank, such as users with specific preferences or niche items with a narrow appeal. 
-그러나 특정 선호도를 가진 사용자 또는 좁은 어필을 가진 틈새 항목과 같이 기본 쿼리 항목 매트릭스가 희소하고 높은 순위 일 때 쿼리 및 항목에 대한 효과적인 저 차원 표현을 배우는 것은 어렵습니다.
-
-
-In such cases, thereshould be no interactions between most query-item pairs, but dense embeddings will lead to nonzero predictions for all query-item pairs, and thus can over-generalize and make less relevant recommendations. 
-이러한 경우 대부분의 쿼리 항목 쌍간에 상호 작용이 없어야하지만 조밀 한 임베딩은 모든 쿼리 항목 쌍에 대해 0이 아닌 예측으로 이어 지므로 지나치게 일반화되어 관련성이 낮은 권장 사항을 만들 수 있습니다.
-
-
-On the other hand, linear models with cross-product feature transformations can memorize these “exception rules” with much fewer parameters. 
-반면에 제품 간 특성 변환이있는 선형 모델은 훨씬 적은 매개 변수로 이러한 "예외 규칙"을 기억할 수 있습니다.
-
-
-In this paper, we present the Wide & Deep learning framework to achieve both memorization and generalization in one model, by jointly training a linear model component and a neural network component as shown in Figure 1. 
-이 백서에서는 그림 1과 같이 선형 모델 구성 요소와 신경망 구성 요소를 공동 학습하여 하나의 모델에서 암기와 일반화를 모두 달성 할 수있는 Wide & Deep Learning 프레임 워크를 제시합니다.
 ![Fig1](./image/Fig1.PNG)
+  * 선형모델 + 신경망 학습 > 암기 + 일반화  
 
-The main contributions of the paper include: 
-이 논문의 주요 공헌은 다음과 같습니다.
-
-
-• The Wide & Deep learning framework for jointly training feed-forward neural networks with embeddings and linear model with feature transformations for generic recommender systems with sparse inputs.
-• 임베딩이있는 피드-포워드 신경망과 희소 입력이있는 일반 추천 시스템에 대한 기능 변환이있는 선형 모델을 공동으로 훈련하기위한 Wide & Deep Learning 프레임 워크.
-
-
-• The implementation and evaluation of the Wide & Deep recommender system productionized on Google Play, a mobile app store with over one billion active users and over one million apps. 
-• 10 억 명 이상의 활성 사용자와 백만 개 이상의 앱을 보유한 모바일 앱 스토어 인 Google Play에서 제작 된 Wide & Deep 추천 시스템의 구현 및 평가.
-
-
-• We have open-sourced our implementation along with a high-level API in TensorFlow1.
-• TensorFlow1의 상위 수준 API와 함께 구현을 오픈 소스했습니다.
-
-
-While the idea is simple, we show that the Wide & Deep framework significantly improves the app acquisition rate on the mobile app store, while satisfying the training and serving speed requirements. 
-아이디어는 간단하지만, Wide & Deep 프레임 워크가 모바일 앱 스토어에서 앱 획득 률을 크게 향상시키면서 교육 및 제공 속도 요구 사항을 충족 함을 보여줍니다.
+* The Wide & Deep learning framework  
+  * 1) feed-forward NN(임베딩) + 선형 모델(feature transformations(일반 RS(sparse input)))  
+  * 2) Google Play에서 제작된 RS 구현/평가  
+  * 3) TensorFlow 상위 수준 API 오픈 소스  
 
 ---
 ### 2. RECOMMENDER SYSTEM OVERVIEW
-![Fig2](./image/Fig2.PNG)
-An overview of the app recommender system is shown in Figure 2. 
-앱 추천 시스템의 개요는 그림 2에 나와 있습니다.
-
-
-A query, which can include various user and contextual features, is generated when a user visits the app store. 
-사용자가 앱 스토어를 방문하면 다양한 사용자 및 상황 별 기능을 포함 할 수있는 쿼리가 생성됩니다.
-
-
-The recommender system returns a list of apps (also referred to as impressions) on which users can perform certain actions such as clicks or purchases. 
-추천 시스템은 사용자가 클릭 또는 구매와 같은 특정 작업을 수행 할 수있는 앱 목록 (노출이라고도 함)을 반환합니다.
-
-
-These user actions, along with the queries and impressions, are recorded in the logs as the training data for the learner. 
-이러한 사용자 작업은 쿼리 및 노출과 함께 학습자를위한 학습 데이터로 로그에 기록됩니다.
-
-
-Since there are over a million apps in the database, it is intractable to exhaustively score every app for every query within the serving latency requirements (often O(10) milliseconds). 
-데이터베이스에 백만 개가 넘는 앱이 있기 때문에 제공 대기 시간 요구 사항 (종종 O (10) 밀리 초) 내에서 모든 쿼리에 대해 모든 앱에 점수를 매기는 것은 어렵습니다.
-
-
-Therefore, the first step upon receiving a query is retrieval. 
-따라서 쿼리를받는 첫 번째 단계는 검색입니다.
-
-
-The retrieval system returns a short list of items that best match the query using various signals, usually a combination of machine-learned models and human-defined rules. 
-검색 시스템은 일반적으로 기계 학습 모델과 사람이 정의한 규칙의 조합을 사용하여 다양한 신호를 사용하여 쿼리와 가장 잘 일치하는 항목의 짧은 목록을 반환합니다.
-
-
-After reducing the candidate pool, the ranking system ranks all items by their scores. 
-후보 풀을 줄인 후 순위 시스템은 점수를 기준으로 모든 항목의 순위를 매 깁니다.
-
-
-The scores are usually P(y|x), the probability of a user action label y given the features x, including user features (e.g., country, language, demographics), contextual features (e.g., device, hour of the day, day of the week), and impression features (e.g., app age, historical statistics of an app). 
-점수는 일반적으로 P (y | x), 사용자 기능 (예 : 국가, 언어, 인구 통계), 상황 별 기능 (예 : 기기, 하루 중 시간, 요일)을 포함하여 기능 x가 제공된 사용자 작업 레이블 y의 확률입니다. 금주의) 및 노출 기능 (예 : 앱 연령, 앱의 이전 통계).
-
-
-In this paper, we focus on the ranking model using the Wide & Deep learning framework.
-이 백서에서는 Wide & Deep Learning 프레임 워크를 사용한 순위 모델에 중점을 둡니다.
+* 앱 추천 시스템 개요  
+  * ![Fig2](./image/Fig2.PNG)  
+    * 사용자 앱 스토어 방문 > 쿼리 생성(user/contextual features) in 학습 데이터 로그     
+      * 추천 대기 요구 시간(O(10) ms)
+        * DB에서 모든 쿼리에 대해 모든 앱 점수 매길 시간 X  
+          * 쿼리 - 검색(ML + 사용자 정의 규칙) : 짧은 목록 반환(후보 풀 ↓) > scoring     
+            * 점수 = P(y|x)  
+              * x: user / contextual / impression features  
+              * y: 사용자 action label  
+    * RS return: 앱 목록(impression)     
 
 ---
 ### 3. WIDE & DEEP LEARNING
-
 #### 3.1 The Wide Component
-![Fig1-1](./image/Fig1-1.PNG)
-The wide component is a generalized linear model of the form y = wT x + b, as illustrated in Figure 1 (left). 
-넓은 구성 요소는 그림 1 (왼쪽)과 같이 y = wT x + b 형식의 일반화 된 선형 모델입니다.
-
-
-y is the prediction, x = [x1, x2, ..., xd] is a vector of d features, w = [w1, w2, ..., wd] are the model parameters and b is the bias.
-y는 예측이고, x = [x1, x2, ..., xd]는 d 개의 특징으로 구성된 벡터이고, w = [w1, w2, ..., wd]는 모델 매개 변수이고 b는 편향입니다.
-
-
-The feature set includes raw input features and transformed features. 
-기능 세트에는 원시 입력 기능과 변환 된 기능이 포함됩니다.
-
-
-One of the most important transformations is the cross-product transformation, which is defined as:
-가장 중요한 변환 중 하나는 다음과 같이 정의되는 제품 간 변환입니다.
-![(1)](./image/(1).PNG)
-where cki is a boolean variable that is 1 if the i-th feature is part of the k-th transformation φk, and 0 otherwise.
-여기서 cki는 i 번째 특성이 k 번째 변환 φk의 일부이면 1이고 그렇지 않으면 0 인 부울 변수입니다.
-
-
-For binary features, a cross-product transformation (e.g., “AND(gender=female, language=en)”) is 1 if and only if the constituent features (“gender=female” and “language=en”) are all 1, and 0 otherwise. 
-이진 특성의 경우 교차 제품 변환 (예 : "AND (gender = female, language = en)")은 구성 특성 ( "gender = female"및 "language = en")이 모두 1 인 경우에만 1입니다. , 그렇지 않으면 0.
-
-This captures the interactions between the binary features, and adds nonlinearity to the generalized linear model.
-이것은 이진 기능 간의 상호 작용을 캡처하고 일반화 된 선형 모델에 비선형 성을 추가합니다.
+![Fig1-1](./image/Fig1-1.PNG)  
+  * Wide Models: <img src="https://latex.codecogs.com/gif.latex?y%20%3D%20w%5ETx%20&plus;%20b"> 일반화된 선형 모델   
+  * feature set ⊃ raw input features / transformed features   
+  * 가장 중요한 변환: cross-product transformation   
+    * ![(1)](./image/(1).PNG)  
+      * <img src="https://latex.codecogs.com/gif.latex?%5Cphi_%7Bki%7D">: i번째 feature이 k번째 변환 <img src="https://latex.codecogs.com/gif.latex?%5Cphi_%7Bk%7D"> 일부 = 1 / 일부X = 0 (boolean 변수)  
+* cross-product transformation[binary features]:  
+  * 구성 features 모두 1이면 1, 아니면 0  
+    * => 상호작용 캡처, 일반화된 선형 모델에 비선형성 추가   
 
 #### 3.2 The Deep Component
-![Fig1-2](./image/Fig1-2.PNG)
-The deep component is a feed-forward neural network, as shown in Figure 1 (right). 
-심층 구성 요소는 그림 1 (오른쪽)과 같이 피드 포워드 신경망입니다.
-
+![Fig1-2](./image/Fig1-2.PNG)  
+  * Deep Models: feed-forward NN  
 
 For categorical features, the original inputs are feature strings (e.g., “language=en”). 
 범주 형 특성의 경우 원래 입력은 특성 문자열 (예 : "language = en")입니다.
