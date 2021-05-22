@@ -14,6 +14,8 @@
 
 2012_IEEE_LARS [LARS: A Location-Aware Recommender System](https://github.com/okso6441-ksh/RecommendationSystem/tree/main/paper/2012_IEEE_LARS/README.md)
 
+2016_arxiv_WDLRS [Wide & Deep Learning for Recommender Systems](https://github.com/okso6441-ksh/RecommendationSystem/tree/main/paper/2016_arxiv_WDLRS/README.md)
+
 2017_arXiv_Neural_CF [Neural Collaborative Filtering](https://github.com/okso6441-ksh/RecommendationSystem/tree/main/paper/2017_arXiv_Neural_CF/README.md)
 
 ### Article
