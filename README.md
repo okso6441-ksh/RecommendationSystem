@@ -4,6 +4,15 @@
 ```markdown
 추천 시스템 공부
 ```
+<details>
+    <summary>이력서</summary>
+    <div>
+
+|||    
+|--|--|    
+|1|2|   
+    </div>
+</deatils>  
 
 ### Paper
 2008_IEEE_CFfIFD [Collaborative_Filtering_for_Implicit_Feedback_Datasets](https://github.com/okso6441-ksh/RecommendationSystem/tree/main/paper/2008_IEEE_CFfIFD/README.md)
