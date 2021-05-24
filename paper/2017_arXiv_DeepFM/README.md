@@ -77,7 +77,7 @@
     * x: 고차원, 극도로 희소  
 
 * CTR 예측 모델: 사용자가 주어진 context 에서 특정 앱을 클릭 확률 예측    
-  * $ \hat y = CTR _model(x) $ 구축  
+  * <img src="https://latex.codecogs.com/gif.latex?%5Chat%20y%20%3D%20CTR%20%5C_%20model%28x%29"> 구축  
 
 #### 2.1 DeepFM
 * 목표: low-order + high-order feature 상호작용 모두 학습      
@@ -86,16 +86,16 @@
 
 * 예측모델:  
   * ![(1)](./image/(1).PNG) 
-    * $ \hat y \in (0,1) $: 예측 CTR   
-    * $ y_{FM} $: FM component 출력   
+    * <img src="https://latex.codecogs.com/gif.latex?%5Chat%20y%20%5Cin%20%280%2C1%29">: 예측 CTR   
+    * <img src="https://latex.codecogs.com/gif.latex?y_%7BFM%7D">: FM component 출력   
         * FM component: 
-    * $ y_{DNN} $: 깊은 구성 요소의 출력   
+    * <img src="https://latex.codecogs.com/gif.latex?y_%7BDNN%7D">: 깊은 구성 요소의 출력   
 
   * feature i:
-    * $ w_i $: 스칼라, order-1 중요성 평가   
-    * $ V_i $: 잠재 벡터, 다른 features와 상호작용 영향 측정  
+    * <img src="https://latex.codecogs.com/gif.latex?w_i"> : 스칼라, order-1 중요성 평가   
+    * <img src="https://latex.codecogs.com/gif.latex?V_i"> : 잠재 벡터, 다른 features와 상호작용 영향 측정  
       * [FM component] order-2 feature 상호작용 모델링, [deep component] high-order feature 상호작용 모델링       
-    * W^{(l)}, b^{(l)} $: 네트워크 파라미터  
+    * <img src="https://latex.codecogs.com/gif.latex?W%5E%7B%28l%29%7D%2C%20b%5E%7B%28l%29%7D">: 네트워크 파라미터  
 
 * [FM component]  
   * feature 상호작용 학습  
@@ -105,8 +105,8 @@
   * ![Fig2](./image/Fig2.PNG)   
     * output: Addition unit + 내적 units  
   * ![(2)](./image/(2).PNG)  
-    * $ w \in R^d $  
-    * $ V_i \in R^k $  
+    * <img src="https://latex.codecogs.com/gif.latex?w%20%5Cin%20R%5Ed">   
+    * <img src="https://latex.codecogs.com/gif.latex?V_i%20%5Cin%20R%5Ek">   
     * 덧셈 단위(<w, x>): order-1 feature 중요성 반영   
     * 내적 단위: order-2 feature 상호작용 영향    
 
@@ -127,15 +127,15 @@
 
 * 임베딩 레이어 출력  
   * ![(3)](./image/(3).PNG)   
-    * $ e_i $: i번째 필드 임베딩  
+    * <img src="https://latex.codecogs.com/gif.latex?e_i"> : i번째 필드 임베딩  
     * m: 필드 수  
     * 심층 신경망에 입력 전달 프로세스 >      
   * ![(4)](./image/(4).PNG)   
     * l: 레이어 깊이  
     * σ: 활성화 함수  
-    * $ a^{(l)}, W^{(l)}, b^{(l)} $: l번째 레이어 출력, 모델 가중치, 편향  
+    * <img src="https://latex.codecogs.com/gif.latex?a%5E%7B%28l%29%7D%2C%20W%5E%7B%28l%29%7D%2C%20b%5E%7B%28l%29%7D"> : l번째 레이어 출력, 모델 가중치, 편향  
     * => 결과: 고밀도 실수 feature 벡터 > 시그모이드 함수 입력 > 
-  * $ y_{DNN} = W^{|H|+1} \cdot a^{|H|} + b^{|H|+1} $     
+  * <img src="https://latex.codecogs.com/gif.latex?y_%7BDNN%7D%20%3D%20W%5E%7B%7CH%7C&plus;1%7D%20%5Ccdot%20a%5E%7B%7CH%7C%7D%20&plus;%20b%5E%7B%7CH%7C&plus;1%7D">      
     * |H|: hidden layers 수  
 
 * FM 컴포넌트 + 딥 컴포넌트 동일 feature 임베딩 공유 이점(2):  
@@ -171,7 +171,7 @@
 * DeepFM: 전문 지식 필요 X, raw features 직접 학습, FM/딥 - 임베딩 Feature 공유(backpropagate) > feature representation ↑         
   
 ##### Summarizations
-* ![T1]](./image/T1.PNG)  
+* ![T1](./image/T1.PNG)  
 
 ---
 
