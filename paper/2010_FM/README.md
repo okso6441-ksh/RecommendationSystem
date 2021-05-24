@@ -1,4 +1,4 @@
-## 2012_IEEE_LARS [LARS: A Location-Aware Recommender System]
+## 2012_LARS [LARS: A Location-Aware Recommender System]
 
 ![main](./image/main.PNG)
 

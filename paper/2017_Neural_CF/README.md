@@ -1,4 +1,4 @@
-## 2017_arXiv_Neural_CF [Neural Collaborative Filtering]
+## 2017_Neural_CF [Neural Collaborative Filtering]
 
 ![main](./image/main.PNG)
 

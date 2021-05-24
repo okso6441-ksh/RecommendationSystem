@@ -1,4 +1,4 @@
-## [2009_UAI_BPR] BPR: Bayesian Personalized Ranking from Implicit Feedback
+## [2009_BPR] BPR: Bayesian Personalized Ranking from Implicit Feedback
 
 ![main](./image/main.PNG)
 

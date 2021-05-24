@@ -1,4 +1,4 @@
-## 2017_arXiv_DeepFM [DeepFM: A Factorization-Machine based Neural Network for CTR Prediction]
+## 2017_DeepFM [DeepFM: A Factorization-Machine based Neural Network for CTR Prediction]
 
 ![main](./image/main.PNG)
 

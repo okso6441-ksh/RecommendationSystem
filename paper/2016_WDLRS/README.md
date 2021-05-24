@@ -1,4 +1,4 @@
-## 2016_arxiv_WDLRS [Wide & Deep Learning for Recommender Systems]
+## 2016_WDLRS [Wide & Deep Learning for Recommender Systems]
 
 ![main](./image/main.PNG)
 

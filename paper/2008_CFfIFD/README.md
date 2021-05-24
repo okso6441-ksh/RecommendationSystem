@@ -1,4 +1,4 @@
-## [2008_IEEE_CFfIFD] Collaborative_Filtering_for_Implicit_Feedback_Datasets
+## [2008_CFfIFD] Collaborative Filtering for Implicit Feedback Datasets
 
 ![main](./image/main.PNG)
 
