@@ -6,24 +6,24 @@
 ```
 
 ### Paper
-2008_IEEE_CFfIFD [Collaborative_Filtering_for_Implicit_Feedback_Datasets](https://github.com/okso6441-ksh/RecommendationSystem/tree/main/paper/2008_IEEE_CFfIFD/README.md)
+2008_CFfIFD [Collaborative Filtering for Implicit Feedback Datasets](https://github.com/okso6441-ksh/RecommendationSystem/tree/main/paper/2008_CFfIFD/README.md)
   
-2009_UAI_BPR [BPR: Bayesian Personalized Ranking from Implicit Feedback](https://github.com/okso6441-ksh/RecommendationSystem/tree/main/paper/2009_UAI_BPR/README.md)
+2009_BPR [BPR: Bayesian Personalized Ranking from Implicit Feedback](https://github.com/okso6441-ksh/RecommendationSystem/tree/main/paper/2009_BPR/README.md)
 
-2010_CSIE_FM [Factorization Machines](https://github.com/okso6441-ksh/RecommendationSystem/tree/main/paper/2010_CSIE_FM/README.md)
+2010_FM [Factorization Machines](https://github.com/okso6441-ksh/RecommendationSystem/tree/main/paper/2010_FM/README.md)
 
-2012_IEEE_LARS [LARS: A Location-Aware Recommender System](https://github.com/okso6441-ksh/RecommendationSystem/tree/main/paper/2012_IEEE_LARS/README.md)
+2012_LARS [LARS: A Location-Aware Recommender System](https://github.com/okso6441-ksh/RecommendationSystem/tree/main/paper/2012_LARS/README.md)
 
-2015_CECS_AutoRec [AutoRec: Autoencoders Meet Collaborative Filtering](https://github.com/okso6441-ksh/RecommendationSystem/tree/main/paper/2015_CECS_AutoRec/README.md)
+2015_AutoRec [AutoRec: Autoencoders Meet Collaborative Filtering](https://github.com/okso6441-ksh/RecommendationSystem/tree/main/paper/2015_AutoRec/README.md)
 
-2016_arxiv_WDLRS [Wide & Deep Learning for Recommender Systems](https://github.com/okso6441-ksh/RecommendationSystem/tree/main/paper/2016_arxiv_WDLRS/README.md)
+2016_WDLRS [Wide & Deep Learning for Recommender Systems](https://github.com/okso6441-ksh/RecommendationSystem/tree/main/paper/2016_WDLRS/README.md)
 
-2017_arXiv_Neural_CF [Neural Collaborative Filtering](https://github.com/okso6441-ksh/RecommendationSystem/tree/main/paper/2017_arXiv_Neural_CF/README.md)
+2017_DeepFM [DeepFM: A Factorization-Machine based Neural Network for CTR Prediction](https://github.com/okso6441-ksh/RecommendationSystem/tree/main/paper/2017_DeepFM/README.md)
 
-2017_arXiv_DeepFM [DeepFM: A Factorization-Machine based Neural Network for CTR Prediction](https://github.com/okso6441-ksh/RecommendationSystem/tree/main/paper/2017_arXiv_DeepFM/README.md)
+2017_Neural_CF [Neural Collaborative Filtering](https://github.com/okso6441-ksh/RecommendationSystem/tree/main/paper/2017_Neural_CF/README.md)
 
 ### Article
-2009_IEEE_MFTFRS [MATRIX_FACTORIZATION_TECHNIQUES_FOR_RECOMMENDER_SYSTEMS](https://github.com/okso6441-ksh/RecommendationSystem/tree/main/article/2009_IEEE_MFTFRS/README.md)
+2009_MFTFRS [MATRIX FACTORIZATION TECHNIQUES FOR RECOMMENDER SYSTEMS](https://github.com/okso6441-ksh/RecommendationSystem/tree/main/article/2009_MFTFRS/README.md)
 
 ### Support or Contact
 okso6441@gmail.com  
