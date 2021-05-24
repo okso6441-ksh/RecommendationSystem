@@ -4,39 +4,29 @@
 
 ---
 ### ABSTRACT  
-
-This paper proposes AutoRec, a novel autoencoder framework for collaborative filtering (CF). 
-이 논문은 협업 필터링 (CF)을위한 새로운 자동 인코더 프레임 워크 인 AutoRec을 제안합니다.
+* AutoRec: CF 위한 새로운 autoencoder 프레임워크   
 
 
 Empirically, AutoRec’s compact and efficiently trainable model outperforms stateof-the-art CF techniques (biased matrix factorization, RBMCF and LLORMA) on the Movielens and Netflix datasets.
 경험적으로 AutoRec의 작고 효율적으로 학습 가능한 모델은 Movielens 및 Netflix 데이터 세트에서 최첨단 CF 기술 (편향 행렬 분해, RBMCF 및 LLORMA)을 능가합니다.
 
 
-Categories and Subject Descriptors D.2.8 [Information Storage and Retrieval]Information Filtering Keywords Recommender Systems; Collaborative Filtering; Autoencoders
-범주 및 주제 설명자 D.2.8 [정보 저장 및 검색] 정보 필터링 키워드 추천 시스템; 협업 필터링; 오토 인코더
+#### Categories and Subject Descriptors  
+* D.2.8 [Information Storage and Retrieval]Information Filtering   
+#### Keywords   
+* Recommender Systems; Collaborative Filtering; Autoencoders  
 
 ---
 ### 1. INTRODUCTION
-
-Collaborative filtering (CF) models aim to exploit information about users’ preferences for items (e.g. star ratings) to provide personalised recommendations. 
-협업 필터링 (CF) 모델은 항목에 대한 사용자의 선호도 (예 : 별표 평점)에 대한 정보를 활용하여 맞춤 추천을 제공하는 것을 목표로합니다.
-
-
-Owing to the Netflix challenge, a panoply of different CF models have been proposed, with popular choices being matrix factorisation [1, 2] and neighbourhood models [5]. 
-Netflix 문제로 인해 다양한 CF 모델이 제안되었으며, 인기있는 선택은 행렬 분해 [1, 2] 및 인접 모델 [5]입니다.
-
-
-This paper proposes AutoRec, a new CF model based on the autoencoder paradigm; our interest in this paradigm stems from the recent successes of (deep) neural network models for vision and speech tasks. 
-이 논문은 오토 인코더 패러다임을 기반으로 한 새로운 CF 모델 인 AutoRec을 제안합니다. 이 패러다임에 대한 우리의 관심은 시각 및 음성 작업을위한 (심층) 신경망 모델의 최근 성공에서 비롯됩니다.
-
-
-We argue that AutoRec has representational and computational advantages over existing neural approaches to CF [4], and demonstrate empirically that it outperforms the current state-of-the-art methods.
-우리는 AutoRec이 CF에 대한 기존의 신경 접근 방식에 비해 표현 및 계산상의 이점이 있다고 주장하며, 현재의 최첨단 방법을 능가한다는 것을 경험적으로 입증합니다.
+* CF: item에 대한 user 선호도 > personalised recommendations     
+  * matrix factorisation, neighbourhood models  
+* AutoRec: autoencoder paradigm 기반 CF  
+  * 주장: representational, computational 이점 존재   
 
 ---
 ### 2. THE AUTOREC MODEL
-
+* user item rating 행렬  
+  * $ R ∈ \matr?? R ^{m × n}  $
 In rating-based collaborative filtering, we have m users, n items, and a partially observed user-item rating matrix R ∈ R m×n. 
 등급 기반 협업 필터링에는 m 명의 사용자, n 개의 항목 및 부분적으로 관찰 된 사용자 항목 등급 행렬 R ∈ R m × n이 있습니다.
 
@@ -61,20 +51,17 @@ Formally, given a set S of vectors in Rd, and some k ∈ N+, an autoencoder solv
 
 where h(r; θ) is the reconstruction of input r ∈ Rd
 여기서 h (r; θ)는 입력 r ∈ Rd의 재구성입니다.
-공식
-for activation functions f(·), g(·). 
-활성화 함수 f (·), g (·).
+
+* ![2-1](./image/2-1.PNG)
+  * f(·), g(·): 활성화 함수  
+  * θ = {W, V, µ, b} (변환), W ∈ Rd × k, V ∈ Rk × d 및 바이어스 µ ∈Rk, b ∈ Rd  
 
 Here, θ = {W, V, µ, b} for transformations W ∈ Rd×k, V ∈ Rk×d, and biases µ ∈Rk, b ∈ Rd. 
 여기서 θ = {W, V, µ, b} 변환 W ∈ Rd × k, V ∈ Rk × d 및 바이어스 µ ∈Rk, b ∈ Rd.
 
+* 목표: 단일 k-차원 은닉층 있는 auto-associative neural network    
+* θ: backpropagation 핛브  
 
-This objective corresponds to an auto-associative neural network with a single, k-dimensional hidden layer.
-이 목표는 단일 k 차원 은닉층이있는 자동 연관 신경망에 해당합니다.
-
-
-The parameters θ are learned using backpropagation.
-매개 변수 θ는 역 전파를 사용하여 학습됩니다.
 
 ![Fig1](./image/Fig1.PNG)
 The item-based AutoRec model, shown in Figure 1, applies an autoencoder as per Equation 1 to the set of vectors {r(i)}ni=1, with two important changes. 
@@ -94,6 +81,8 @@ Formally, the objective function for the Item-based AutoRec (I-AutoRec) model is
 
 
 ![(2)](./image/(2).PNG)
+
+$ ||\cdot||_O^2 $ 
 
 where || · ||2 O means that we only consider the contribution of observed ratings. 
 어디 || · || 2 O는 관찰 된 등급의 기여도 만 고려함을 의미합니다.
@@ -198,6 +187,8 @@ We found resilient propagation (RProp) [3] to give comparable performance to L-B
 Thus, we use RProp for all subsequent experiments: 
 따라서 모든 후속 실험에 RProp을 사용합니다.
 
+![T1a](./image/T1a.PNG)
+
 Which is better, item- or user-based autoencoding with RBMs or AutoRec? Table 1a shows item-based (I-) methods for RBM and AutoRec generally perform better; 
 RBM 또는 AutoRec을 사용하는 더 나은 항목 또는 사용자 기반 자동 인코딩은 무엇입니까? 표 1a는 RBM 및 AutoRec에 대한 항목 기반 (I-) 방법이 일반적으로 더 나은 성능을 보여줍니다.
 
@@ -209,6 +200,7 @@ this is likely since the average number of ratings per item is much more than th
 I-AutoRec outperforms all RBM variants.
 I-AutoRec은 모든 RBM 변형을 능가합니다.
 
+![T1b](./image/T1b.PNG)
 
 How does AutoRec performance vary with linear and nonlinear activation functions f(·), g(·)? Table 1b indicates that nonlinearity in the hidden layer (via g(·)) is critical for good performance of I-AutoRec, indicating its potential advantage over MF methods. 
 AutoRec 성능은 선형 및 비선형 활성화 함수 f (·), g (·)에 따라 어떻게 달라 집니까? 표 1b는 은닉 계층 (g (·)을 통한)의 비선형 성이 I-AutoRec의 우수한 성능에 중요하며 MF 방법에 비해 잠재적 인 이점을 나타냅니다.
@@ -236,6 +228,7 @@ All other AutoRec experiments use k = 500.
 How does AutoRec perform against all baselines?
 AutoRec은 모든 기준에 대해 어떻게 수행됩니까?
 
+![T1c](./image/T1c.PNG)
 
 Table 1c shows that AutoRec consistently outperforms all baselines, except for comparable results with LLORMA on Movielens 10M. 
 표 1c는 Movielens 10M에서 LLORMA와 비교 한 결과를 제외하고는 AutoRec이 모든 기준선보다 지속적으로 성능이 우수하다는 것을 보여줍니다.
