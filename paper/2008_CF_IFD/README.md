@@ -1,4 +1,4 @@
-## [2008_CFfIFD] Collaborative Filtering for Implicit Feedback Datasets
+## [2008_CF_IFD] Collaborative Filtering for Implicit Feedback Datasets
 
 ![main](./image/main.PNG)
 
