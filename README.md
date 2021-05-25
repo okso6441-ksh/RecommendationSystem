@@ -16,7 +16,7 @@
 
 yet> 2013_DcbmR [Deep content-based music recommendation](https://github.com/okso6441-ksh/RecommendationSystem/tree/main/paper/2013_DcbmR/README.md)
 
-ing> 2015_AutoRec [AutoRec: Autoencoders Meet Collaborative Filtering](https://github.com/okso6441-ksh/RecommendationSystem/tree/main/paper/2015_AutoRec/README.md)
+2015_AutoRec [AutoRec: Autoencoders Meet Collaborative Filtering](https://github.com/okso6441-ksh/RecommendationSystem/tree/main/paper/2015_AutoRec/README.md)
 
 yet> 2015_IRSS [Image-based Recommendations on Styles and Substitutes](https://github.com/okso6441-ksh/RecommendationSystem/tree/main/paper/2015_IRSS/README.md)
 
