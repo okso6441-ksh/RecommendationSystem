@@ -26,7 +26,7 @@ yet> 2015_VBPR [VBPR: Visual Bayesian Personalized Ranking from Implicit Feedbac
 
 2016_WDLRS [Wide & Deep Learning for Recommender Systems](https://github.com/okso6441-ksh/RecommendationSystem/tree/main/paper/2016_WDLRS/README.md)
 
-yet> 2017_DAE_CF [Training Deep AutoEncoders for Collaborative Filtering](https://github.com/okso6441-ksh/RecommendationSystem/tree/main/paper/2017_DAE_CF/README.md)
+ing> 2017_DAE_CF [Training Deep AutoEncoders for Collaborative Filtering](https://github.com/okso6441-ksh/RecommendationSystem/tree/main/paper/2017_DAE_CF/README.md)
 
 2017_DeepFM [DeepFM: A Factorization-Machine based Neural Network for CTR Prediction](https://github.com/okso6441-ksh/RecommendationSystem/tree/main/paper/2017_DeepFM/README.md)
 
