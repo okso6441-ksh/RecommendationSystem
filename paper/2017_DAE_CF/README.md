@@ -76,7 +76,7 @@ Lets consider an idealized scenario with a perfect f .
 
 
 Then f(x)i = xi , ∀i : xi =/ 0 and f(x)i accurately predicts all user’s future ratings for items i : xi = 0. 
-그러면 f (x) i = xi, ∀i : xi = / 0 및 f (x) i는 항목 i : xi = 0에 대한 모든 사용자의 향후 평가를 정확하게 예측합니다.
+그러면   $ f(x)_i = x_i, \forall _i : xi \neq 0 $   및 f (x) i는 항목 i : xi = 0에 대한 모든 사용자의 향후 평가를 정확하게 예측합니다.
 
 
 This means that if user rates new item k (thereby creating a new vector x0) then f (x)k = x0kand f (x) = f (x0). 
@@ -156,7 +156,7 @@ Note, that unlike we did not use any layer-wise pre-training.
 We believe that we were able to do so successfully because of choosing the right activation function (see Section 3.2).
 우리는 올바른 활성화 기능을 선택했기 때문에 성공적으로 그렇게 할 수 있다고 믿습니다 (섹션 3.2 참조).
 
-3.2 Effects of the activation types
+#### 3.2 Effects of the activation types
 
 To explore the effects of using different activation functions, we tested some of the most popular choices in deep learning : sigmoid, “rectified linear units” (RELU),max(relu(x), 6) or RELU6, hyperbolic tangent (TANH), “exponential linear units” (ELU) [4], leaky relu (LRELU) [20] , and “scaled exponential linear units” [9] (SELU) on the 4 layer autoencoder with 128 units in each hidden layer.
 다양한 활성화 함수 사용의 효과를 조사하기 위해 딥 러닝에서 가장 인기있는 몇 가지 선택을 테스트했습니다. 시그 모이 드, "정류 된 선형 단위"(RELU), max (relu (x), 6) 또는 RELU6, 쌍곡 탄젠트 (TANH) , "지수 선형 단위"(ELU) [4], 누출 relu (LRELU) [20] 및 "스케일 된 지수 선형 단위"[9] (SELU)는 각 은닉 계층에 128 개의 단위가있는 4 계층 오토 인코더에 있습니다.
@@ -193,7 +193,7 @@ Thus, we use SELU activation units and tune SELU-based networks for performance.
 따라서 SELU 활성화 장치를 사용하고 성능을 위해 SELU 기반 네트워크를 조정합니다.
 
 
-3.3 Over-fitting the data
+#### 3.3 Over-fitting the data
 
 
 The largest data set we use for training, “Netflix Full” from Table 1, contains 98M ratings given by 477K users. 
