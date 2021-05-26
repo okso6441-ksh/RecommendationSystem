@@ -18,7 +18,7 @@ yet> 2013_DcbmR [Deep content-based music recommendation](https://github.com/oks
 
 2015_AutoRec [AutoRec: Autoencoders Meet Collaborative Filtering](https://github.com/okso6441-ksh/RecommendationSystem/tree/main/paper/2015_AutoRec/README.md)
 
-yet> 2015_IRSS [Image-based Recommendations on Styles and Substitutes](https://github.com/okso6441-ksh/RecommendationSystem/tree/main/paper/2015_IRSS/README.md)
+ing> 2015_IRSS [Image-based Recommendations on Styles and Substitutes](https://github.com/okso6441-ksh/RecommendationSystem/tree/main/paper/2015_IRSS/README.md)
 
 yet> 2015_SBRRNN [SESSION-BASED RECOMMENDATIONS WITH RECURRENT NEURAL NETWORKS](https://github.com/okso6441-ksh/RecommendationSystem/tree/main/paper/2015_SBRRNN/README.md)
 
@@ -30,7 +30,7 @@ ing> 2017_DAE_CF [Training Deep AutoEncoders for Collaborative Filtering](https:
 
 2017_DeepFM [DeepFM: A Factorization-Machine based Neural Network for CTR Prediction](https://github.com/okso6441-ksh/RecommendationSystem/tree/main/paper/2017_DeepFM/README.md)
 
-yet> 2017_JT_RRN [JOINT TRAINING OF RATINGS AND REVIEWS WITH RECURRENT RECOMMENDER NETWORKS](https://github.com/okso6441-ksh/RecommendationSystem/tree/main/paper/2017_JT_RRN/README.md)
+ing> 2017_JT_RRN [JOINT TRAINING OF RATINGS AND REVIEWS WITH RECURRENT RECOMMENDER NETWORKS](https://github.com/okso6441-ksh/RecommendationSystem/tree/main/paper/2017_JT_RRN/README.md)
 
 2017_Neural_CF [Neural Collaborative Filtering](https://github.com/okso6441-ksh/RecommendationSystem/tree/main/paper/2017_Neural_CF/README.md)
 

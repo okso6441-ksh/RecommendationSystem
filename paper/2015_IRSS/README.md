@@ -5,74 +5,22 @@
 ---
 
 ### Abstract
+* 선택: **appearance**(objects 간 관계, 상호작용)       
+* object pairs: 대안(청바지 A-청바지B), 보완(청바지-어울리는 셔츠)   
+* 접근: 가능한 가장 큰 데이터 세트 캡처 > 내부 시각적 관계 > 확장 가능한 방법 개발(시각적 관계에 대한 인간의 개념을 발견)   
 
-Humans inevitably develop a sense of the relationships between objects, some of which are based on their appearance. 
-인간은 필연적으로 사물 간의 관계에 대한 감각을 개발하는데, 그중 일부는 외모에 기반을 둡니다.
+---
 
+### 1. Introduction
+* 한 쌍의 객체 간 시각적 관계에 대한 인간 개념(human notion) 모델링  
+* (기존) visual style of places objects[individual appearances] > [influence] visual attributes of another  
 
-Some pairs of objects might be seen as being alternatives to each other (such as two pairs of jeans), while others may be seen as being complementary (such as a pair of jeans and a matching shirt).
-어떤 쌍의 물체는 서로의 대안으로 보일 수 있고 (예 : 청바지 두 쌍), 다른 물체는 보완적인 것으로 보일 수 있습니다 (예 : 청바지 한 쌍과 일치하는 셔츠).
-
-
-This information guides many of the choices that people make, from buying clothes to their interactions with each other. 
-이 정보는 사람들이 옷을 구입하는 것부터 서로 상호 작용하는 것까지 선택하는 많은 선택을 안내합니다.
-
-
-We seek here to model this human sense of the relationships between objects based on their appearance. 
-우리는 여기에서 외모를 기반으로 물체 간의 관계에 대한 인간의 감각을 모델링하고자합니다.
-
-
-Our approach is not based on fine-grained modeling of user annotations but rather on capturing the largest dataset possible and developing a scalable method for uncovering human notions of the visual relationships within. 
-우리의 접근 방식은 사용자 주석의 세분화 된 모델링을 기반으로하는 것이 아니라 가능한 가장 큰 데이터 세트를 캡처하고 내부의 시각적 관계에 대한 인간의 개념을 발견하기위한 확장 가능한 방법을 개발하는 데 기반합니다.
-
-
-We cast this as a network inference problem defined on graphs of related images, and provide a large-scale dataset for the training and evaluation of the same. 
-이를 관련 이미지의 그래프에 정의 된 네트워크 추론 문제로 캐스트하고이를 학습 및 평가할 수있는 대규모 데이터 세트를 제공합니다.
-
-
-The system we develop is capable of recommending which clothes and accessories will go well together (and which will not), amongst a host of other applications.
-우리가 개발 한 시스템은 다른 여러 애플리케이션 중에서 어떤 옷과 액세서리가 잘 어울리는 지 (그리고 그렇지 않을지) 추천 할 수 있습니다.
-
-1. Introduction
-
-We are interested here in uncovering relationships between the appearances of pairs of objects, and particularly in modeling the human notion of which objects complement each other and which might be seen as acceptable alternatives. 
-우리는 여기에서 물체 쌍의 모양 사이의 관계를 밝히고 특히 어떤 물체가 서로 보완하고 수용 가능한 대안으로 보일 수 있는지에 대한 인간의 개념을 모델링하는 데 관심이 있습니다.
-
-
-We thus seek to model what is a fundamentally human notion of the visual relationship between a pair of objects, rather than merely modeling the visual similarity between them. 
-따라서 우리는 단순히 객체 간의 시각적 유사성을 모델링하는 것이 아니라 한 쌍의 객체 간의 시각적 관계에 대한 근본적인 인간 개념을 모델링하려고합니다.
-
-
-There has been some interest of late in modeling the visual style of places [6, 27], and objects [39]. 
-최근 장소 [6, 27] 및 객체 [39]의 시각적 스타일을 모델링하는 데 관심이있었습니다.
-
-
-We, in contrast, are not seeking to model the individual appearances of objects, but rather how the appearance of one object might influence the desirable visual attributes of another.
-대조적으로 우리는 개체의 개별적인 모습을 모델링하는 것이 아니라 한 개체의 모양이 다른 개체의 바람직한 시각적 속성에 어떻게 영향을 미칠 수 있는지를 모색하고 있습니다.
-
-
-There are a range of situations in which the appearance of an object might have an impact on the desired appearance of another. 
-개체의 모양이 원하는 다른 모양에 영향을 미칠 수있는 다양한 상황이 있습니다.
-
-
-Questions such as ‘Which frame goes with this picture’, ‘Where is the lid to this’, and ‘Which shirt matches these shoes’ (see Figure 1) inherently involve a calculation of more than just visual similarity, but rather a model of the higher-level relationships between objects.  
-'이 그림과 어울리는 프레임', '이 신발의 뚜껑은 어디에 있습니까?', '이 신발과 어울리는 셔츠'(그림 1 참조)와 같은 질문은 본질적으로 시각적 유사성 이상의 계산을 포함합니다. 개체 간의 상위 수준 관계.
-
-
-The primary commercial application for such technology is in recommending items to a user based on other items they have already showed interest in. 
-이러한 기술의 주요 상업적 응용은 사용자가 이미 관심을 보인 다른 항목을 기반으로 항목을 추천하는 것입니다.
-
-
-Such systems are of considerable economic value, and are typically built by analysing meta-data, reviews, and previous purchasing patterns. 
-이러한 시스템은 상당한 경제적 가치가 있으며 일반적으로 메타 데이터, 리뷰 및 이전 구매 패턴을 분석하여 구축됩니다.
-
-
-By introducing into these systems the ability to examine the appearance of the objects in question we aim to overcome some of their limitations, including the ‘cold start’ problem [28, 41].
-이러한 시스템에 문제가되는 물체의 모양을 검사 할 수있는 기능을 도입함으로써 우리는 '콜드 스타트 ​​(cold start)'문제를 포함한 몇 가지 한계를 극복하는 것을 목표로합니다 [28, 41].
-
-
-The problem we pose inherently requires modeling human visual preferences. 
-우리가 제기하는 문제는 본질적으로 인간의 시각적 선호도를 모델링해야합니다.
+* 개체간 상위 수준 관계 모델 포함(시각적 유사성 계산 포함 X)  
+  * ![Fig1](./image/Fig1.PNG)  
+    * 상업적 응용: 사용자가 이미 관심을 보인 다른 항목을 기반 항목 추천    
+      * 메타 데이터, 리뷰, 이전 구매 패턴 분석 구축  
+        * 문제: cold-start problem, 인간의 시각적 선호도를 모델링     
+             
 
 
 In most cases there is no intrinsic connection between a pair of objects, only a human notion that they are more suited to each other than are other potential partners. 
@@ -113,7 +61,7 @@ Large-scale databases have been collected from the web (without other annotation
 What distinguishes the approach we propose here, however, is the fact that it succeeds despite the indirectness of the connection between the dataset and the quantity we hope to model.
 그러나 여기서 제안하는 접근 방식을 구별하는 것은 데이터 세트와 모델링하고자하는 수량 간의 연결이 간접적 임에도 불구하고 성공한다는 사실입니다.
 
-1.1 A visual dataset of styles and substitutes
+#### 1.1 A visual dataset of styles and substitutes
 1.1 스타일 및 대체물의 시각적 데이터 세트
 
 We have developed a dataset suitable for the purposes described above based on the Amazon web store. 
@@ -127,7 +75,7 @@ The dataset contains over 180 million relationships between a pool of almost 6 m
 These relationships are a result of visiting Amazon and recording the product recommendations that it provides given our (apparent) interest in the subject of a particular web page. 
 이러한 관계는 아마존을 방문하고 특정 웹 페이지의 주제에 대한 (명백한) 관심을 고려하여 제공하는 제품 권장 사항을 기록한 결과입니다.
 
-
+![T1](./image/T1.PNG)
 The statistics of the dataset are shown in Table 1. 
 데이터 세트의 통계는 표 1에 나와 있습니다.
 
@@ -193,7 +141,8 @@ People co-purchase hammers and nails due to their functions, for example, not th
 Our hope is that the non-visual decision factors will appear as uniformly distributed noise to a method which considers only appearance, and that the visual decision factors might reinforce each other to overcome the effect of this noise 
 우리의 희망은 외모만을 고려하는 방법에 비 시각적 결정 요인이 균일하게 분포 된 노이즈로 나타나고, 시각적 결정 요인이이 노이즈의 영향을 극복하기 위해 서로를 강화할 수 있기를 바랍니다.
 
-1.2 Related work
+
+#### 1.2 Related work
 
 The closest systems to what we propose above are contentbased recommender systems [18] which attempt to model each user’s preference toward particular types of goods. 
 위에서 제안한 것과 가장 가까운 시스템은 특정 유형의 상품에 대한 각 사용자의 선호도를 모델링하려는 콘텐츠 기반 추천 시스템 [18]입니다.
@@ -308,7 +257,8 @@ The novelty in what we propose is thus in the quantity we choose to model, the d
 따라서 우리가 제안하는 참신함은 우리가 모델링하기로 선택한 양, 그렇게하기 위해 수집 한 데이터 및 하나에서 다른 하나를 추출하는 방법에 있습니다.
 
 
-1.3 A visual and relational recommender system
+
+#### 1.3 A visual and relational recommender system
 1.3 시각적 및 관계형 추천 시스템
 
 
@@ -319,8 +269,10 @@ We label the process we develop for exploiting this data a visual and relational
 The system shares these characteristics with more common forms of recommender system, but does so on the basis of the appearance of the object, rather than metadata, reviews, or similar.
 시스템은 이러한 특성을 더 일반적인 형태의 추천 시스템과 공유하지만 메타 데이터, 리뷰 또는 이와 유사한 것이 아닌 객체의 모양을 기반으로합니다.
 
-2. The Model
+---
 
+### 2. The Model
+![T2](./image/T2.PNG)
 Our notation is defined in Table 2.
 표기법은 표 2에 정의되어 있습니다.
 
@@ -356,7 +308,11 @@ Specifically, we seek d(·,·) such that P(rij ∈ R) grows monotonically with �
 Distances and probabilities: We use a shifted sigmoid function to relate distance to probability thus
 거리와 확률 : 거리와 확률을 연관시키기 위해 이동 시그 모이 드 함수를 사용합니다.
 
-(1)
+
+![(1)](./image/(1).PNG)
+
+
+![Fig2](./image/Fig2.PNG)
 
 This is depicted in Figure 2. 
 이것은 그림 2에 묘사되어 있습니다.
@@ -385,7 +341,7 @@ Weighted nearest neighbor: Given that different feature dimensions are likely to
 We thus fit a distance function of the form
 따라서 우리는 다음 형식의 거리 함수에 적합합니다.
 
-(2)
+![(2)](./image/(2).PNG)
 
 Mahalanobis transform: (eq. 2) is limited to modeling the visual similarity between objects, albeit with varying emphasis per feature dimension. 
 Mahalanobis 변환 : (eq. 2) 기능 차원에 따라 강조가 다양하지만 객체 간의 시각적 유사성을 모델링하는 것으로 제한됩니다.
@@ -405,7 +361,7 @@ To identify such a transformation, we relate image features via a Mahalanobis di
 
 Specifically we fit
 특히 우리는 적합합니다
-(3)
+![(3)](./image/(3).PNG)
 A full rank p.s.d. matrix M has too many parameters to fit tractably given the size of the dataset. 
 풀 랭크 p.s.d. 행렬 M에는 데이터 세트의 크기를 고려할 때 다루기 힘든 매개 변수가 너무 많습니다.
 
@@ -415,10 +371,11 @@ For example, using features with dimension F = 212, learning a transform as in (
 
 
 To address these issues, and given the fact that M parameterises a Mahanalobis distance, we approximate M such that M ' YYT where Y is a matrix of dimension F × K. We therefore define 
-(4)
-Note that all distances (as well as their derivatives) can be computed in O(FK), which is significant for the scalability of the method. 
 이러한 문제를 해결하기 위해 M이 Mahanalobis 거리를 매개 변수화한다는 사실을 고려하여 M 'YYT (여기서 Y는 차원 F × K의 행렬)가되도록 M을 근사합니다.
-(4)
+
+![(4)](./image/(4).PNG)
+
+Note that all distances (as well as their derivatives) can be computed in O(FK), which is significant for the scalability of the method. 
 모든 거리 (및 그 파생물)는 O (FK)로 계산할 수 있으며, 이는 방법의 확장성에 중요합니다.
 
 
@@ -426,7 +383,7 @@ Similar ideas appear in [4, 35], which also consider the problem of metric learn
 유사한 아이디어가 [4, 35]에 나와 있는데, 여기에서는 여기에서 고려하는 것과는 다른 목표를 사용하지만 낮은 순위 임베딩을 통한 메트릭 학습 문제도 고려합니다.
 
 
-2.1 Style space
+#### 2.1 Style space
 In addition to being computationally useful, the low-rank transform in (eq. 4) has a convenient interpretation. 
 2.1 스타일 공간
 계산적으로 유용 할뿐만 아니라 (식 4)의 낮은 순위 변환은 편리한 해석을 제공합니다.
@@ -434,7 +391,9 @@ In addition to being computationally useful, the low-rank transform in (eq. 4) h
 
 Specifically, if we consider the K-dimensional vector si = xiY, then (eq. 4) can be rewritten as 
 특히 K 차원 벡터 si = xiY를 고려하면 (eq. 4)를 다음과 같이 다시 작성할 수 있습니다.
-(5)
+
+![(5)](./image/(5).PNG)
+
 In other words, (eq. 4) yields a low-dimensional embedding of the features xi and xj . 
 즉, (eq. 4)는 특성 xi 및 xj의 저 차원 임베딩을 생성합니다.
 
@@ -447,7 +406,8 @@ The notion of ‘style’ is learned automatically by training the model on pair
 '스타일'이라는 개념은 Amazon이 관련이 있다고 간주하는 객체 쌍에 대해 모델을 학습함으로써 자동으로 학습됩니다.
 
 
-2.2 Personalizing styles to individual users
+
+#### 2.2 Personalizing styles to individual users
 2.2 개별 사용자에게 스타일 개인화
 
 So far we have developed a model to learn a global notion of which products go together, by learning a notion of ‘style’ such that related products should have similar styles. As an addition to this model we can personalize this notion by learning for each individual user which dimensions of style they consider to be important.
@@ -459,10 +419,11 @@ To do so, we shall learn personalized distance functions dY,u(xi , xj ) that mea
 
 
 We choose the distance function 
-(6)
 where D(u) is a K ×K diagonal (positive semidefinite) matrix.
+
+![(6)](./image/(6).PNG)
+
 거리 기능을 선택합니다
-(6)
 여기서 D (u)는 K × K 대각선 (양의 반정의) 행렬입니다.
 
 
@@ -474,11 +435,12 @@ In practice we fit a U × K matrix X such that D(u) kk = Xuk.
 실제로 우리는 D (u) kk = Xuk가되도록 U × K 행렬 X를 맞 춥니 다.
 
 
-Much like the simplification in (eq. 5), the distance dY,u(xi, xj ) can be conveniently written as 
-(7)
-In other words, Xu is a personalized weighting of the projected style-space dimensions.
+Much like the simplification in (eq. 5), the distance dY,u(xi, xj ) can be conveniently written In other words, Xu is a personalized weighting of the projected style-space dimensions.
 (식 5)의 단순화와 매우 유사하게 거리 dY, u (xi, xj)는 다음과 같이 편리하게 쓸 수 있습니다.
-(7)
+as 
+![(7)](./image/(7).PNG)
+
+
 즉, Xu는 투영 된 스타일 공간 차원의 개인화 된 가중치입니다.
 
 
@@ -497,7 +459,7 @@ From this we sample a dataset of triples (i,j,u) of products i and j that were b
 We describe this further when we outline our experimental protocol in Section 4.1.
 섹션 4.1에서 실험 프로토콜을 설명 할 때이를 더 자세히 설명합니다.
 
-2.3 Features
+#### 2.3 Features
 
 Features are calculated from the original images using the Caffe deep learning framework [11]. 
 특징은 Caffe 딥 러닝 프레임 워크를 사용하여 원본 이미지에서 계산됩니다 [11].
@@ -511,17 +473,18 @@ We use the output of FC7, the second fully-connected layer, which results in a f
 두 번째 완전 연결 계층 인 FC7의 출력을 사용하여 길이 F = 4096의 특성 벡터를 생성합니다.
 
 
-3. Training
+---
+
+### 3. Training
 Since we have defined a probability associated with the presence (or absence) of each relationship, we can proceed by maximizing the likelihood of an observed relationship set R. 
 3. 훈련
 각 관계의 존재 (또는 부재)와 관련된 확률을 정의 했으므로 관찰 된 관계 집합 R의 가능성을 최대화하여 진행할 수 있습니다.
 
 
 In order to do so we randomly select a negative set Q = {rij |rij ∈/ R} such that |Q| = |R| and optimize the log likelihood 
-(8)
-Learning then proceeds by optimizing l(Y,c|R, Q) over both Y and c which we achieve by gradient ascent. 
 그렇게하기 위해 무작위로 음의 집합 Q = {rij | rij ∈ / R}을 선택하여 | Q | = | R | 로그 가능성 최적화
-(8)
+![(8)](./image/(8).PNG)
+Learning then proceeds by optimizing l(Y,c|R, Q) over both Y and c which we achieve by gradient ascent. 
 그런 다음 기울기 상승으로 달성 한 Y와 c에 대해 l (Y, c | R, Q)를 최적화하여 학습을 진행합니다.
 
 
@@ -536,7 +499,9 @@ Likelihood (eq. 8) and derivative computations can be na¨ıvely parallelized ov
 Training on our largest dataset (Amazon books) with a rank K = 100 transform required around one day on a 12 core machine. 
 가장 큰 데이터 세트 (Amazon 책)에 대한 교육 (랭크 K = 100 변환)은 12 코어 머신에서 하루 정도 필요합니다.
 
-4. Experiments
+---
+
+### 4. Experiments
 We compare our model against the following baselines: 
 다음 기준과 모델을 비교합니다.
 
@@ -558,10 +523,12 @@ Nearest neighbor results (calculated by optimizing a threshold on the `2 distanc
 
 
 Comparison against non-visual baselines As a non-visual comparison, we trained topic models on the reviews of each product (i.e., each document di is the set of reviews of the product i) and fit weighted nearest neighbor classifiers of the form 
-(9)
+
+![(9)](./image/(9).PNG)
+
 where θi and θj are topic vectors derived from the reviews of the products i and j. 
 비 시각적 기준에 대한 비교 비 시각적 비교로서, 우리는 각 제품의 리뷰에 대한 주제 모델을 훈련시키고 (즉, 각 문서 di는 제품 i의 리뷰 집합입니다) 양식의 가중 최근 접 이웃 분류기에 적합합니다.
-(9)
+
 여기서 θi 및 θj는 제품 i 및 j의 리뷰에서 파생 된 주제 벡터입니다.
 
 
@@ -584,7 +551,8 @@ One explanation may simply be that is is difficult to effectively train topic mo
 Not surprisingly, the number of reviews per product follows a power-law, e.g. for Men’s Clothing: 
 당연히 제품 당 리뷰 수는 멱 법칙을 따릅니다. 남성 의류 :
 
-그림-4
+![4](./image/4.PNG)
+
 
 This issue is in fact exacerbated in our setting, as to predict a relationship between products we require both to have reliable feature representations, which will be true only if both products have several reviews. 
 이 문제는 실제로 제품 간의 관계를 예측하기 위해 두 제품 모두 신뢰할 수있는 기능 표현을 필요로하며, 이는 두 제품 모두 여러 리뷰가있는 경우에만 해당됩니다.
@@ -597,7 +565,8 @@ Although we believe that predicting such relationships using text is a promising
 Indeed, this is a strong argument in favor of building predictors based on visual features, since images are available even for brand new products which are yet to receive even a single review.
 실제로 이것은 아직 단 한 번의 리뷰도받지 못한 새로운 제품에도 이미지를 사용할 수 있기 때문에 시각적 기능을 기반으로 예측 변수를 구축하는 데 유리한 강력한 주장입니다.
 
-4.1 Experimental protocol
+
+#### 4.1 Experimental protocol
 
 We split the dataset into its top-level categories (Books, Movies, Music, etc.) and further split the Clothing category into second-level categories (Men’s, Women’s, Boys, Girls, etc.). 
 데이터 세트를 최상위 카테고리 (도서, 영화, 음악 등)로 나누고 의류 카테고리를 두 번째 수준 카테고리 (남성, 여성, 소년, 소녀 등)로 더 분할했습니다.
@@ -701,7 +670,7 @@ One possible interpretation of this effect might be that customers have preferen
 Finally we evaluate the ability of our model to personalize copurchasing recommendations to individual users, that is we examine the effect of the user personalization term in (eqs. 6 and 7). 
 마지막으로 개별 사용자에게 공동 구매 추천을 개인화하는 모델의 능력을 평가합니다. 즉, 사용자 개인화 기간의 효과를 조사합니다 (식 6 및 7).
 
-
+![T45](./image/T45.PNG)
 Here we do not use the graphs from Tables 4 and 5, since those are ‘population level’ graphs which are not annotated in terms of the individual users who co-purchased and cobrowsed each pair of products. 
 여기서는 표 4와 5의 그래프를 사용하지 않습니다. 이는 각 제품 쌍을 공동 구매하고 공동 검색 한 개별 사용자 측면에서 주석이 추가되지 않은 '인구 수준'그래프이기 때문입니다.
 
@@ -717,11 +686,13 @@ That is, we build a dataset of tuples of the form (i,j,u) for pairs of products 
 We train on users with at least 20 purchases, and randomly sample 50 co-purchases and 50 non-co-purchases from each user in order to build a balanced dataset. 
 20 개 이상의 구매가있는 사용자에 대해 교육하고 균형 잡힌 데이터 세트를 구축하기 위해 각 사용자로부터 50 개의 공동 구매와 50 개의 비 공동 구매를 무작위로 샘플링합니다.
 
-
+![T3](./image/T3.PNG)
 Results are shown in Table 3; here we see that the addition of a user personalization term yields a small but significant improvement when predicting co-purchases (similar results on other categories withheld for brevity).
 결과는 표 3에 제시되어있다; 여기에서 사용자 개인화 용어를 추가하면 공동 구매를 예측할 때 작지만 상당한 개선이 이루어집니다 (간결성을 위해 다른 카테고리에 대한 유사한 결과는 보류 됨).
 
-5. Visualizing Style Space
+---
+
+### 5. Visualizing Style Space
 
 Recall that each image is projected into ‘style-space’ by the transformation si = xiY, and note that the fact that it is based on pairwise distances alone means that the embedding is invariant under isomorphism. 
 각 이미지는 si = xiY 변환에 의해 '스타일 공간'으로 투영된다는 점을 상기하고, 이것이 쌍 단위 거리만을 기반으로한다는 사실은 임베딩이 동형 하에서 불변임을 의미합니다.
@@ -734,7 +705,7 @@ That is, applying rotations, translations, or reflections to si and sj will pres
 In light of these factors we perform k-means clustering on the K dimensional embedded coordinates of the data in order to visualize the effect of the embedding. 
 이러한 요소를 고려하여 임베딩의 효과를 시각화하기 위해 데이터의 K 차원 임베디드 좌표에 k- 평균 클러스터링을 수행합니다.
 
-
+![Fig3](./image/Fig3.PNG)
 Figure 3 shows images whose projections are close to the centers of a set of selected representative clusters for Men’s and Women’s clothing (using a model trained on the ‘also viewed’ graph with K = 100). 
 그림 3은 남성 및 여성 의류에 대해 선택된 대표 클러스터 세트의 중심에 가까운 투영 이미지를 보여줍니다 (K = 100 인 '또한 본'그래프에서 학습 된 모델 사용).
 
@@ -758,14 +729,14 @@ Watches cluster into different color profiles, face shapes, and digital versus a
 Other clusters cross multiple categories, for instance we find clusters of highlycolorful items, items containing love hearts, and items containing animals. 
 다른 클러스터는 여러 범주에 걸쳐 있습니다. 예를 들어 매우 다채로운 항목, 사랑의 마음을 포함하는 항목 및 동물이 포함 된 항목의 클러스터를 찾습니다.
 
-
+![Fig4](./image/Fig4.PNG)
 Figure 4 shows a set of images which project to locations that span a cluster.
 그림 4는 클러스터에 걸쳐있는 위치에 투영되는 이미지 세트를 보여줍니다.
 
 
 Although performance is admittedly not outstanding for a category such as books, it is somewhat surprising that an accuracy of even 70% can be achieved when predicting book co-purchases. 
 책과 같은 카테고리에서 성능이 뛰어나지는 않지만 책 공동 구매를 예측할 때 70 %의 정확도를 얻을 수 있다는 것은 다소 놀랍습니다.
-
+![Fig5](./image/Fig5.PNG)
 
 Figure 5 visualizes a few examples of stylespace clusters derived from Books data. 
 그림 5는 Books 데이터에서 파생 된 스타일 공간 클러스터의 몇 가지 예를 시각화합니다.
@@ -773,7 +744,7 @@ Figure 5 visualizes a few examples of stylespace clusters derived from Books dat
 
 Here it seems that there is at least some meaningful information in the cover of a book to predict which products might be purchased together— children’s books, self-help books, romance novels, and comics (for example) all seem to have characteristic visual features which are identified by our model.
 여기에서는 함께 구매할 수있는 제품을 예측하기 위해 책 표지에 의미있는 정보가 적어도 몇 가지있는 것 같습니다. 아동 도서, 자조 책, 로맨스 소설, 만화 (예 :) 모두 특징적인 시각적 특징이있는 것 같습니다. 우리 모델로 식별됩니다.
-
+![Fig6](./image/Fig6.PNG)
 
 In Figure 6 we show how our model can be used to navigate between related items—here we randomly select two items that are unlikely to be co-browsed, and find a low cost path between them as measured by our learned distance measure. 
 그림 6에서는 모델을 사용하여 관련 항목 사이를 탐색하는 방법을 보여줍니다. 여기서는 공동 탐색 할 가능성이없는 두 항목을 무작위로 선택하고 학습 된 거리 측정으로 측정 한 항목 사이의 저렴한 경로를 찾습니다.
@@ -781,7 +752,7 @@ In Figure 6 we show how our model can be used to navigate between related items�
 
 Subjectively, the model identifies visually smooth transitions between the source and the target items.
 주관적으로 모델은 소스와 대상 항목 사이의 시각적으로 부드러운 전환을 식별합니다.
-
+![Fig7](./image/Fig7.PNG)
 Figure 7 provides a visualization of the embedding of Boys clothing achieved by setting K = 2 (on co-browsing data).
 그림 7은 K = 2 (공동 브라우징 데이터에서)로 설정하여 달성 한 Boys 의류 임베딩의 시각화를 제공합니다.
 
@@ -789,7 +760,9 @@ Figure 7 provides a visualization of the embedding of Boys clothing achieved by 
 Sporting shoes drift smoothly toward slippers and sandals, and underwear drifts gradually toward shirts and coats.
 운동화는 슬리퍼와 샌들쪽으로 부드럽게 드리프트하고 속옷은 셔츠와 코트쪽으로 서서히 드리프트합니다.
 
-6. Generating Recommendations
+---
+
+### 6. Generating Recommendations
 
 We here demonstrate that the proposed model can be used to generate recommendations that might be useful to a user of a web store. 
 여기에서는 제안 된 모델을 사용하여 웹 스토어 사용자에게 유용 할 수있는 권장 사항을 생성 할 수 있음을 보여줍니다.
@@ -818,13 +791,12 @@ Then, given a query item our goal is simply to select items from each of these c
 Specifically, given a query item xq, for each category C (represented as a set of item indices), we generate recommendations according to
 특히 쿼리 항목 xq가 주어지면 각 범주 C (항목 색인 집합으로 표시됨)에 대해 다음에 따라 권장 사항을 생성합니다.
 
+![(10)](./image/(10).PNG)
 
-(10)
 i.e., the minimum distance according to our measure (eq. 4) amongst objects belonging to the desired category. 
-(10)
 즉, 원하는 범주에 속하는 물체 사이의 측정 (식 4)에 따른 최소 거리입니다.
 
-
+![Fig8](./image/Fig8.PNG)
 Examples of such recommendations are shown in Figures 1 and 8, with randomly chosen queries from women’s and men’s clothing. 
 이러한 권장 사항의 예는 여성 및 남성 의류에서 무작위로 선택된 쿼리와 함께 그림 1과 8에 나와 있습니다.
 
@@ -832,7 +804,9 @@ Examples of such recommendations are shown in Figures 1 and 8, with randomly cho
 Generally speaking the model produces apparently reasonable recommendations, with clothes in each category usually being of a consistent style. 
 일반적으로 모델은 일반적으로 일관된 스타일의 각 카테고리의 옷과 함께 합리적인 권장 사항을 생성합니다.
 
-7. Outfits in The Wild
+---
+
+### 7. Outfits in The Wild
 
 An alternate application of the model is to make assessments about outfits (or otherwise combinations of items) that we observe ‘in the wild’. 
 모델의 또 다른 적용은 우리가 '야생에서'관찰하는 의상 (또는 기타 항목의 조합)에 대한 평가를하는 것입니다.
@@ -845,7 +819,7 @@ That is, to the extent that the tastes and preferences of Amazon customers refle
 To assess this possibility, we have built two small datasets of real outfits, one consisting of twenty-five outfits worn by the hosts of Top Gear (Jeremy Clarkson, Richard Hammond, and James May), and another consisting of seventeen ‘before’ and ‘after’ pairs of outfits from participants on the television show What Not to Wear (US seasons 9 and 10). 
 이 가능성을 평가하기 위해 우리는 Top Gear의 호스트 (Jeremy Clarkson, Richard Hammond, James May)가 착용 한 25 개의 의상으로 구성된 실제 의상의 두 개의 작은 데이터 세트를 구축했으며, 다른 하나는 17 개의 'before'및 TV 쇼 What Not to Wear (미국 시즌 9 및 10) 참가자의 '애프터'의상.
 
-
+![Fig9](./image/Fig9.PNG)
 For each outfit, we cropped each clothing item from the image, and then used Google’s reverse image search to identify images of similar items (examples are shown in Figure 9).
 각 의상에 대해 이미지에서 각 의류 항목을 자른 다음 Google의 역 이미지 검색을 사용하여 유사한 항목의 이미지를 식별했습니다 (예는 그림 9에 표시됨).
 
@@ -865,7 +839,7 @@ Figure 9 shows the most and least coordinated outfits on Top Gear; here we find 
 A slightly more quantitative evaluation comes from the television show What Not to Wear: here participants receive an ‘outfit makeover’, hopefully meaning that their made-over outfit is more coordinated than the original. 
 TV 쇼 What Not to Wear에서 약간 더 정량적 인 평가가 나옵니다. 여기에서 참가자들은 '의상 화장'을 받게되는데, 이는 그들이 만든 옷이 원래 옷보다 더 잘 조화되어 있다는 것을 의미합니다.
 
-
+![Fig10](./image/Fig10.PNG)
 Examples of participants before and after their makeover, along with the change in log likelihood are shown in Figure 10. 
 로그 가능성의 변화와 함께 화장 전후 참가자의 예가 그림 10에 나와 있습니다.
 
@@ -877,7 +851,9 @@ Indeed we find that made-over outfits have a higher log likelihood in 12 of the 
 This is an important result, as it provides external (albeit small) validation of the learned model which is independent of our dataset.
 이것은 우리의 데이터 세트와 독립적 인 학습 된 모델의 외부 (작지만) 검증을 제공하기 때문에 중요한 결과입니다.
 
-8. Conclusion
+---
+
+### 8. Conclusion
 
 We have shown that it is possible to model the human notion of what is visually related by investigation of a suitably large dataset, even where that information is somewhat tangentially contained therein. 
 우리는 적절하게 큰 데이터 세트를 조사함으로써 시각적으로 관련된 것에 대한 인간의 개념을 모델링 할 수 있음을 보여주었습니다. 심지어 그 정보가 그 안에 다소 접선 적으로 포함되어있는 경우에도 마찬가지입니다.
@@ -905,14 +881,5 @@ We also proposed visual and relational recommender systems as a potential proble
 
 In the process we managed to figure out what not to wear, how to judge a book by its cover, and to show that James May is more fashionable than Richard Hammond. 
 그 과정에서 우리는 무엇을 입지 말아야하는지, 표지로 책을 판단하는 방법을 파악하고, James May가 Richard Hammond보다 더 유행한다는 것을 보여주었습니다.
-
-
-Acknowledgements. 
-
-This research was supported by the Data 2 Decisions Cooperative Research Centre, and the Australian Research Council Discovery Projects funding scheme DP140102270.
-
-감사합니다.
-
-이 연구는 Data 2 Decisions Cooperative Research Centre 및 Australian Research Council Discovery Projects 기금 계획 DP140102270의 지원을 받았습니다.
 
 ---
