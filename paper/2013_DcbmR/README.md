@@ -33,10 +33,10 @@ We show that using predicted latent factors produces sensible recommendations, d
 We also show that recent advances in deep learning translate very well to the music recommendation setting, with deep convolutional neural networks significantly outperforming the traditional approach.
 또한 최근 딥 러닝의 발전은 음악 추천 설정으로 매우 잘 변환되며 딥 컨볼 루션 신경망은 기존 접근 방식을 크게 능가합니다.
 
+---
 
-1 Introduction
+### 1. Introduction
 In recent years, the music industry has shifted more and more towards digital distribution through online music stores and streaming services such as iTunes, Spotify, Grooveshark and Google Play.
-1. 소개
 최근 몇 년 동안 음악 산업은 iTunes, Spotify, Grooveshark 및 Google Play와 같은 온라인 음악 상점 및 스트리밍 서비스를 통해 디지털 배포로 점점 더 이동했습니다.
 
 
@@ -90,7 +90,7 @@ In many domains, and especially in music, they comprise the majority of the avai
 Content-based recommendation is not affected by these issues.
 콘텐츠 기반 권장 사항은 이러한 문제의 영향을받지 않습니다.
 
-1.1 Content-based music recommendation
+#### 1.1 Content-based music recommendation
 
 Music can be recommended based on available metadata: information such as the artist, album and year of release is usually known. 
 사용 가능한 메타 데이터를 기반으로 음악을 추천 할 수 있습니다. 일반적으로 아티스트, 앨범 및 출시 연도와 같은 정보가 알려져 있습니다.
@@ -119,7 +119,7 @@ Such metrics are often defined ad hoc, based on prior knowledge about music audi
 Because of this, some researchers have used user preference data to tune similarity metrics [5, 6].
 이 때문에 일부 연구자들은 유사성 메트릭을 조정하기 위해 사용자 선호도 데이터를 사용했습니다 [5, 6].
 
-1.2 Collaborative filtering
+#### 1.2 Collaborative filtering
 
 Collaborative filtering methods can be neighborhood-based or model-based [7]. 
 협업 필터링 방법은 이웃 기반 또는 모델 기반 일 수 있습니다 [7].
@@ -137,14 +137,14 @@ Latent factor models have been very popular ever since their effectiveness was d
 잠재 요인 모델은 Netflix Prize [8]에서 영화 추천에 대한 효과가 입증 된 이후로 매우 인기가 있습니다.
 
 
-1.3 The semantic gap in music
+#### 1.3 The semantic gap in music
 1.3 음악의 의미 적 차이
 
 
 Latent factor vectors form a compact description of the different facets of users’ tastes, and the corresponding characteristics of the items. 
 잠재 인자 벡터는 사용자 취향의 다양한 측면과 항목의 해당 특성에 대한 간략한 설명을 구성합니다.
 
-
+![T1](./image/T1.PNG)
 To demonstrate this, we computed latent factors for a small set of usage data, and listed some artists whose songs have very positive and very negative values for each factor in Table 1. 
 이를 증명하기 위해 작은 사용 데이터 세트에 대한 잠재 요인을 계산하고 노래가 각 요인에 대해 매우 긍정적이고 매우 부정적인 값을 갖는 일부 아티스트를 표 1에 나열했습니다.
 
@@ -195,7 +195,9 @@ We evaluate our approach on an industrialscale dataset with audio excerpts of ov
 We assess to what extent it is possible to extract characteristics that affect user preference directly from audio signals, and evaluate the predictions from our models in a music recommendation setting. 
 오디오 신호에서 직접 사용자 선호도에 영향을 미치는 특성을 추출 할 수있는 정도를 평가하고 음악 추천 설정에서 모델의 예측을 평가합니다.
 
-2. The dataset 
+---
+
+### 2. The dataset 
 
 The Million Song Dataset (MSD) [13] is a collection of metadata and precomputed audio features for one million contemporary songs. 
 Million Song Dataset (MSD) [13]은 현재 백만 곡에 대한 메타 데이터 및 미리 계산 된 오디오 기능 모음입니다.
@@ -252,7 +254,9 @@ Due to its size, the MSD allows for the music recommendation problem to be studi
 It is also worth noting that the Taste Profile Subset is one of the largest collaborative filtering datasets that are publicly available today.
 또한 Taste Profile Subset이 오늘날 공개적으로 사용 가능한 가장 큰 협업 필터링 데이터 세트 중 하나라는 점도 주목할 가치가 있습니다.
 
-3. Weighted matrix factorization
+---
+
+### 3. Weighted matrix factorization
 
 The Taste Profile Subset contains play counts per song and per user, which is a form of implicit feedback. 
 Taste Profile Subset에는 암시 적 피드백의 한 형태 인 노래 및 사용자 당 재생 횟수가 포함됩니다.
@@ -293,8 +297,7 @@ rui를 사용자 u와 노래 i의 재생 횟수로 지정합니다.
 For each user-item pair, we define a preference variable pui and a confidence variable cui (I(x) is the indicator function, α and  are hyperparameters):
 각 사용자 항목 쌍에 대해 선호 변수 pui와 신뢰 변수 cui를 정의합니다 (I (x)는 표시기 함수, α이고 하이퍼 파라미터 임).
 
-(1)(2)
-
+![(1+2)](./image/(1+2).PNG)
 The preference variable indicates whether user u has ever listened to song i. 
 환경 설정 변수는 사용자 u가 노래 i를들은 적이 있는지 여부를 나타냅니다.
 
@@ -317,8 +320,7 @@ If the song has never been played, the confidence variable will have a low value
 
 The WMF objective function is given by:
 WMF 목적 함수는 다음과 같이 제공됩니다.
-
-(3)
+![(3)](./image/(3).PNG)
 
 where λ is a regularization parameter, xu is the latent factor vector for user u, and yi is the latent factor vector for song i. 
 여기서 λ는 정규화 매개 변수, xu는 사용자 u에 대한 잠재 인자 벡터, yi는 노래 i에 대한 잠재 인자 벡터입니다.
@@ -339,7 +341,9 @@ As a result, using stochastic gradient descent for optimization is not practical
 Hu et al. propose an efficient alternating least squares (ALS) optimization method, which we used instead.
 Hu et al. 대신 사용한 효율적인 교번 최소 제곱 (ALS) 최적화 방법을 제안합니다.
 
-4. Predicting latent factors from music audio 
+---
+
+### 4. Predicting latent factors from music audio 
 
 Predicting latent factors for a given song from the corresponding audio signal is a regression problem. 
 해당 오디오 신호에서 주어진 노래의 잠재 요인을 예측하는 것은 회귀 문제입니다.
@@ -372,7 +376,7 @@ It should be noted that this approach is compatible with any type of latent fact
 We chose to use WMF because an efficient optimization procedure exists for it.
 효율적인 최적화 절차가 있기 때문에 WMF를 사용하기로 선택했습니다.
 
-4.1 Bag-of-words representation
+#### 4.1 Bag-of-words representation
 
 Many MIR systems rely on the following feature extraction pipeline to convert music audio signals into a fixed-size representation that can be used as input to a classifier or regressor [5, 17, 18, 19, 20]:
 많은 MIR 시스템은 음악 오디오 신호를 분류기 또는 회귀 자에 대한 입력으로 사용할 수있는 고정 크기 표현으로 변환하기 위해 다음 기능 추출 파이프 라인에 의존합니다 [5, 17, 18, 19, 20].
@@ -421,7 +425,7 @@ We also used it as input for the metric learning to rank (MLR) algorithm [21], t
 This was used as a baseline for our music recommendation experiments, which are described in Section 5.2.
 이는 섹션 5.2에 설명 된 음악 추천 실험의 기준으로 사용되었습니다.
 
-4.2 Convolutional neural networks
+#### 4.2 Convolutional neural networks
 
 Convolutional neural networks (CNNs) have recently been used to improve on the state of the art in speech recognition and large-scale image classification by a large margin [22, 23]. 
 컨볼 루션 신경망 (CNN)은 최근 음성 인식 및 대규모 이미지 분류의 최첨단 기술을 크게 향상시키는 데 사용되었습니다 [22, 23].
@@ -476,7 +480,7 @@ To predict the latent factors for an entire clip, we averaged over the predictio
 Convolutional neural networks are especially suited for predicting latent factors from music audio, because they allow for intermediate features to be shared between different factors, and because their hierarchical structure consisting of alternating feature extraction layers and pooling layers allows them to operate on multiple timescales.
 컨볼 루션 신경망은 음악 오디오의 잠재 요인을 예측하는 데 특히 적합합니다. 왜냐하면 중간 기능을 서로 다른 요인간에 공유 할 수 있고 기능 추출 레이어와 풀링 레이어를 번갈아 사용하는 계층 구조를 통해 여러 시간 척도에서 작동 할 수 있기 때문입니다.
 
-4.3 Objective functions 
+#### 4.3 Objective functions 
 
 Latent factor vectors are real-valued, so the most straightforward objective is to minimize the mean squared error (MSE) of the predictions. 
 잠재 인자 벡터는 실수 값이므로 가장 간단한 목표는 예측의 평균 제곱 오차 (MSE)를 최소화하는 것입니다.
@@ -491,11 +495,13 @@ yi를 WMF로 얻은 노래 i에 대한 잠재 인자 벡터이고 y0i를 모델�
 
 
 The objective functions are then (θ represents the model parameters):
-(5)
+![(5)](./image/(5).PNG)
 목적 함수는 다음과 같습니다 (θ는 모델 매개 변수를 나타냄).
 
-5. Experiments
-5.1 Versatility of the latent factor representation
+---
+
+### 5. Experiments
+#### 5.1 Versatility of the latent factor representation
 
 To demonstrate the versatility of the latent factor vectors, we compared them with audio features in a tag prediction task. 
 잠재 인자 벡터의 다양성을 입증하기 위해 태그 예측 작업의 오디오 기능과 비교했습니다.
@@ -520,7 +526,8 @@ We used 10-fold crossvalidation and computed the average area under the ROC curv
 This resulted in an average AUC of 0.69365 for audio-based prediction, and 0.86703 for prediction based on the latent factor vectors.
 그 결과 오디오 기반 예측의 경우 평균 AUC가 0.69365이고 잠재 인자 벡터를 기반으로 한 예측의 경우 0.86703이되었습니다.
 
-5.2 Latent factor prediction: quantitative evaluation
+#### 5.2 Latent factor prediction: quantitative evaluation
+5.2 잠재 인자 예측 : 정량적 평가
 
 To assess quantitatively how well we can predict latent factors from music audio, we used the predictions from our models for music recommendation. 
 음악 오디오의 잠재 요인을 얼마나 잘 예측할 수 있는지 정량적으로 평가하기 위해 음악 추천을 위해 모델의 예측을 사용했습니다.
@@ -575,7 +582,7 @@ We evaluated all models on the subset, using latent factor vectors with 50 dimen
 We compared the convolutional neural network with linear regression on the bag-of-words representation on the full dataset as well, using latent factor vectors with 400 dimensions. 
 컨벌루션 신경망과 전체 데이터 세트의 단어 모음 표현에 대한 선형 회귀를 400 차원의 잠재 인자 벡터를 사용하여 비교했습니다.
 
-
+![T2](./image/T2.PNG)
 Results are shown in Tables 2 and 3 respectively.
 결과는 각각 표 2 및 3에 나와 있습니다.
 
@@ -621,7 +628,7 @@ We also included results for when the latent factor vectors are obtained from us
 
 This is an upper bound to what is achievable when predicting them from content. 
 이는 콘텐츠에서 예측할 때 달성 할 수있는 것의 상한선입니다.
-
+![T3](./image/T3.PNG)
 
 There is a large gap between our best result and this theoretical maximum, but this is to be expected: as we mentioned before, many aspects of the songs that influence user preference cannot possibly be extracted from audio signals only. 
 최상의 결과와 이론적 최대 값 사이에는 큰 차이가 있지만 이는 예상 할 수 있습니다. 앞에서 언급했듯이 사용자 선호도에 영향을 미치는 노래의 많은 측면은 오디오 신호에서만 추출 할 수 없습니다.
@@ -631,7 +638,7 @@ In particular, we are unable to predict the popularity of the songs, which consi
 특히 AUC 및 mAP 점수에 큰 영향을 미치는 곡의 인기도를 예측할 수 없습니다.
 
 
-5.3 Latent factor prediction: qualitative evaluation
+#### 5.3 Latent factor prediction: qualitative evaluation
 5.3 잠재 인자 예측 : 정 성적 평가
 
 
@@ -649,7 +656,7 @@ For each song, we searched for similar songs by measuring the cosine similarity 
 We compared the usage patterns predicted using the latent factors obtained with WMF (50 dimensions), with those using latent factors predicted with a convolutional neural network. 
 WMF (50 차원)로 얻은 잠재 인자를 사용하여 예측 한 사용 패턴과 컨벌루션 신경망으로 예측 한 잠재 인자를 사용하여 예측 한 사용 패턴을 비교했습니다.
 
-
+![T4](./image/T4.PNG)
 A few songs and their closest matches according to both models are shown in Table 4. 
 두 모델에 따른 몇 곡과 가장 가까운 곡이 표 4에 나와 있습니다.
 
@@ -665,6 +672,7 @@ Furthermore, they seem to be a bit more varied, which is a useful property for r
 Following McFee et al. [5], we also visualized the distribution of predicted usage patterns in two dimensions using t-SNE [27]. 
 McFee et al. [5], t-SNE를 사용하여 예측 된 사용 패턴의 분포를 2 차원으로 시각화했습니다 [27].
 
+![Fig1](./image/Fig1.PNG)
 
 A few close-ups are shown in Figure 1. 
 그림 1에는 몇 가지 클로즈업이 나와 있습니다.
@@ -673,8 +681,9 @@ A few close-ups are shown in Figure 1.
 Clusters of songs that appeal to the same audience seem to be preserved quite well, even though the latent factor vectors for all songs were predicted from audio.
 모든 노래의 잠재 요소 벡터가 오디오에서 예측 되었음에도 불구하고 동일한 청중에게 호소하는 노래 모음은 꽤 잘 보존 된 것 같습니다.
 
+---
 
-6. Related work
+### 6. Related work
 
 
 Many researchers have attempted to mitigate the cold start problem in collaborative filtering by incorporating content-based features. 
@@ -746,7 +755,10 @@ We have opted to use quadratic loss functions instead, because we found their op
 Using a ranking loss instead is an interesting direction of future research, although we suspect that this approach may suffer from the same problems as the WPE objective (i.e. popular songs will have an unfair advantage).
 순위 손실을 대신 사용하는 것은 향후 연구의 흥미로운 방향이지만,이 접근 방식은 WPE 목표와 동일한 문제 (즉, 인기있는 노래가 불공정 한 이점을 가질 수 있음)를 겪을 수 있다고 생각합니다.
 
-7. Conclusion
+---
+
+### 7. Conclusion
+
 In this paper, we have investigated the use of deep convolutional neural networks to predict latent factors from music audio when they cannot be obtained from usage data. 
 이 논문에서는 사용 데이터에서 얻을 수없는 음악 오디오의 잠재 요인을 예측하기 위해 심층 컨볼 루션 신경망을 사용하는 방법을 조사했습니다.
 

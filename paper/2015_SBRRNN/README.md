@@ -36,7 +36,9 @@ Our approach also considers practical aspects of the task and introduces several
 Experimental results on two data-sets show marked improvements over widely used approaches.
 두 데이터 세트에 대한 실험 결과는 널리 사용되는 접근 방식에 비해 현저한 개선을 보여줍니다.
 
-1. INTRODUCTION
+---
+
+### 1. INTRODUCTION
 
 Session-based recommendation is a relatively unappreciated problem in the machine learning and recommender systems community. 
 세션 기반 추천은 기계 학습 및 추천 시스템 커뮤니티에서 상대적으로 인정받지 못하는 문제입니다.
@@ -131,9 +133,10 @@ Apart from the large size of the item set, another challenge is that click-strea
 As in most information retrieval and recommendation settings, we are interested in focusing the modeling power on the top-items that the user might be interested in, to this end we use ranking loss function to train the RNNs.
 대부분의 정보 검색 및 추천 설정에서와 같이 사용자가 관심을 가질 수있는 상위 항목에 모델링 능력을 집중하는 데 관심이 있습니다.이를 위해 순위 손실 기능을 사용하여 RNN을 훈련합니다.
 
-2. RELATED WORK
+---
 
-2.1 SESSION-BASED RECOMMENDATION
+### 2. RELATED WORK
+#### 2.1 SESSION-BASED RECOMMENDATION
 
 Much of the work in the area of recommender systems has focused on models that work when a user identifier is available and a clear user profile can be built. 
 추천 시스템 분야의 많은 작업은 사용자 식별자를 사용할 수 있고 명확한 사용자 프로필을 만들 수있을 때 작동하는 모델에 초점을 맞추 었습니다.
@@ -197,7 +200,7 @@ The session is then represented as the average of the feature vectors of part-of
 However, this approach does not consider any ordering within the session.
 그러나이 접근 방식은 세션 내 순서를 고려하지 않습니다.
 
-2.2 DEEP LEARNING IN RECOMMENDERS
+#### 2.2 DEEP LEARNING IN RECOMMENDERS
 
 One of the first related methods in the neural networks literature where the use of Restricted Boltzmann Machines (RBM) for Collaborative Filtering (Salakhutdinov et al., 2007). 
 협업 필터링을 위해 RBM (Restricted Boltzmann Machines)을 사용하는 신경망 문헌의 첫 번째 관련 방법 중 하나입니다 (Salakhutdinov et al., 2007).
@@ -226,7 +229,9 @@ More recently Wang et al. (2015) introduced a more generic approach whereby a de
 This approach seems to be particularly useful in settings where there is not sufficient user-item interaction information. 
 이 접근 방식은 사용자 항목 상호 작용 정보가 충분하지 않은 설정에서 특히 유용합니다.
 
-3. RECOMMENDATIONS WITH RNNS
+--- 
+
+### 3. RECOMMENDATIONS WITH RNNS
 
 Recurrent Neural Networks have been devised to model variable-length sequence data. 
 Recurrent Neural Networks는 가변 길이 시퀀스 데이터를 모델링하기 위해 고안되었습니다.
@@ -277,7 +282,7 @@ and finaly the reset gate rt is given by:
 
 rt = σ(Wrxt + Urht−1) (5)
 
-3.1 CUSTOMIZING THE GRU MODEL
+#### 3.1 CUSTOMIZING THE GRU MODEL
 
 We used the GRU-based RNN in our models for session-based recommendations. 
 세션 기반 권장 사항을 위해 모델에서 GRU 기반 RNN을 사용했습니다.
@@ -325,6 +330,8 @@ When multiple GRU layers are used, the hidden state of the previous layer is the
 The input can also be optionally connected to GRU layers deeper in the network, as we found that this improves performance. 
 입력은 또한 선택적으로 네트워크의 더 깊은 GRU 계층에 연결될 수 있습니다. 이것이 성능을 향상시키는 것으로 나타났습니다.
 
+![Fig1](./image/Fig1.PNG)
+
 See the whole architecture on Figure 1, which depicts the representation of a single event within a time series of events.
 시계열 이벤트 내에서 단일 이벤트의 표현을 보여주는 그림 1의 전체 아키텍처를 참조하십시오.
 
@@ -337,7 +344,7 @@ We also considered practical points so that our solution could be possibly appli
 또한 실제 환경에서 솔루션을 적용 할 수 있도록 실용적인 포인트도 고려했습니다.
 
 
-3.1.1 SESSION-PARALLEL MINI-BATCHES
+##### 3.1.1 SESSION-PARALLEL MINI-BATCHES
 3.1.1 세션 병렬 미니 배치
 
 
@@ -382,11 +389,12 @@ If any of the sessions end, the next available session is put in its place.
 Sessions are assumed to be independent, thus we reset the appropriate hidden state when this switch occurs. 
 세션은 독립적 인 것으로 간주되므로이 전환이 발생하면 적절한 숨김 상태를 재설정합니다.
 
+![Fig2](./image/Fig2.PNG)
 
 See Figure 2 for more details.
 자세한 내용은 그림 2를 참조하십시오.
 
-3.1.2 SAMPLING ON THE OUTPUT
+##### 3.1.2 SAMPLING ON THE OUTPUT
 
 Recommender systems are especially useful when the number of items is large. 
 추천 시스템은 항목 수가 많을 때 특히 유용합니다.
@@ -446,7 +454,7 @@ Additionally, there are also benefits on the implementation side from making the
 Meanwhile, this approach is also a popularity-based sampling, because the likelihood of an item being in the other training examples of the mini-batch is proportional to its popularity.
 한편,이 접근 방식은 미니 배치의 다른 훈련 예제에 항목이있을 가능성이 인기도에 비례하기 때문에 인기 기반 샘플링이기도합니다.
 
-3.1.3 RANKING LOSS
+##### 3.1.3 RANKING LOSS
 
 The core of recommender systems is the relevance-based ranking of items. 
 추천 시스템의 핵심은 항목의 관련성 기반 순위입니다.
@@ -560,7 +568,9 @@ The final loss function is as follows:
 
 Ls = NS·PNSj=1 σ (ˆrs,j − rˆs,i) + σ
 
-4. EXPERIMENTS
+--- 
+
+### 4. EXPERIMENTS
 
 We evaluate the proposed recursive neural network against popular baselines on two datasets. 
 제안 된 재귀 신경망을 두 데이터 세트의 인기있는 기준선에 대해 평가합니다.
@@ -711,7 +721,7 @@ The reciprocal rank is set to zero if the rank is above 20.
 MRR takes into account the rank of the item, which is important in cases where the order of recommendations matter (e.g. the lower ranked items are only visible after scrolling).
 MRR은 항목의 순위를 고려하며 이는 추천 순서가 중요한 경우에 중요합니다 (예 : 낮은 순위 항목은 스크롤 한 후에 만 ​​표시됨).
 
-4.1 BASELINES
+#### 4.1 BASELINES
 
 We compare the proposed network to a set of commonly used baselines.
 제안 된 네트워크를 일반적으로 사용되는 기준선 세트와 비교합니다.
@@ -775,6 +785,7 @@ However we can overcome this by using the average of item feature vectors of the
 In other words we average the similarities of the feature vectors between a recommendable item and the items of the session so far.
 즉, 추천 항목과 지금까지 세션 항목 간의 특징 벡터 유사성을 평균화합니다.
 
+![T1](./image/T1.PNG)
 
 Table 1 shows the results for the baselines. 
 표 1은 기준선에 대한 결과를 보여줍니다.
@@ -784,7 +795,7 @@ The item-KNN approach clearly dominates the other methods.
 항목 -KNN 접근 방식은 분명히 다른 방법을 지배합니다.
 
 
-4.2 PARAMETER & STRUCTURE OPTIMIZATION
+#### 4.2 PARAMETER & STRUCTURE OPTIMIZATION
 4.2 매개 변수 및 구조 최적화
  
  
@@ -811,7 +822,7 @@ The optimization was done on a separate validation set.
 Then the networks were retrained on the training plus the validation set and evaluated on the final test set.
 그런 다음 훈련과 검증 세트에서 네트워크를 재 훈련하고 최종 테스트 세트에서 평가했습니다.
 
-
+![T2](./image/T2.PNG)
 The best performing parametrizations are summarized in table 2. 
 가장 성능이 좋은 매개 변수화는 표 2에 요약되어 있습니다.
 
@@ -894,8 +905,8 @@ However increasing the size of the GRU layer improved the performance.
 We also found that it is beneficial to use tanh as the activation function of the output layer.
 또한 tanh를 출력 레이어의 활성화 함수로 사용하는 것이 유익하다는 것을 발견했습니다.
 
-4.3 RESULTS
-
+#### 4.3 RESULTS
+![T3](./image/T3.PNG)
 Table 3 shows the results of the best performing networks. 
 표 3은 최고 성능의 네트워크 결과를 보여줍니다.
 
@@ -955,7 +966,9 @@ Therefore we suggest using any of the two pairwise losses.
 The TOP1 loss performs slightly better on these two datasets, resulting in ∼ 20 − 30% accuracy gain over the best performing baseline.
 TOP1 손실은이 두 데이터 세트에서 약간 더 나은 성능을 발휘하여 최상의 성능 기준에 비해 약 20-30 %의 정확도를 얻습니다.
 
-5 CONCLUSION & FUTURE WORK
+---
+
+### 5. CONCLUSION & FUTURE WORK
 
 In this paper we applied a kind of modern recurrent neural network (GRU) to new application domain: recommender systems. 
 이 논문에서 우리는 새로운 애플리케이션 도메인 인 추천 시스템에 일종의 현대 순환 신경망 (GRU)을 적용했습니다.
@@ -984,11 +997,4 @@ Our immediate future work will focus on the more thorough examination of the pro
 We also plan to train the network on automatically extracted item representation that is built on content of the item itself (e.g. thumbnail, video, text) instead of the current input.
 또한 현재 입력 대신 항목 자체의 콘텐츠 (예 : 썸네일, 비디오, 텍스트)에 구축 된 자동으로 추출 된 항목 표현에 대해 네트워크를 훈련시킬 계획입니다.
 
-
-ACKNOWLEDGMENTS
-감사의 말
-
-The work leading to these results has received funding from the European Union’s Seventh Framework Programme (FP7/2007-2013) under CrowdRec Grant Agreement n◦ 610594    
-
-이러한 결과로 이어지는 작업은 CrowdRec Grant Agreement n◦ 610594에 따라 유럽 연합의 7 차 프레임 워크 프로그램 (FP7 / 2007-2013)으로부터 자금을 받았습니다.
 ---

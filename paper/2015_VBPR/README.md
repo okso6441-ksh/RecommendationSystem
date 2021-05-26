@@ -29,7 +29,9 @@ We make use of visual features extracted from product images using (pre-trained)
 This not only leads to significantly more accurate personalized ranking methods, but also helps to alleviate cold start issues, and qualitatively to analyze the visual dimensions that influence people’s opinions.
 이는 훨씬 더 정확한 개인화 된 순위 지정 방법으로 이어질뿐만 아니라 콜드 스타트 ​​문제를 완화하고 사람들의 의견에 영향을 미치는 시각적 차원을 질적으로 분석하는 데 도움이됩니다.
 
-Introduction
+---
+
+### Introduction
 
 Modern Recommender Systems (RSs) provide personalized suggestions by learning from historical feedback and uncovering the preferences of users and the properties of the items they consume. 
 Modern Recommender Systems (RS)는 과거 피드백을 통해 학습하고 사용자의 선호도와 사용자가 소비하는 항목의 속성을 밝혀 개인화 된 제안을 제공합니다.
@@ -50,8 +52,7 @@ In order to model user feedback in large, realworld datasets, Matrix Factorizati
 Despite the great success, they suffer from cold start issues due to the sparsity of real-world datasets.
 큰 성공에도 불구하고 실제 데이터 세트의 희소성으로 인해 콜드 스타트 ​​문제가 발생합니다.
 
-
-Visual personalized ranking. 
+#### Visual personalized ranking. 
 시각적 맞춤형 순위.
 
 Although a variety of sources of data have been used to build hybrid models to make cold start or context-aware recommendations (Schein et al., 2002), from text (Bao, Fang, and Zhang, 2014), to a user’s physical location (Qiao et al., 2014), to the season or temperature (Brown, Bovey, and Chen, 1997), here we are interested in incorporating the visual appearance of the items into the preference predictor, a source of data which is typically neglected by existing RSs. 
@@ -97,7 +98,9 @@ Specifically, our main contributions are listed as follows:
 • 시각적 요인을 발견하는 데 적합한 베이지안 개인화 순위 (BPR) 기반 교육 절차의 유도 및 분석.
 • 우리가 발견 한 시각적 평가 공간의 시각화뿐만 아니라 방법의 효과를 보여주는 크고 새로운 실제 데이터 세트에 대한 실험.
 
-Related Work
+---
+
+### Related Work
 
 Matrix Factorization (MF) methods relate users and items by uncovering latent dimensions such that users have similar representations to items they rate highly, and are the basis of many state-of-the-art recommendation approaches.(e.g. Bell, Koren, and Volinsky (2007); Bennett and Lanning (2007); Rendle et al. (2009)). 
 MF (Matrix Factorization) 방법은 잠재 차원을 발견하여 사용자와 항목을 연관시켜 사용자가 높은 평가 항목과 유사한 표현을 가지고 있으며 많은 최첨단 권장 방법의 기초가됩니다 (예 : Bell, Koren 및 Volinsky). (2007); Bennett and Lanning (2007); Rendle et al. (2009)).
@@ -170,8 +173,7 @@ In contrast to our method, the above works focus on visual retrieval, which diff
 Thus it is the combination of visual and historical user feedback data that distinguishes our approach from prior work.
 따라서 이전 작업과 우리의 접근 방식을 구별하는 것은 시각적 및 과거 사용자 피드백 데이터의 조합입니다.
 
-
-Visual Features. 
+#### Visual Features. 
 시각적 특징.
 
 
@@ -183,8 +185,12 @@ Furthermore, recent transfer learning studies have demonstrated that CNNs traine
 또한 최근 전이 학습 연구에 따르면 하나의 큰 데이터 세트 (예 : ImageNet)에서 훈련 된 CNN을 일반화하여 다른 데이터 세트에 대한 CNN 기능을 추출 할 수 있으며 다른 시각적 작업에 대해 이러한 새로운 데이터 세트에 대한 최첨단 접근 방식을 능가 할 수 있음이 입증되었습니다 (Donahue et al ., 2014; Razavian et al., 2014). 이러한 성공은 시각적 작업에 대한 CNN 기능의 매우 일반적이고 설명적인 능력을 보여주고 권장 작업에이를 활용하도록 설득합니다.
 
 
-VBPR: Visual Bayesian Personalized Ranking In this section, we build our visual personalized ranking model (VBPR) to uncover visual and latent (non-visual) dimensions simultaneously. 
-VBPR : 시각적 베이지안 개인화 된 순위이 섹션에서는 시각적 차원과 잠재 (비 시각적) 차원을 동시에 발견하기 위해 시각적 개인화 된 순위 모델 (VBPR)을 구축합니다.
+---
+
+### VBPR: Visual Bayesian Personalized Ranking 
+
+In this section, we build our visual personalized ranking model (VBPR) to uncover visual and latent (non-visual) dimensions simultaneously. 
+이 섹션에서는 시각적 개인화 순위 모델 (VBPR)을 구축하여 시각적 차원과 잠재 (비 시각적) 차원을 동시에 발견합니다.
 
 
 We first formulate the task in question and introduce our Matrix Factorization based predictor function. 
@@ -194,12 +200,13 @@ We first formulate the task in question and introduce our Matrix Factorization b
 Then we develop our training procedure using a Bayesian Personalized Ranking (BPR) framework. 
 그런 다음 베이지안 개인화 순위 (BPR) 프레임 워크를 사용하여 훈련 절차를 개발합니다.
 
+![T1](./image/T1.PNG)
 
 The notation we use throughout this paper is summarized in Table 1.
 이 문서에서 사용하는 표기법은 표 1에 요약되어 있습니다.
 
 
-Problem Formulation
+#### Problem Formulation
 문제 공식화
 
 Here we focus on scenarios where the ranking has to be learned from users’ implicit feedback (e.g. purchase histories). 
@@ -217,11 +224,12 @@ In addition, a single image is available for each item i ∈ I.
 Using only the above data, our objective is to generate for each user u a personalized ranking of those items about which they haven’t yet provided feedback (i.e. I \ I+u).
 위의 데이터 만 사용하여 우리의 목표는 각 사용자에게 아직 피드백을 제공하지 않은 항목 (예 : I \ I + u)의 개인화 된 순위를 생성하는 것입니다.
 
+#### Preference Predictor 
 
-Preference Predictor Our preference predictor is built on top of Matrix Factorization (MF), which is state-of-the-art for rating prediction as well as modeling implicit feedback, whose basic formulation assumes the following model to predict the preference of a user u toward an item i (Koren and Bell, 2011):
-선호도 예측기 선호도 예측기는 MF (Matrix Factorization)를 기반으로하여 평가 예측 및 암시 적 피드백 모델링을위한 최신 기술이며, 기본 공식은 사용자의 선호도를 예측하기 위해 다음 모델을 가정합니다. 항목 i (Koren and Bell, 2011) :
+Our preference predictor is built on top of Matrix Factorization (MF), which is state-of-the-art for rating prediction as well as modeling implicit feedback, whose basic formulation assumes the following model to predict the preference of a user u toward an item i (Koren and Bell, 2011):
+우리의 선호도 예측기는 평가 예측 및 암시 적 피드백 모델링을위한 최첨단 매트릭스 분해 (MF)를 기반으로하며, 기본 공식은 다음 모델을 가정하여 사용자 u의 선호도를 예측합니다. 항목 i (Koren and Bell, 2011) :
 
-(1)
+![(1)](./image/(1).PNG)
 
 where α is global offset, βu and βi are user/item bias terms, and γu and γi are K-dimensional vectors describing latent factors of user u and item i (respectively). 
 여기서 α는 전역 오프셋, βu 및 βi는 사용자 / 항목 편향 항, γu 및 γi는 사용자 u 및 항목 i (각각)의 잠재 인자를 설명하는 K 차원 벡터입니다.
@@ -238,7 +246,7 @@ Although theoretically latent factors are able to uncover any relevant dimension
 Using explicit features can alleviate this problem by providing an auxiliary signal in such situations. 
 명시 적 기능을 사용하면 이러한 상황에서 보조 신호를 제공하여이 문제를 완화 할 수 있습니다.
 
-
+![Fig1](./image/Fig1.PNG)
 In particular, we propose to partition rating dimensions into visual factors and latent (non-visual) factors, as shown in Figure 1. 
 특히 그림 1과 같이 등급 차원을 시각적 요인과 잠재 (비 시각적) 요인으로 구분할 것을 제안합니다.
 
@@ -246,7 +254,7 @@ In particular, we propose to partition rating dimensions into visual factors and
 Our extended predictor takes the form 
 확장 된 예측자는 다음과 같은 형식을 취합니다.
 
-(2)
+![(2)](./image/(2).PNG)
 
 where α, β, and γ are as in Eq. 1. θu and θi are newly introduced D-dimensional visual factors whose inner product models the visual interaction between u and i, i.e., the extent to which the user u is attracted to each of D visual dimensions. 
 여기서 α, β 및 γ는 Eq. 1. θu와 θi는 새롭게 도입 된 D 차원 시각적 인자로서, 내적은 u와 i 사이의 시각적 상호 작용, 즉 사용자 u가 각 D 시각적 차원에 끌리는 정도를 모델링합니다.
@@ -271,7 +279,7 @@ PCA와 같은 차원 축소 기술은 사용자의 행동을 설명하기 위해
 Instead, we propose to learn an embedding kernel which linearly transforms such high-dimensional features into a much lower-dimensional (say 20 or so) ‘visual rating’ space:
 대신, 우리는 이러한 고차원 적 특징을 훨씬 낮은 차원 (예 : 20 개 정도)의 '시각적 등급'공간으로 선형 적으로 변환하는 임베딩 커널을 학습 할 것을 제안합니다.
 
-(3)
+![(3)](./image/(3).PNG)
 
 Here E is a D × F matrix embedding Deep CNN feature space (F-dimensional) into visual space (D-dimensional), where fi is the original visual feature vector for item i. 
 여기서 E는 Deep CNN 기능 공간 (F- 차원)을 시각적 공간 (D- 차원)에 포함하는 D × F 행렬이며, 여기서 fi는 항목 i에 대한 원래의 시각적 특징 벡터입니다.
@@ -292,25 +300,24 @@ Next, we introduce a visual bias term β 0 whose inner product with fi models us
 In summary, our final prediction model is
 요약하면 최종 예측 모델은
 
-(4)
+![(4)](./image/(4).PNG)
+#### Model Learning Using BPR 
 
-Model Learning Using BPR Bayesian Personalized Ranking (BPR) is a pairwise ranking optimization framework which adopts stochastic gradient ascent as the training procedure. 
-BPR을 사용한 모델 학습 베이지안 개인화 순위 (BPR)는 확률 적 기울기 상승을 훈련 절차로 채택하는 쌍별 순위 최적화 프레임 워크입니다.
+Bayesian Personalized Ranking (BPR) is a pairwise ranking optimization framework which adopts stochastic gradient ascent as the training procedure. 
+Bayesian Personalized Ranking (BPR)은 훈련 절차로 확률 적 경사 상승을 채택하는 쌍별 순위 최적화 프레임 워크입니다.
 
 
 A training set DS consists of triples of the form (u, i, j), where u denotes the user together with an item i about which they expressed positive feedback, and a non-observed item j:
 학습 세트 DS는 (u, i, j) 형식의 트리플로 구성됩니다. 여기서 u는 사용자가 긍정적 인 피드백을 표현한 항목 i 및 관찰되지 않은 항목 j와 함께 사용자를 나타냅니다.
-(5)
-
+![(5)](./image/(5).PNG)
 Following the notation in Rendle et al. (2009), Θ is the parameter vector and xbuij (Θ) denotes an arbitrary function of Θ that parameterises the relationship between the components of the triple (u, i, j). 
 Rendle et al.의 표기법에 따라. (2009), Θ는 매개 변수 벡터이고 xbuij (Θ)는 트리플 (u, i, j)의 구성 요소 간의 관계를 매개 변수화하는 Θ의 임의 함수를 나타냅니다.
 
 
 The following optimization criterion is used for personalized ranking (BPR-OPT):
-(6)
-where σ is the logistic (sigmoid) function and λΘ is a modelspecific regularization hyperparameter.
 다음 최적화 기준은 개인화 순위 (BPR-OPT)에 사용됩니다.
-(6)
+![(6)](./image/(6).PNG)
+where σ is the logistic (sigmoid) function and λΘ is a modelspecific regularization hyperparameter.
 여기서 σ는 로지스틱 (시그 모이 드) 함수이고 λΘ는 모델 별 정규화 하이퍼 파라미터입니다.
 
 
@@ -318,17 +325,18 @@ When using Matrix Factorization as the preference predictor (i.e., BPR-MF), xbui
 Matrix Factorization을 선호도 예측 변수 (즉, BPR-MF)로 사용할 때 xbuij는 다음과 같이 정의됩니다.
 
 
-(7)
+![(7)](./image/(7).PNG)
+
 where xbu,i and xbu,j are defined by Eq. 1. BPR-MF can be learned efficiently using stochastic gradient ascent. 
-(7)
 여기서 xbu, i 및 xbu, j는 Eq에 의해 정의됩니다. 1. BPR-MF는 확률 적 경사 상승을 사용하여 효율적으로 학습 할 수 있습니다.
 
 
 First a triple (u, i, j) is sampled from DS and then the learning algorithm updates parameters in the following fashion:
-(8)
-where η is the learning rate.
 먼저 트리플 (u, i, j)이 DS에서 샘플링 된 다음 학습 알고리즘이 다음과 같은 방식으로 매개 변수를 업데이트합니다.
-(8)
+
+![(8)](./image/(8).PNG)
+
+where η is the learning rate.
 여기서 η는 학습률입니다.
 
 
@@ -347,7 +355,7 @@ BPR-MF에 비해 업데이트 할 매개 변수 세트는 (a) 비 시각적 매�
 Non-visual parameters can be updated in the same form as BPR-MF (therefore are suppressed for brevity), while visual parameters are updated according to:
 비 시각적 매개 변수는 BPR-MF와 동일한 형식으로 업데이트 할 수 있으며 (따라서 간결하게 표시하지 않음), 시각적 매개 변수는 다음에 따라 업데이트됩니다.
 
-공식 - 1
+![1](./image/1.PNG)
 
 Note that our method introduces an additional hyperparameter λE to regularize the embedding matrix E. 
 우리의 방법은 임베딩 행렬 E를 정규화하기 위해 추가 하이퍼 파라미터 λE를 도입합니다.
@@ -361,7 +369,7 @@ All hyperparameters are tuned using a validation set as we describe in our exper
 모든 하이퍼 파라미터는 나중에 실험 섹션에서 설명하는대로 검증 세트를 사용하여 조정됩니다.
 
 
-Scalability
+#### Scalability
 
 The efficiency of the underlying BPR-MF makes our models similarly scalable.  
 기본 BPR-MF의 효율성으로 인해 모델을 유사하게 확장 할 수 있습니다.
@@ -386,7 +394,9 @@ Therefore the total time complexity of our model for updating each triple is O(K
 Note that visual feature vectors (fi) from Deep CNNs are sparse, which significantly reduces the above worst-case running time.
 Deep CNN의 시각적 특징 벡터 (fi)는 희소하므로 위의 최악의 실행 시간이 크게 줄어 듭니다.
 
-Experiments 
+---
+
+### Experiments 
 
 In this section, we perform experiments on multiple realworld datasets. 
 이 섹션에서는 여러 실제 데이터 세트에 대한 실험을 수행합니다.
@@ -396,8 +406,10 @@ These datasets include a variety of settings where visual appearance is expected
 이러한 데이터 세트에는 소비자의 의사 결정 과정에서 시각적 인 모습이 역할을 할 것으로 예상되는 다양한 설정이 포함됩니다.
 
 
-Datasets The first group of datasets are from Amazon.com introduced by McAuley et al. (2015). 
-데이터 세트 첫 번째 데이터 세트 그룹은 McAuley 등이 소개 한 Amazon.com에서 가져온 것입니다. (2015).
+#### Datasets 
+
+The first group of datasets are from Amazon.com introduced by McAuley et al. (2015). 
+첫 번째 데이터 세트 그룹은 McAuley 등이 소개 한 Amazon.com에서 가져온 것입니다. (2015).
 
 
 We consider two large categories where visual features have already been demonstrated to be meaningful, namely Women’s and Men’s Clothing. 
@@ -435,12 +447,14 @@ We process each dataset by extracting implicit feedback and visual features as a
 We discard users u where |I+u| < 5. 
 | I + u | <5.
 
-
+![T2](./image/T2.PNG)
 Table 2 shows statistics of our datasets, all of which shall be made available at publication time.
 표 2는 데이터 세트의 통계를 보여 주며, 모든 데이터는 게시 시점에 제공됩니다.
 
-Visual Features For each item i in the above datasets, we collect one product image and extract visual features fi using the Caffe reference model (Jia et al., 2014), which implements the CNN architecture proposed by Krizhevsky, Sutskever, and Hinton (2012). 
-시각적 특징 위 데이터 세트의 각 항목 i에 대해 하나의 제품 이미지를 수집하고 Krizhevsky, Sutskever 및 Hinton (2012)이 제안한 CNN 아키텍처를 구현하는 Caffe 참조 모델 (Jia et al., 2014)을 사용하여 시각적 특징 fi를 추출합니다. ).
+#### Visual Features 
+
+For each item i in the above datasets, we collect one product image and extract visual features fi using the Caffe reference model (Jia et al., 2014), which implements the CNN architecture proposed by Krizhevsky, Sutskever, and Hinton (2012). 
+위 데이터 세트의 각 항목 i에 대해 하나의 제품 이미지를 수집하고 Krizhevsky, Sutskever 및 Hinton (2012)이 제안한 CNN 아키텍처를 구현하는 Caffe 참조 모델 (Jia et al., 2014)을 사용하여 시각적 특징 fi를 추출합니다.
 
 
 The architecture has 5 convolutional layers followed by 3 fully-connected layers, and has been pre-trained on 1.2 million ImageNet (ILSVRC2010) images. 
@@ -451,8 +465,10 @@ In our experiments, we take the output of the second fully-connected layer (i.e.
 실험에서 F = 4096 차원 시각적 특징 벡터 fi를 얻기 위해 두 번째 완전 연결 계층 (즉, FC7)의 출력을 가져옵니다.
 
 
-Evaluation Methodology We split our data into training/validation/test sets by selecting for each user u a random item to be used for validation Vu and another for testing Tu. 
-평가 방법론 우리는 각 사용자에 대해 Vu 검증에 사용할 임의의 항목을 선택하고 Tu를 테스트하는 데 다른 항목을 선택하여 데이터를 훈련 / 검증 / 테스트 세트로 분할했습니다.
+#### Evaluation Methodology 
+
+We split our data into training/validation/test sets by selecting for each user u a random item to be used for validation Vu and another for testing Tu. 
+각 사용자에 대해 Vu 검증에 사용할 임의의 항목을 선택하고 Tu를 테스트하는 데 다른 항목을 선택하여 데이터를 훈련 / 검증 / 테스트 세트로 분할했습니다.
 
 
 All remaining data is used for training. 
@@ -462,12 +478,12 @@ All remaining data is used for training.
 The predicted ranking is evaluated on Tu with the widely used metric AUC (Area Under the ROC curve):
 예측 순위는 널리 사용되는 메트릭 AUC (ROC 곡선 아래 영역)를 사용하여 Tu에서 평가됩니다.
 
-(9)
+![(9)](./image/(9).PNG)
 
 where the set of evaluation pairs for user u is defined as
 여기서 사용자 u에 대한 평가 쌍 세트는 다음과 같이 정의됩니다.
 
-(10)
+![(10)](./image/(10).PNG)
 
 and δ(b) is an indicator function that returns 1 iff b is true.
 δ (b)는 b가 참이면 1을 반환하는 표시기 함수입니다.
@@ -477,8 +493,10 @@ In all cases we report the performance on the test set T for the hyperparameters
 모든 경우에 검증 세트 V에서 최고의 성능을 이끌어 낸 하이퍼 파라미터에 대한 테스트 세트 T의 성능을보고합니다.
 
 
-Baselines Matrix Factorization (MF) methods are known to have stateof-the-art performance for implicit feedback datasets. 
-Baselines Matrix Factorization (MF) 방법은 암시 적 피드백 데이터 세트에 대한 최신 성능을 제공하는 것으로 알려져 있습니다.
+#### Baselines 
+
+Matrix Factorization (MF) methods are known to have stateof-the-art performance for implicit feedback datasets. 
+MF (Matrix Factorization) 방법은 암시 적 피드백 데이터 세트에 대한 최신 성능을 제공하는 것으로 알려져 있습니다.
 
 
 Since there are no comparable visual-aware MF methods, we mainly compare against state-of-the-art MF models, in addition to a recently proposed content-based method.
@@ -525,7 +543,7 @@ All experiments were performed on a standard desktop machine with 4 physical cor
 모든 실험은 4 개의 물리적 코어와 32GB 메인 메모리가있는 표준 데스크톱 컴퓨터에서 수행되었습니다.
 
 
-Reproducibility. 
+#### Reproducibility. 
 재현성.
 
 All hyperparameters are tuned to perform the best on the validation set. 
@@ -552,8 +570,10 @@ All of our code and datasets shall be made available at publication time so that
 우리의 모든 코드와 데이터 세트는 우리의 실험 평가가 완전히 재현 될 수 있도록 공개 시점에 제공되어야합니다.
 
 
-Performance Results in terms of the average AUC on different datasets are shown in Table 3 (all with 20 total factors). 
-서로 다른 데이터 세트의 평균 AUC 측면에서 성능 결과가 표 3에 나와 있습니다 (모두 20 개 요소 포함).
+#### Performance 
+![T3](./image/T3.PNG)
+Results in terms of the average AUC on different datasets are shown in Table 3 (all with 20 total factors). 
+서로 다른 데이터 세트의 평균 AUC 측면에서 결과가 표 3에 나와 있습니다 (모두 20 개 요소 포함).
 
 
 For each dataset, we report the average AUC on the full test set T (denoted by ‘All Items’), as well as a subset of T which only consists of items that had fewer than five positive feedback instances in the training set (i.e., cold start). 
@@ -602,8 +622,8 @@ Finally, we found that pairwise methods indeed outperform point-wise methods (WR
 We found that on average, VBPR beats WRMF by 14.3% for all items and 20.3% for cold start items.
 평균적으로 VBPR은 모든 항목에서 WRMF를 14.3 %, 콜드 시작 항목에서 20.3 % 앞섰습니다.
 
-Sensitivity. 
-
+#### Sensitivity. 
+![Fig2](./image/Fig2.PNG)
 As shown in Figure 2, MM-MF, BPR-MF, and VBPR perform better as the number of factors increases, which demonstrates the ability of pairwise methods to avoid overfitting. 
 그림 2에서 볼 수 있듯이 MM-MF, BPR-MF 및 VBPR은 요인 수가 증가할수록 더 나은 성능을 발휘하며, 이는 과적 합을 방지하는 쌍별 방법의 능력을 보여줍니다.
 
@@ -612,10 +632,10 @@ Results for other Amazon categories are similar and suppressed for brevity.
 다른 아마존 카테고리의 결과는 유사하며 간결성을 위해 표시되지 않습니다.
 
 
-Training Efficiency. 
+#### Training Efficiency. 
 훈련 효율성.
 
-
+![Fig3](./image/Fig3.PNG)
 In Figure 3 we demonstrate the AUC (on the test set) with increasing training iterations. 
 그림 3에서는 훈련 반복이 증가하는 AUC (테스트 세트에서)를 보여줍니다.
 
@@ -624,10 +644,12 @@ Generally speaking, our proposed model takes longer to converge than MM-MF and B
 일반적으로 제안 된 모델은 MM-MF 및 BPR-MF보다 수렴하는 데 시간이 더 오래 걸리지 만 가장 큰 데이터 세트 (Women 's Clothing)에서 수렴하는 데는 약 3.5 시간 만 필요합니다.
 
 
-Visualizing Visual Space VBPR maps items to a low-dimensional ‘visual space,’ such that items with similar styles (in terms of how users evaluate them) are mapped to nearby locations. 
-시각적 공간 시각화 VBPR은 항목을 저 차원의 '시각적 공간'에 매핑하여 유사한 스타일 (사용자가 평가하는 방식)을 가진 항목을 가까운 위치에 매핑합니다.
+#### Visualizing Visual Space 
 
+VBPR maps items to a low-dimensional ‘visual space,’ such that items with similar styles (in terms of how users evaluate them) are mapped to nearby locations. 
+VBPR은 항목을 저 차원의 '시각적 공간'에 매핑하여 유사한 스타일 (사용자가 평가하는 방식)을 가진 항목을 가까운 위치에 매핑합니다.
 
+![Fig4](./image/Fig4.PNG)
 We visualize this space (for Women’s Clothing) in Figure 4. 
 이 공간 (여성 의류 용)을 그림 4에 시각화합니다.
 
@@ -642,9 +664,12 @@ We make the following two observations:
 (2) VBPR not only helps learn the hidden taxonomy, but also more importantly discovers the most relevant underlying visual dimensions and maps items and users into the uncovered space.
 (2) VBPR은 숨겨진 분류법을 배우는 데 도움이 될뿐만 아니라 가장 관련성이 높은 기본 시각적 차원을 발견하고 항목과 사용자를 숨겨진 공간으로 매핑합니다.
 
+---
 
-Conclusion & Future Work Visual decision factors influence many of the choices people make, from the clothes they wear to their interactions with each other.  
-결론 및 향후 작업 시각적 의사 결정 요소는 사람들이 입는 옷부터 서로 상호 작용에 이르기까지 많은 선택에 영향을 미칩니다.
+### Conclusion & Future Work 
+
+Visual decision factors influence many of the choices people make, from the clothes they wear to their interactions with each other.  
+시각적 의사 결정 요소는 사람들이 입는 옷부터 서로 상호 작용에 이르기까지 많은 선택에 영향을 미칩니다.
 
 
 In this paper, we investigated the usefulness of visual features for personalized ranking tasks on implicit feedback datasets. 
