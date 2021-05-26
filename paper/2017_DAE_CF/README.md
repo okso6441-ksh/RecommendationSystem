@@ -125,7 +125,7 @@
 * ![Fig5](./image/Fig5.PNG)  
   * dp(0.8): 드롭 확률 0.8 인 드롭아웃 레이어  
   * 출력 re-feeding > 모델 성능에 큰 영향 X  
-  * + higher learning rate > 모델 성능 ↑  
+  * (+) higher learning rate > 모델 성능 ↑  
 
 #### 3.7 Comparison with other methods
 * ![T3](./image/T3.PNG)  
