@@ -39,40 +39,41 @@
   * ![2-1](./image/2-1.PNG)
     * (input) i: user / j: movie의 고정/동적 상태(stationary and dynamic states)  
     * (output) time step(t),   
-      * $ r_{ij}|t $: 등급  
-      * $ i_{ij}|t $: 리뷰  
-    * $ u_i, m_j $: 고정 상태  
-    * $ u_{it}, m_{it} $: t에서 동적 상태   
+      * <img src="https://latex.codecogs.com/gif.latex?r_%7Bij%7D%7Ct">: 등급  
+      * <img src="https://latex.codecogs.com/gif.latex?i_%7Bij%7D%7Ct">: 리뷰  
+    * <img src="https://latex.codecogs.com/gif.latex?u_i%2C%20m_j">: 고정 상태  
+    * <img src="https://latex.codecogs.com/gif.latex?u_%7Bit%7D%2C%20m_%7Bit%7D">: t에서 동적 상태   
     * states 직접 학습 X -> states 찾는 *함수* 학습   
 
-#### Dynamic User and Movie State  
-* 입력: user/movie rating history > states update  
-* user-state RNN 각 단계, 네트워크:  
-  * $ y_t := W_{embed}[x_t, 1_{newbie}, \tau_t, \tau_{t-1}] $  
-    * $ x_t $: rating vector  
+#### Dynamic User and Movie State    
+* 입력: user/movie rating history > states update   
+* user-state RNN 각 단계, 네트워크:   
+  * <img src="https://latex.codecogs.com/gif.latex?y_t%20%3A%3D%20W_%7Bembed%7D%5Bx_t%2C%201_%7Bnewbie%7D%2C%20%5Ctau_t%2C%20%5Ctau_%7Bt-1%7D%5D">    
+
+    * <img src="https://latex.codecogs.com/gif.latex?x_t">: rating vector    
       * j-th 요소: 시간 t, 영화 j 사용자 등급; 없으면 0    
-    * $ 1_{newbie} $: indicator for new users  
-    * $ \tau_t $: wall-clock time  
-* state update  
-  * 표준 $ u_t := LSTM(u_{t-1}, y_t) $  
+    * <img src="https://latex.codecogs.com/gif.latex?1_%7Bnewbie%7D">: indicator for new users    
+    * <img src="https://latex.codecogs.com/gif.latex?%5Ctau_t">: wall-clock time    
+* state update    
+  * 표준 <img src="https://latex.codecogs.com/gif.latex?u_t%20%3A%3D%20LSTM%28u_%7Bt-1%7D%2C%20y_t%29">  
     * user index 생략  
 
 #### Rating Emissions 
 * 프로파일 벡터  
-  * 시간에 따라 변화($ u_{it}, m_{jt} $) > [보완] > 고정($ u_i, m_j $)<encode> > 시간 불변 속성(사용자 장기적 선호, 영화 장르)  
+  * 시간에 따라 변화($ u_{it}, m_{jt} $) > [보완] > 고정(<img src="https://latex.codecogs.com/gif.latex?u_i%2C%20m_j">)<encode> > 시간 불변 속성(사용자 장기적 선호, 영화 장르)  
     * ∴ review rating: dynamic and stationary states 함수로 모델링  
     * ![(1)](./image/(1).PNG)  
-      * $ \tilde u_{it}, \tilde m_{jt} $: $ u+{it}, m_{jt} $의 affine functions  
+      * <img src="https://latex.codecogs.com/gif.latex?%5Ctilde%20u_%7Bit%7D%2C%20%5Ctilde%20m_%7Bjt%7D">: <img src="https://latex.codecogs.com/gif.latex?u_%7Bit%7D%2C%20m_%7Bjt%7D">의 affine functions  
         * ![2-2](./image/2-2.PNG)  
 
 
 #### Review Text Model  
 * Review text: character-level LSTM network  
   * 동일한 user/movie latent states, rating model 공유  
-* $ x_{joint, i,j} $: 병목 레이어; 영화/사용자 동적 상태 + 고정 상태  
+* <img src="https://latex.codecogs.com/gif.latex?x_%7Bjoint%2C%20i%2Cj%7D">: 병목 레이어; 영화/사용자 동적 상태 + 고정 상태  
   * ![2-3](./image/2-3.PNG)  
-    * $ o_{ij, k} $: 사용자 i, 영화 j 의 리뷰 k 위치 문자  
-    * $ x_{iij, k} $: 문자 embedding    
+    * <img src="https://latex.codecogs.com/gif.latex?o_%7Bij%2C%20k%7D">: 사용자 i, 영화 j 의 리뷰 k 위치 문자  
+    * <img src="https://latex.codecogs.com/gif.latex?x_%7Biij%2C%20k%7D">: 문자 embedding    
     * φ: 비선형 함수  
 
 * review text emission model ≒    
@@ -83,9 +84,9 @@
 #### Training & Prediction 
 * 목표: ratings, reviews 예측; 
   * (min) ![2-5](./image/2-5.PNG)     
-    * $ D_{train} $: (i, j) 쌍 학습셋  
+    * <img src="https://latex.codecogs.com/gif.latex?D_%7Btrain%7D">: (i, j) 쌍 학습셋  
     * θ: 모든 모델 파라미터  
-    * $ n_{ij} $: 사용자(i)가 영화(j)에 제공하는 리뷰 문자 수  
+    * <img src="https://latex.codecogs.com/gif.latex?n_%7Bij%7D">: 사용자(i)가 영화(j)에 제공하는 리뷰 문자 수  
     * λ: 가중치 제어  
 * [prediction time] 예측된 미래 상태 기반 등급 예측(≠ 기존 접근법)   
   * 최신 등급(입력) > 상태 업데이트 > 등급 예측    
@@ -105,6 +106,6 @@
     * 평점과 리뷰간에 통계적 강도 공유; 리뷰> 잠재요인 추정 ↑  
 
 #### Text modeling 
-* 난이도가 향상됨;;  
+* 난이도가 향상됨; 
 
 ---

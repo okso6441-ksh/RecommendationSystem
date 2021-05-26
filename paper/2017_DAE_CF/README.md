@@ -32,8 +32,8 @@
 
 * autoencoder network  
   * 변환(2):   
-    * $ encoder(x): R^n -> R^d $    
-    * $ decoder(z): R^d -> R^n $    
+    * <img src="https://latex.codecogs.com/gif.latex?encoder%28x%29%3A%20R%5En%20-%3E%20R%5Ed">    
+    * <img src="https://latex.codecogs.com/gif.latex?decoder%28z%29%3A%20R%5Ed%20-%3E%20R%5En">    
   * 목표: f(x)=decode(encode(x)); 오류 최소화 - d차원 표현    
   * ![Fig1](./image/Fig1.PNG)  
     * 4-layer autoencoder network  
@@ -44,7 +44,7 @@
     * f: 비선형 활성화 함수  
       * 활성화 함수 범위 < 데이터 범위; decoder 마지막 레이어: 선형 유지    
       * 은닉층 활성화 함수 : 0이 아닌 음수 포함; SELU 단위 사용  
-  * decoder mirror encoder > 디코더 가중치는 전치된 인코더 가중치와 동일하게 제한/연결 가능 $ W_d^l - W_e^l $(free parameters 2배 적어짐)    
+  * decoder mirror encoder > 디코더 가중치는 전치된 인코더 가중치와 동일하게 제한/연결 가능 <img src="https://latex.codecogs.com/gif.latex?W_d%5El%20-%20W_e%5El">(free parameters 2배 적어짐)    
 
 #### Forward pass and inference  
 * 사용자 등급 벡터 $ x \in R^n $  
@@ -55,17 +55,17 @@
 
 #### 2.1 Loss function
 * ![(1)](./image/(1).PNG)  
-  * $ r_i $: 실제 등급  
-  * $ y_i $: 예측 등급  
-  * $ m_i $: mask, $ r_i $ ≠ 0면 1, 아니면 0  
+  * <img src="https://latex.codecogs.com/gif.latex?r_i">: 실제 등급  
+  * <img src="https://latex.codecogs.com/gif.latex?y_i">: 예측 등급  
+  * <img src="https://latex.codecogs.com/gif.latex?m_i">: mask, <img src="https://latex.codecogs.com/gif.latex?r_i"> ≠ 0면 1, 아니면 0  
 * RMSE = √MMSE  
 
 #### 2.2 Dense re-feeding
 * $ x \in R^n $: input (sparse)     
 * f(x): 오토인코더 출력 (dense)    
 * f 시나리오(ideal)   
-  * $ f(x)_i = x_i, \forall _i : xi \neq 0, f(x)_i => x_i=0 $ 아이템에 대한 모든 사용자 미래 등급 정확히 예측   
-  * 새 item k(새 벡터 x') 평가 => $ f(x)_k = x'_k, f(x) = f(x') $  
+  * <img src="https://latex.codecogs.com/gif.latex?f%28x%29_i%20%3D%20x_i%2C%20%5Cforall%20_i%20%3A%20xi%20%5Cneq%200%2C%20f%28x%29_i%20%3D%3E%20x_i%3D0"> 아이템에 대한 모든 사용자 미래 등급 정확히 예측   
+  * 새 item k(새 벡터 x') 평가 => <img src="https://latex.codecogs.com/gif.latex?f%28x%29_k%20%3D%20x%27_k%2C%20f%28x%29%20%3D%20f%28x%27%29">  
   * ∴ y=f(x) ⇔ f(x)=y; 훈련된 오토인코더 point fix   
   * iterative dense re-feeding steps(4): fixed-point 제약조건 명시 적용 & dense 훈련 업데이트   
     * (1) 희소 x가 주어지면, 조밀한 f(x)와 등식 1(forward pass) 사용, 손실 계산  
