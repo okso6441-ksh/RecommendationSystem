@@ -5,9 +5,10 @@
 ---
 
 ### Abstract
-* 선택: **appearance**(objects 간 관계, 상호작용)       
+* 선택 요소: **appearance**(objects 간 관계, 상호작용)       
 * object pairs: 대안(청바지 A-청바지B), 보완(청바지-어울리는 셔츠)   
-* 접근: 가능한 가장 큰 데이터 세트 캡처 > 내부 시각적 관계 > 확장 가능한 방법 개발(시각적 관계에 대한 인간의 개념을 발견)   
+* 접근: 가능한 가장 큰 데이터 세트 캡처 > 내부 시각적 관계 > 확장 가능한 방법 개발
+  * 시각적 관계에 대한 인간의 개념을 발견   
 
 ---
 
@@ -21,415 +22,78 @@
       * 메타 데이터, 리뷰, 이전 구매 패턴 분석 구축  
         * 문제: cold-start problem, 인간의 시각적 선호도를 모델링     
              
-
-
-In most cases there is no intrinsic connection between a pair of objects, only a human notion that they are more suited to each other than are other potential partners. 
-대부분의 경우 한 쌍의 객체 사이에는 본질적인 연결이 없으며 다른 잠재적 파트너보다 서로에게 더 적합하다는 인간의 생각 만 있습니다.
-
-
-The most common approach to modeling such human notions exploits a set of hand-labeled images created for the task. 
-이러한 인간 개념을 모델링하는 가장 일반적인 접근 방식은 작업을 위해 생성 된 수작업 라벨 이미지 세트를 활용합니다.
-
-
-The labeling effort required means that most such datasets are typically relatively small, although there are a few notable exceptions. 
-필요한 라벨링 노력은 몇 가지 주목할만한 예외가 있지만 대부분의 데이터 세트가 일반적으로 상대적으로 작다는 것을 의미합니다.
-
-
-A small dataset means that complex procedures are required to extract as much information as possible without overfitting (see [2, 5, 22] for example). 
-작은 데이터 세트는 과적 합없이 가능한 한 많은 정보를 추출하기 위해 복잡한 절차가 필요함을 의미합니다 (예를 들어 [2, 5, 22] 참조).
-
-It also means that the results are unlikely to be transferable to related problems. 
-또한 결과가 관련 문제로 이전 될 가능성이 낮음을 의미합니다.
-
-
-Creating a labeled dataset is particularly onerous when modeling pairwise distances because the number of annotations required scales with the square of the number of elements.
-레이블이 지정된 데이터 세트를 만드는 것은 특히 쌍 거리를 모델링 할 때 번거로운 작업입니다. 주석의 수는 요소 수의 제곱으로 조정되기 때문입니다.
-
-
-We propose here instead that one might operate over a much larger dataset, even if it is only tangentially related to the ultimate goal. 
-대신 우리는 궁극적 인 목표와 접선 적으로 만 관련되어 있더라도 훨씬 더 큰 데이터 세트에 대해 작동 할 수 있다고 제안합니다.
-
-
-Thus, rather than devising a process (or budget) for manually annotating images, we instead seek a freely available source of a large amount of data which may be more loosely related to the information we seek. 
-따라서 이미지에 수동으로 주석을 달기위한 프로세스 (또는 예산)를 고안하는 대신 우리가 찾는 정보와 더 느슨하게 관련 될 수있는 많은 양의 데이터를 자유롭게 사용할 수있는 소스를 찾습니다.
-
-
-Large-scale databases have been collected from the web (without other annotation) previously [7, 34]. 
-대규모 데이터베이스는 이전에 다른 주석없이 웹에서 수집되었습니다 [7, 34].
-
-
-What distinguishes the approach we propose here, however, is the fact that it succeeds despite the indirectness of the connection between the dataset and the quantity we hope to model.
-그러나 여기서 제안하는 접근 방식을 구별하는 것은 데이터 세트와 모델링하고자하는 수량 간의 연결이 간접적 임에도 불구하고 성공한다는 사실입니다.
+* 인간 개념을 모델링   
+  * 한 쌍의 객체: 본질적 연결 X, 인간의 개념만 존재(다른 쌍보다 적합)  
+  * 접근방식: 수작업 레이블 이미지 활용      
+* 레이블 작업: 대부분 적은 데이터세트 > 과적합 피하기 위한 작업 필요   
+  * 작업 노력 ↑ => 수동 주석 작업 X 제안   
+    * 제안: 조금만 관련 있어도(loosely related) 더 큰 데이터 세트에서 작동하는 소스를 찾는것    
 
 #### 1.1 A visual dataset of styles and substitutes
-1.1 스타일 및 대체물의 시각적 데이터 세트
-
-We have developed a dataset suitable for the purposes described above based on the Amazon web store. 
-Amazon 웹 스토어를 기반으로 위에서 설명한 목적에 적합한 데이터 세트를 개발했습니다.
-
-
-The dataset contains over 180 million relationships between a pool of almost 6 million objects. 
-이 데이터 세트에는 거의 6 백만 개체의 풀간에 1 억 8 천만 개 이상의 관계가 포함되어 있습니다.
-
-
-These relationships are a result of visiting Amazon and recording the product recommendations that it provides given our (apparent) interest in the subject of a particular web page. 
-이러한 관계는 아마존을 방문하고 특정 웹 페이지의 주제에 대한 (명백한) 관심을 고려하여 제공하는 제품 권장 사항을 기록한 결과입니다.
-
-![T1](./image/T1.PNG)
-The statistics of the dataset are shown in Table 1. 
-데이터 세트의 통계는 표 1에 나와 있습니다.
-
-
-An image and a category label are available for each object, as is the set of users who reviewed it. 
-이미지와 카테고리 레이블은이를 검토 한 사용자 집합과 마찬가지로 각 개체에 사용할 수 있습니다.
-
-
-We have made this dataset available for academic use, along with all code used in this paper to ensure that our results are reproducible and extensible.
-우리는 결과가 재현 가능하고 확장 가능하도록이 백서에 사용 된 모든 코드와 함께이 데이터 세트를 학술 용으로 제공했습니다.
-
-
-We label this the Styles and Substitutes dataset.
-우리는 이것을 Styles and Substitutes 데이터 셋이라고 명명합니다.
-
-
-The recorded relationships describe two specific notions of ‘compatibility’ that are of interest, namely those of substitute and complement goods. 
-기록 된 관계는 관심있는 '호환성'의 두 가지 특정 개념, 즉 대체 및 보완 제품의 개념을 설명합니다.
-
-
-Substitute goods are those that can be interchanged (such as one pair of pants for another), while complements are those that might be purchased together (such as a pair of pants and a matching shirt) [23]. 
-대체 상품은 교환 할 수있는 상품 (예 : 바지 한 켤레를 다른 상품으로)이고 보완 상품은 함께 구매할 수있는 상품 (예 : 바지 한 켤레와 일치하는 셔츠)입니다 [23].
-
-Specifically, there are 4 categories of relationship represented in the dataset: 
-1) ‘users who viewed X also viewed Y’ (65M edges); 
-2) ‘users who viewed X eventually bought Y’ (7.3M edges); 
-3) ‘users who bought X also bought Y’ (104M edges); and 
-4) ‘users bought X and Y simultaneously’ (3.4M edges). 
-특히 데이터 세트에는 4 개의 관계 카테고리가 있습니다.
-1) 'X를 본 사용자는 Y도 본 사용자'(6500 만 에지);
-2) 'X를 본 사용자는 결국 Y를 구매'(730 만 에지);
-3)‘X를 구매 한 사용자는 Y도 구매했습니다.’(104M 엣지) 과
-4) '사용자가 X와 Y를 동시에 구매'(340 만 에지).
-
-Critically, categories 1 and 2 indicate (up to some noise) that two products may be substitutable, while 3 and 4 indicate that two products may be complementary. 
-비판적으로 카테고리 1과 2는 두 제품이 대체 가능할 수 있음을 (약간의 소음까지) 나타내며, 3과 4는 두 제품이 상호 보완적일 수 있음을 나타냅니다.
-
-
-According to Amazon’s own tech report [19] the above relationships are collected simply by ranking products according to the cosine similarity of the sets of users who purchased/viewed them.
-Amazon의 자체 기술 보고서 ​​[19]에 따르면 위의 관계는 제품을 구매 / 조회 한 사용자 집합의 코사인 유사성에 따라 제품의 순위를 매김으로써 간단히 수집됩니다.
-
-
-Note that the dataset does not document users’ preferences for pairs of images, but rather Amazon’s estimate of the set of relationships between pairs objects. 
-데이터 세트는 이미지 쌍에 대한 사용자의 선호도를 문서화하지 않고 쌍 객체 간의 관계 세트에 대한 Amazon의 추정치를 문서화합니다.
-
-
-The human notion of the visual compatibility of these images is only one factor amongst many which give rise to these estimated relationships, and it is not a factor used by Amazon in creating them. 
-이러한 이미지의 시각적 호환성에 대한 인간의 개념은 이러한 추정 된 관계를 유발하는 많은 요소 중 하나 일 뿐이며이를 생성 할 때 Amazon에서 사용하는 요소가 아닙니다.
-
-
-We thus do not wish to summarize the Amazon data, but rather to use what it tells us about the images of related products to develop a sense of which objects a human might feel are visually compatible. 
-따라서 아마존 데이터를 요약하는 것이 아니라 관련 제품의 이미지에 대해 알려주는 내용을 사용하여 인간이 시각적으로 호환되는 것으로 느낄 수있는 물체에 대한 감각을 개발합니다.
-
-
-This is significant because many of the relationships between objects present in the data are not based on their appearance. 
-이는 데이터에있는 개체 간의 많은 관계가 모양을 기반으로하지 않기 때문에 중요합니다.
-
-
-People co-purchase hammers and nails due to their functions, for example, not their appearances. 
-사람들은 외모가 아닌 기능으로 인해 망치와 못을 공동 구매합니다.
-
-
-Our hope is that the non-visual decision factors will appear as uniformly distributed noise to a method which considers only appearance, and that the visual decision factors might reinforce each other to overcome the effect of this noise 
-우리의 희망은 외모만을 고려하는 방법에 비 시각적 결정 요인이 균일하게 분포 된 노이즈로 나타나고, 시각적 결정 요인이이 노이즈의 영향을 극복하기 위해 서로를 강화할 수 있기를 바랍니다.
-
+* Amazon 웹 스토어 기반 데이터 세트 개발  
+  * Styles and Substitutes 데이터 셋  
+    * ![T1](./image/T1.PNG)  
+      * 관계: 호환성(‘compatibility’) 개념(2): 대체/보완  
+      * 관계 카테고리(4)  
+        * 1) X봄 > Y봄 (대체 가능하거나 noise)    
+        * 2) X봄 > Y삼 (대체 가능하거나 noise)     
+        * 3) X삼 > Y삼 (보완) 
+        * 4) X+Y 동시에 삼 (보완)   
+      * => 코사인 유사성에 따른 순위로 수집 가능, 외관이 아닌 기능 위주 공동 구매       
 
 #### 1.2 Related work
 
-The closest systems to what we propose above are contentbased recommender systems [18] which attempt to model each user’s preference toward particular types of goods. 
-위에서 제안한 것과 가장 가까운 시스템은 특정 유형의 상품에 대한 각 사용자의 선호도를 모델링하려는 콘텐츠 기반 추천 시스템 [18]입니다.
-
-
-This is typically achieved by analyzing metadata from the user’s previous activities. 
-이는 일반적으로 사용자의 이전 활동에서 메타 데이터를 분석하여 달성됩니다.
-
-
-This is as compared to collaborative recommendation approaches which match the user to profiles generated based on the purchases/behavior of other users (see [1, 16] for surveys). 
-이것은 다른 사용자의 구매 / 행동을 기반으로 생성 된 프로필에 사용자를 일치시키는 협업 추천 접근 방식과 비교됩니다 (설문 조사는 [1, 16] 참조).
-
-
-Combinations of the two [3, 24] have been shown to help address the sparsity of the review data available, and the cold-start problem (where new products don’t have reviews and are thus invisible to the recommender system) [28, 41]. 
-두 가지 [3, 24]의 조합은 사용 가능한 리뷰 데이터의 희소성과 콜드 스타트 ​​문제 (신제품에 리뷰가 없으므로 추천 시스템에 표시되지 않음)를 해결하는 데 도움이되는 것으로 나타났습니다 [28, 41].
-
-
-The approach we propose here could also help address these problems.
-여기서 제안하는 접근 방식은 이러한 문제를 해결하는데도 도움이 될 수 있습니다.
-
-
-There are a range of services such as Jinni2 which promise content-based recommendations for TV shows and similar media, but the features they expoit are based on reviews and metadata (such as cast, director etc.), and their ontology is handcrafted. 
-TV 프로그램 및 유사 미디어에 대한 콘텐츠 기반 추천을 약속하는 Jinni2와 같은 다양한 서비스가 있지만 이들이 노출하는 기능은 리뷰 및 메타 데이터 (예 : 캐스트, 감독 등)를 기반으로하며 온톨로지를 직접 제작합니다.
-
-
-The Netflix prize was a well publicized competition to build a better personalized video recommender system, but there again no actual image analysis is taking place [17]. 
-넷플릭스상은 더 나은 개인화 된 비디오 추천 시스템을 구축하기위한 잘 알려진 경쟁 이었지만 실제 이미지 분석은 다시 일어나지 않았습니다 [17].
-
-
-Hu et al. [9] describe a system for identifying a user’s style, and then making clothing recommendations, but this is achieved through analysis of ‘likes’ rather than visual features.
-Hu et al. [9]는 사용자의 스타일을 식별 한 다음 의상을 추천하는 시스템을 설명하지만 이는 시각적 특징이 아닌 '좋아요'분석을 통해 이루어집니다.
-
-
-Content-based image retrieval gives rise to the problem of bridging the ‘semantic-gap’ [32], which requires returning results which have similar semantic content to a search image, even when the pixels bear no relationship to each other. 
-콘텐츠 기반 이미지 검색은 픽셀이 서로 관계가없는 경우에도 유사한 의미 콘텐츠를 가진 결과를 검색 이미지에 반환해야하는 '의미 적 차이'[32]를 연결하는 문제를 야기합니다.
-
-
-It thus bears some similarity to the visual recommendation problem, as both require modeling a human preference which is not satisfied by mere visual similarity. 
-따라서 둘 다 단순한 시각적 유사성으로 만족되지 않는 인간 선호도를 모델링해야하기 때문에 시각적 추천 문제와 약간의 유사성을 가지고 있습니다.
-
-
-There are a variety of approaches to this problem, many of which seek a set of results which are visually similar to the query and then separately find images depicting objects of the same class as those in the query image; see [2, 15, 22, 38], for example. 
-이 문제에 대한 다양한 접근 방식이 있으며, 그 중 다수는 쿼리와 시각적으로 유사한 결과 집합을 찾은 다음 쿼리 이미지에있는 것과 동일한 클래스의 개체를 묘사하는 이미지를 개별적으로 찾습니다. 예를 들어 [2, 15, 22, 38] 참조.
-
-
-Within the Information Retrieval community there has been considerable interest of late in incorporating user data into image retrieval systems [37], for example through browsing [36] and click-through behavior [26], or by making use of social tags [29]. 
-정보 검색 커뮤니티 내에서 예를 들어 브라우징 [36] 및 클릭-스루 행동 [26] 또는 소셜 태그 사용 [29]을 통해 사용자 데이터를 이미지 검색 시스템 [37]에 통합하는 데 최근 상당한 관심이있었습니다. .
-
-
-Also worth mentioning with respect to image retrieval is [12], which also considered using images crawled from Amazon, albeit for a different task (similar-image search) than the one considered here.
-또한 이미지 검색과 관련하여 언급 할 가치가있는 것은 [12]인데, 여기에서 고려한 작업과는 다른 작업 (유사 이미지 검색)을 위해 Amazon에서 크롤링 한 이미지를 사용하는 것도 고려했습니다.
-
-There have been a variety of approaches to modeling human notions of similarity between different types of images [30], forms of music [31], or even tweets [33], amongst other data types. 
-다른 데이터 유형 중에서도 서로 다른 유형의 이미지 [30], 음악 형식 [31] 또는 트윗 [33] 사이의 유사성에 대한 인간 개념을 모델링하는 다양한 접근 방식이 있습니다.
-
-
-Beyond measuring similarity, there has also been work on measuring more general notions of compatibility. 
-유사성을 측정하는 것 외에도 호환성에 대한보다 일반적인 개념을 측정하는 작업도있었습니다.
-
-
-Murillo et al. [25], for instance, analyze photos of groups of people collected from social media to identify which groups might be more likely to socialize with each other, thus implying a distance measure between images. 
-Murillo et al. 예를 들어, 소셜 미디어에서 수집 된 사람들 그룹의 사진을 분석하여 어떤 그룹이 서로 어울릴 가능성이 더 높은지 식별하여 이미지 간의 거리 측정을 의미합니다.
-
-This is achieved by estimating which of a manually-specified set of ‘urban tribes’ each group belongs to, possibly because only 340 images were available.
-이것은 아마도 340 개의 이미지 만 사용할 수 있었기 때문에 각 그룹이 수동으로 지정한 '도시 부족'집합 중 어느 것이 속하는지 추정함으로써 달성됩니다.
-
-
-Yamaguchi et al. [40] capture a notion of visual style when parsing clothing, but do so by retrieving visually similar items from a database. 
-Yamaguchi et al. 의류를 분석 할 때 시각적 스타일의 개념을 포착하지만 데이터베이스에서 시각적으로 유사한 항목을 검색하여 수행합니다.
-
-
-This idea was extended by Kiapour et al. [14] to identify discriminating characteristics between different styles (hipster vs. goth for example). 
-이 아이디어는 Kiapour et al. [14] 서로 다른 스타일 (예 : hipster vs. goth) 간의 구별되는 특성을 식별합니다.
-
-
-Di et al. [5] also identify aspects of style using a bag-of-words approach and manual annotations.
-Di et al. [5] 또한 bag-of-words 접근 방식과 수동 주석을 사용하여 스타일의 측면을 식별합니다.
-
-
-A few other works that consider visual features specifically for the task of clothing recommendation include [10, 13, 20]. 
-의류 추천 작업을 위해 특별히 시각적 특징을 고려한 몇 가지 다른 작품으로는 [10, 13, 20]이 있습니다.
-
-
-In [10] and [13] the authors build methods to parse complete outfits from single images, in [10] by building a carefully labeled dataset of street images annotated by ‘fashionistas’, and in [13] by building algorithms to automatically detect and segment items from clothing images. 
-[10]과 [13]에서 저자는 단일 이미지에서 완전한 의상을 분석하는 방법을 구축하고, [10]에서는 'fashionistas'가 주석이 달린 거리 이미지의 신중하게 레이블이 지정된 데이터 세트를 구축하고, [13]에서는 자동 감지 알고리즘을 구축하여 의류 이미지에서 항목을 분류합니다.
-
-
-In [13] the authors propose an approach to learn relationships between clothing items and events (e.g. birthday parties, funerals) in order to recommend eventappropriate items. 
-[13]에서 저자는 이벤트에 적합한 항목을 추천하기 위해 의류 항목과 이벤트 (예 : 생일 파티, 장례식) 간의 관계를 학습하는 방법을 제안합니다.
-
-
-Although related to our approach, these methods are designed for the specific task of clothing recommendation, requiring hand-crafted methods and carefully annotated data; in contrast our goal is to build a general-purpose method to understand relationships between objects from large volumes of unlabeled data. 
-우리의 접근 방식과 관련이 있지만 이러한 방법은 의류 추천의 특정 작업을 위해 설계되었으며 수작업 방법과 신중하게 주석이 달린 데이터가 필요합니다. 반대로 우리의 목표는 레이블이 지정되지 않은 대량의 데이터에서 개체 간의 관계를 이해하는 범용 방법을 구축하는 것입니다.
-
-
-Although our setting is perhaps most natural for categories like clothing images, we obtain surprisingly accurate performance when predicting relationships in a variety of categories, from recommending outfits to predicting which books will be co-purchased based on their cover art.
-의류 이미지와 같은 카테고리에서는 설정이 가장 자연 스럽지만 의상 추천부터 커버 아트를 기반으로 공동 구매할 책 예측까지 다양한 카테고리의 관계를 예측할 때 놀라 울 정도로 정확한 성능을 얻습니다.
-
-In summary, our approach is distinct from the above in that we aim to generalize the idea of a visual distance measure beyond measuring only similarity. 
-요약하면, 우리의 접근 방식은 유사성 만 측정하는 것 이상의 시각적 거리 측정 개념을 일반화하는 것을 목표로한다는 점에서 위와 다릅니다.
-
-
-Doing so demands a very large amount of training data, and our reluctance for manual annotation necessitates a more opportunistic data collection strategy. 
-그렇게하려면 매우 많은 양의 교육 데이터가 필요하며 수동 주석 처리를 꺼리는 경우보다 기회주의적인 데이터 수집 전략이 필요합니다.
-
-
-The scale of the data, and the fact that we don’t have control over its acquisition, demands a suitably scalable and robust modeling approach. 
-데이터의 규모와 수집을 제어 할 수 없다는 사실로 인해 적절하게 확장 가능하고 강력한 모델링 접근 방식이 필요합니다.
-
-
-The novelty in what we propose is thus in the quantity we choose to model, the data we gather to do so, and the method for extracting one from the other.
-따라서 우리가 제안하는 참신함은 우리가 모델링하기로 선택한 양, 그렇게하기 위해 수집 한 데이터 및 하나에서 다른 하나를 추출하는 방법에 있습니다.
-
-
-
 #### 1.3 A visual and relational recommender system
-1.3 시각적 및 관계형 추천 시스템
-
-
-We label the process we develop for exploiting this data a visual and relational recommender system as we aim to model human visual preferences, and the system might be used to recommend one object on the basis of a user’s apparent interest in another. 
-우리는 인간의 시각적 선호도를 모델링하는 것을 목표로이 데이터를 활용하기 위해 개발 한 프로세스를 시각적 및 관계형 추천 시스템이라고 표시하며,이 시스템은 사용자가 다른 것에 대한 명백한 관심을 기반으로 한 개체를 추천하는 데 사용될 수 있습니다.
-
-
-The system shares these characteristics with more common forms of recommender system, but does so on the basis of the appearance of the object, rather than metadata, reviews, or similar.
-시스템은 이러한 특성을 더 일반적인 형태의 추천 시스템과 공유하지만 메타 데이터, 리뷰 또는 이와 유사한 것이 아닌 객체의 모양을 기반으로합니다.
+* 프로세스: 시각적 / 관계형 추천 시스템  
+  * 일반 추천(메타데이터, 리뷰) > object 외관 기반    
 
 ---
 
 ### 2. The Model
-![T2](./image/T2.PNG)
-Our notation is defined in Table 2.
-표기법은 표 2에 정의되어 있습니다.
+* notation  
+  * ![T2](./image/T2.PNG)   
+
+* 객체 > 다른 객체 시각적 appearance 대한 선호 표현 방법   
+  * 데이터 양에 따라 확장 되는 모델  
+  * $ x \in \mathbb R^F $: F차원 feature 벡터  
+  * $ r_{ij} \in R $: objects i/j 관계 세트(관계 카테고리 중 하나에 속함)  
+* 목표: 거리변환 파라미터($ d(x_i, x_j) $) 학습  
+  * d(·,·): $ P (r_{ij \in R}), -d(x_i, x_j) $ 단조 증가 하기 위해 찾음  
 
 
-We seek a method for representing the preferences of users for the visual appearance of one object given that of another. 
-우리는 하나의 객체가 다른 객체의 시각적 인 모습에 대해 사용자의 선호도를 표현하는 방법을 찾고 있습니다.
+##### Distances and probabilities
+* 거리와 확률을 연관시키기 위해 shifted sigmoid 함수 사용   
+  * ![(1)](./image/(1).PNG)  
+  * ![Fig2](./image/Fig2.PNG)  
+    * cast logistic regression    
+* item i/j 거리: (c; 예측 정확도 최대화 위해 미정)  
+  * $ d(x_i, x_j) = c $: 확률 0.5     
+  * $ d(x_i, x_j) > c $: 0.5 ↑      
+  * $ d(x_i, x_j) > c $: 0.5 ↓      
 
-
-A number of suitable models might be devised for this purpose, but very few of them will scale to the volume of data available. 
-이러한 목적을 위해 여러 가지 적합한 모델이 고안 될 수 있지만 사용 가능한 데이터 양에 맞게 확장되는 모델은 거의 없습니다.
-
-
-For every object in the dataset we calculate an F-dimensional feature vector x ∈ R F using a convolutional neural network as described in Section 2.3. 
-데이터 세트의 모든 객체에 대해 2.3 절에 설명 된대로 컨벌루션 신경망을 사용하여 F 차원 특징 벡터 x ∈ R F를 계산합니다.
-
-
-The dataset contains a set R of relationships where rij ∈ R relates objects i and j. 
-데이터 세트에는 rij ∈ R이 객체 i 및 j와 관련된 관계의 세트 R이 포함됩니다.
-
-
-Each relationship is of one of the four classes listed above. 
-각 관계는 위에 나열된 네 가지 클래스 중 하나입니다.
-
-
-Our goal is to learn a parameterized distance transform d(xi ,xj ) such that feature vectors {xi ,xj} for objects that are related (rij ∈ R) are assigned a lower distance than those that are not (rij ∈ R/ ). 
-우리의 목표는 관련된 객체 (rij ∈ R)에 대한 특성 벡터 {xi, xj}가 그렇지 않은 객체 (rij ∈ R /)보다 낮은 거리에 할당되도록 매개 변수화 된 거리 변환 d (xi, xj)를 학습하는 것입니다. .
-
-
-Specifically, we seek d(·,·) such that P(rij ∈ R) grows monotonically with −d(xi ,xj ).
-특히, 우리는 P (rij ∈ R)가 −d (xi, xj)와 함께 단조롭게 성장하도록 d (·, ·)를 찾습니다.
-
-
-Distances and probabilities: We use a shifted sigmoid function to relate distance to probability thus
-거리와 확률 : 거리와 확률을 연관시키기 위해 이동 시그 모이 드 함수를 사용합니다.
-
-
-![(1)](./image/(1).PNG)
-
-
-![Fig2](./image/Fig2.PNG)
-
-This is depicted in Figure 2. 
-이것은 그림 2에 묘사되어 있습니다.
-
-
-This decision allows us to cast the problem as logistic regression, which we do for reasons of scalability. 
-이 결정을 통해 문제를 로지스틱 회귀로 캐스트 할 수 있습니다.
-
-
-Intuitively, if two items i and j have distance d(xi,xj ) = c, then they have probability 0.5 of being related; the probability increases above 0.5 for d(xi,xj ) < c, and decreases as d(xi,xj ) > c. 
-직관적으로 두 항목 i와 j가 거리 d (xi, xj) = c를 가지면 관련 될 확률이 0.5입니다. 확률은 d (xi, xj) <c에 대해 0.5 이상으로 증가하고 d (xi, xj)> c로 감소합니다.
-
-
-Note that we do not specify c in advance, but rather c is chosen to maximize prediction accuracy. 
-c를 미리 지정하지 않고 예측 정확도를 최대화하기 위해 c를 선택했습니다.
-
-
-We now describe a set of potential distance functions. 
-이제 잠재적 인 거리 함수 세트를 설명합니다.
-
-
-Weighted nearest neighbor: Given that different feature dimensions are likely to be more important to different relationships, the simplest method we consider is to learn which feature dimensions are relevant for a particular relationship. 
-가중 최근 접 이웃 : 다른 특성 차원이 다른 관계에 더 중요 할 가능성이 있으므로 고려하는 가장 간단한 방법은 특정 관계와 관련된 특성 차원을 학습하는 것입니다.
-
-
-We thus fit a distance function of the form
-따라서 우리는 다음 형식의 거리 함수에 적합합니다.
-
-![(2)](./image/(2).PNG)
-
-Mahalanobis transform: (eq. 2) is limited to modeling the visual similarity between objects, albeit with varying emphasis per feature dimension. 
-Mahalanobis 변환 : (eq. 2) 기능 차원에 따라 강조가 다양하지만 객체 간의 시각적 유사성을 모델링하는 것으로 제한됩니다.
-
-
-It is not expressive enough to model subtler notions, such as which pairs of pants and shoes belong to the same ‘style’, despite having different appearances. 
-외모가 다르지만 어떤 바지와 신발이 같은 '스타일'에 속하는지 등 미묘한 개념을 모델링하는 것은 표현력이 충분하지 않습니다.
-
-
-For this we need to learn how different feature dimensions relate to each other, i.e., how the features of a pair of pants might be transformed to help identify a compatible pair of shoes. 
-이를 위해 우리는 서로 다른 특성 차원이 어떻게 관련되는지, 즉 호환 가능한 신발을 식별하는 데 도움이되도록 바지 한 쌍의 특성을 변환하는 방법을 배워야합니다.
-
-
-To identify such a transformation, we relate image features via a Mahalanobis distance, which essentially generalizes (eq. 2) so that weights are defined at the level of pairs of features. 
-이러한 변환을 식별하기 위해 우리는 Mahalanobis 거리를 통해 이미지 특징을 연결합니다. 이는 본질적으로 일반화 (eq. 2)하여 가중치가 특징 쌍 수준에서 정의되도록합니다.
-
-
-Specifically we fit
-특히 우리는 적합합니다
-![(3)](./image/(3).PNG)
-A full rank p.s.d. matrix M has too many parameters to fit tractably given the size of the dataset. 
-풀 랭크 p.s.d. 행렬 M에는 데이터 세트의 크기를 고려할 때 다루기 힘든 매개 변수가 너무 많습니다.
-
-
-For example, using features with dimension F = 212, learning a transform as in (eq. 3) requires us to fit approximately 8 million parameters; not only would this be prone to overfitting, it is simply not practical for existing solvers. 
-예를 들어, 차원 F = 212 인 특성을 사용하여 (등식 3)에서와 같이 변환을 학습하려면 약 8 백만 개의 매개 변수를 맞추어야합니다. 이는 과적 합되기 쉬울뿐만 아니라 기존 솔버에게는 실용적이지 않습니다.
-
-
-To address these issues, and given the fact that M parameterises a Mahanalobis distance, we approximate M such that M ' YYT where Y is a matrix of dimension F × K. We therefore define 
-이러한 문제를 해결하기 위해 M이 Mahanalobis 거리를 매개 변수화한다는 사실을 고려하여 M 'YYT (여기서 Y는 차원 F × K의 행렬)가되도록 M을 근사합니다.
-
-![(4)](./image/(4).PNG)
-
-Note that all distances (as well as their derivatives) can be computed in O(FK), which is significant for the scalability of the method. 
-모든 거리 (및 그 파생물)는 O (FK)로 계산할 수 있으며, 이는 방법의 확장성에 중요합니다.
-
-
-Similar ideas appear in [4, 35], which also consider the problem of metric learning via low-rank embeddings, albeit using a different objective than the one we consider here. 
-유사한 아이디어가 [4, 35]에 나와 있는데, 여기에서는 여기에서 고려하는 것과는 다른 목표를 사용하지만 낮은 순위 임베딩을 통한 메트릭 학습 문제도 고려합니다.
-
+* 잠재적(potential) 거리 함수 세트  
+  * Weighted nearest neighbor: 특정 관계와 관련된 특정 차원 학습  
+    * ![(2)](./image/(2).PNG)  
+  * Mahalanobis transform: 객체간 시각적 유사성 모델링 > feature 차원마다 강조 다름 제한   
+    * Mahalanobis 거리 > 이미지 특징을 연결 > 서로 다른 특성 차원 관련(호환)  
+    * ![(3)](./image/(3).PNG)  
+      * M: full rank p.s.d. matrix(positive symmetric definite): 과적합 위험, 실용성 ↓ >   
+      * $ M \simeq YY^T $ 근사(Y: 차원 F x K 행렬):   
+        * ![(4)](./image/(4).PNG)  
 
 #### 2.1 Style space
-In addition to being computationally useful, the low-rank transform in (eq. 4) has a convenient interpretation. 
-2.1 스타일 공간
-계산적으로 유용 할뿐만 아니라 (식 4)의 낮은 순위 변환은 편리한 해석을 제공합니다.
+* ![(4)](./image/(4).PNG)  
+  * features $ x_i, x_j $ 저차원 임베딩 생성(Style space)  
+  * K차원 벡터 $ s_i = x_iY $(Y: 시각적 유사 X, 관련 객체가 가깝게 식별)      
+    * ![(5)](./image/(5).PNG)  
 
+#### 2.2 Personalizing styles to individual users  
+* 모델 + 각 개별 사용자가 중요하다고 생각하는 스타일의 차원 학습 => 개념 개인화   
 
-Specifically, if we consider the K-dimensional vector si = xiY, then (eq. 4) can be rewritten as 
-특히 K 차원 벡터 si = xiY를 고려하면 (eq. 4)를 다음과 같이 다시 작성할 수 있습니다.
-
-![(5)](./image/(5).PNG)
-
-In other words, (eq. 4) yields a low-dimensional embedding of the features xi and xj . 
-즉, (eq. 4)는 특성 xi 및 xj의 저 차원 임베딩을 생성합니다.
-
-
-We refer to this low-dimensional representation as the product’s embedding into ‘style-space’, in the hope that we might identify Y such that related objects fall close to each other despite being visually dissimilar. 
-우리는이 저차 원적 표현을 제품이 '스타일 공간'에 임베딩 된 것으로 지칭하며, 시각적으로 유사하지 않지만 관련 객체가 서로 가까이 떨어지도록 Y를 식별 할 수 있기를 바랍니다.
-
-
-The notion of ‘style’ is learned automatically by training the model on pairs of objects which Amazon considers to be related. 
-'스타일'이라는 개념은 Amazon이 관련이 있다고 간주하는 객체 쌍에 대해 모델을 학습함으로써 자동으로 학습됩니다.
-
-
-
-#### 2.2 Personalizing styles to individual users
-2.2 개별 사용자에게 스타일 개인화
-
-So far we have developed a model to learn a global notion of which products go together, by learning a notion of ‘style’ such that related products should have similar styles. As an addition to this model we can personalize this notion by learning for each individual user which dimensions of style they consider to be important.
-지금까지 우리는 관련 제품이 비슷한 스타일을 가져야하는 '스타일'의 개념을 학습하여 어떤 제품이 결합되는지에 대한 글로벌 개념을 학습하는 모델을 개발했습니다. 이 모델에 추가하여 우리는 각 개별 사용자가 중요하다고 생각하는 스타일의 차원을 학습하여이 개념을 개인화 할 수 있습니다.
-
-
-To do so, we shall learn personalized distance functions dY,u(xi , xj ) that measure the distance between the items i and j according to the user u. 
-이를 위해 사용자 u에 따라 항목 i와 j 사이의 거리를 측정하는 개인화 된 거리 함수 dY, u (xi, xj)를 학습합니다.
-
-
-We choose the distance function 
-where D(u) is a K ×K diagonal (positive semidefinite) matrix.
-
-![(6)](./image/(6).PNG)
-
-거리 기능을 선택합니다
-여기서 D (u)는 K × K 대각선 (양의 반정의) 행렬입니다.
-
-
-In this way the entry D(u) kk indicates the extent to which the user u ‘cares about’ the k th style dimension.
-이러한 방식으로 D (u) kk 항목은 사용자 u가 k 번째 스타일 차원에 대해 '관심'하는 정도를 나타냅니다.
-
+* 개인화 된 거리 함수: 사용자 u - 항목 i/j 거리 측정  
+  * ![(6)](./image/(6).PNG)
+    * $ D^{(u)}: K \times K$: diagonal(positive semidefinite) matrix  
+    * $ D_{kk}^{(u)} $: 사용자u가 k번째 스타일 차원에 대해 '관심'있는 정도   
 
 In practice we fit a U × K matrix X such that D(u) kk = Xuk. 
 실제로 우리는 D (u) kk = Xuk가되도록 U × K 행렬 X를 맞 춥니 다.
