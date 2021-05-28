@@ -9,19 +9,19 @@
 Automatic music recommendation has become an increasingly relevant problem in recent years, since a lot of music is now sold and consumed digitally. 
 자동 음악 추천은 현재 많은 음악이 디지털 방식으로 판매되고 소비되기 때문에 최근 몇 년 동안 점점 더 관련성이 높은 문제가되었습니다.
 
-
+* 협업 필터링에
 Most recommender systems rely on collaborative filtering. 
 대부분의 추천 시스템은 협업 필터링에 의존합니다.
 
-
+* 콜드 스타트 ​​문제
 However, this approach suffers from the cold start problem: it fails when no usage data is available, so it is not effective for recommending new and unpopular songs. 
 그러나 이러한 접근 방식은 콜드 스타트 ​​문제가 있습니다. 사용 가능한 데이터가 없으면 실패하므로 새롭고 인기없는 노래를 추천하는 데 효과적이지 않습니다.
 
-
+* 제안: 추천을 위해 잠재 요소 모델을 사용, 사용 데이터에서 얻을 수없는 음악 오디오의 잠재 요소를 예측
 In this paper, we propose to use a latent factor model for recommendation, and predict the latent factors from music audio when they cannot be obtained from usage data. 
 본 논문에서는 추천을 위해 잠재 요소 모델을 사용하고, 사용 데이터에서 얻을 수없는 음악 오디오의 잠재 요소를 예측할 것을 제안한다.
 
-
+* 심층 컨볼 루션 신경망
 We compare a traditional approach using a bag-of-words representation of the audio signals with deep convolutional neural networks, and evaluate the predictions quantitatively and qualitatively on the Million Song Dataset. 
 심층 컨볼 루션 신경망을 사용하여 오디오 신호의 단어 모음 표현을 사용하는 전통적인 접근 방식을 비교하고 Million Song Dataset에서 예측을 정량적, 정 성적으로 평가합니다.
 
@@ -59,14 +59,15 @@ This number can be reduced by recommending albums or artists instead, but this i
 Many recommender systems rely on usage patterns: the combinations of items that users have consumed or rated provide information about the users’ preferences, and how the items relate to each other. 
 많은 추천 시스템은 사용 패턴에 의존합니다. 사용자가 소비하거나 평가 한 항목의 조합은 사용자의 선호도에 대한 정보를 제공하고 항목이 서로 관련되는 방식을 제공합니다.
 
+* 접근 방식: 협업 필터링
 This is the collaborative filtering approach. 
 이것이 협업 필터링 접근 방식입니다.
 
-
+* 접근 방식: 항목 콘텐츠 및 메타 데이터에서 사용자 선호도
 Another approach is to predict user preferences from item content and metadata.
 또 다른 접근 방식은 항목 콘텐츠 및 메타 데이터에서 사용자 선호도를 예측하는 것입니다.
 
-
+* 협업 필터링 > 콘텐츠 기반 추천 
 The consensus is that collaborative filtering will generally outperform content-based recommendation [1]. 
 합의 된 점은 협업 필터링이 일반적으로 콘텐츠 기반 권장 사항을 능가한다는 것입니다 [1].
 
@@ -74,11 +75,11 @@ The consensus is that collaborative filtering will generally outperform content-
 However, it is only applicable when usage data is available. 
 단, 사용량 데이터가있는 경우에만 적용됩니다.
 
-
+* 협업 필터링: 콜드 스타트 문제
 Collaborative filtering suffers from the cold start problem: new items that have not been consumed before cannot be recommended. 
 협업 필터링은 콜드 스타트 문제로 인해 어려움을 겪습니다. 이전에 소비되지 않은 새 항목은 권장 할 수 없습니다.
 
-
+* 데이터가 부족 - 틈새 고객(niche audience): 관심이있는 항목은 추천하기가 더 어렵
 Additionally, items that are only of interest to a niche audience are more difficult to recommend because usage data is scarce. 
 또한 사용 데이터가 부족하기 때문에 틈새 고객에게만 관심이있는 항목은 추천하기가 더 어렵습니다.
 
@@ -91,23 +92,24 @@ Content-based recommendation is not affected by these issues.
 콘텐츠 기반 권장 사항은 이러한 문제의 영향을받지 않습니다.
 
 #### 1.1 Content-based music recommendation
-
+* 음악 메타 데이터: 아티스트, 앨범 및 출시 연도
 Music can be recommended based on available metadata: information such as the artist, album and year of release is usually known. 
 사용 가능한 메타 데이터를 기반으로 음악을 추천 할 수 있습니다. 일반적으로 아티스트, 앨범 및 출시 연도와 같은 정보가 알려져 있습니다.
 
+> 예측 가능한 권장 사항
 
 Unfortunately this will lead to predictable recommendations. 
 불행히도 이것은 예측 가능한 권장 사항으로 이어질 것입니다.
 
-
+* 사용자가 좋아하는 것으로 알려진 아티스트의 노래를 추천 유용 X  
 For example, recommending songs by artists that the user is known to enjoy is not particularly useful.
 예를 들어 사용자가 좋아하는 것으로 알려진 아티스트의 노래를 추천하는 것은 특별히 유용하지 않습니다.
 
-
+* 접근 방식 : 오디오 신호 간의 유사성을 측정
 One can also attempt to recommend music that is perceptually similar to what the user has previously listened to, by measuring the similarity between audio signals [3, 4]. 
 오디오 신호 간의 유사성을 측정하여 사용자가 이전에들은 것과 지각 적으로 유사한 음악을 추천 할 수도 있습니다 [3, 4].
 
-
+* 적절한 유사성 메트릭의 정의가 필요
 This approach requires the definition of a suitable similarity metric. 
 이 접근 방식에는 적절한 유사성 메트릭의 정의가 필요합니다.
 
@@ -120,31 +122,18 @@ Because of this, some researchers have used user preference data to tune similar
 이 때문에 일부 연구자들은 유사성 메트릭을 조정하기 위해 사용자 선호도 데이터를 사용했습니다 [5, 6].
 
 #### 1.2 Collaborative filtering
-
-Collaborative filtering methods can be neighborhood-based or model-based [7]. 
-협업 필터링 방법은 이웃 기반 또는 모델 기반 일 수 있습니다 [7].
-
-
-The former methods rely on a similarity measure between users or items: they recommend items consumed by other users with similar preferences, or similar items to the ones that the user has already consumed. 
-전자의 방법은 사용자 또는 항목 간의 유사성 측정에 의존합니다. 유사한 선호도를 가진 다른 사용자가 소비 한 항목 또는 사용자가 이미 소비 한 항목과 유사한 항목을 권장합니다.
-
-
-Modelbased methods on the other hand attempt to model latent characteristics of the users and items, which are usually represented as vectors of latent factors. 
-반면에 모델 기반 방법은 일반적으로 잠재 요인의 벡터로 표현되는 사용자 및 항목의 잠재 특성을 모델링하려고 시도합니다.
-
-
-Latent factor models have been very popular ever since their effectiveness was demonstrated for movie recommendation in the Netflix Prize [8].
-잠재 요인 모델은 Netflix Prize [8]에서 영화 추천에 대한 효과가 입증 된 이후로 매우 인기가 있습니다.
-
+* CF(2):    
+  * 이웃 기반: 사용자 또는 항목 간의 유사성 측정에 의존  
+  * 모델 기반: 사용자 및 항목의 잠재 특성을 모델링  
 
 #### 1.3 The semantic gap in music
-1.3 음악의 의미 적 차이
-
-
+* 잠재 인자 벡터: 사용자 취향의 다양한 측면과 항목의 해당 특성에 대한 간략한 설명을 구성   
 Latent factor vectors form a compact description of the different facets of users’ tastes, and the corresponding characteristics of the items. 
 잠재 인자 벡터는 사용자 취향의 다양한 측면과 항목의 해당 특성에 대한 간략한 설명을 구성합니다.
 
-![T1](./image/T1.PNG)
+  * ![T1](./image/T1.PNG)  
+    * 작은 사용 데이터 세트에 대한 잠재 요인을 계산  
+    * 노래가 각 요인에 대해 매우 긍정적이고 매우 부정적인 값을 갖는 일부 아티스트  
 To demonstrate this, we computed latent factors for a small set of usage data, and listed some artists whose songs have very positive and very negative values for each factor in Table 1. 
 이를 증명하기 위해 작은 사용 데이터 세트에 대한 잠재 요인을 계산하고 노래가 각 요인에 대해 매우 긍정적이고 매우 부정적인 값을 갖는 일부 아티스트를 표 1에 나열했습니다.
 
@@ -156,103 +145,44 @@ This representation is quite versatile and can be used for other applications be
 Since usage data is scarce for many songs, it is often impossible to reliably estimate these factor vectors. 
 많은 노래에 대한 사용 데이터가 부족하기 때문에 이러한 요인 벡터를 안정적으로 추정하는 것이 불가능한 경우가 많습니다.
 
-
+* 음악 오디오 콘텐츠에서 예측할 수 있으면 유용  
 Therefore it would be useful to be able to predict them from music audio content.
 따라서 음악 오디오 콘텐츠에서 예측할 수 있으면 유용합니다.
 
-
+사용자 선호도에 영향을 미치는 노래의 특성
+오디오 신호 사이
+의미적 차이 존재
 There is a large semantic gap between the characteristics of a song that affect user preference, and the corresponding audio signal. 
 사용자 선호도에 영향을 미치는 노래의 특성과 해당 오디오 신호 사이에는 큰 의미 적 차이가 있습니다.
 
-
+오디오 신호: [모델] 복잡한 계층 구조를 캡처 > 높은 수준의 속성(장르, 분위기, 악기, 서정적 테마) 추출
 Extracting high-level properties such as genre, mood, instrumentation and lyrical themes from audio signals requires powerful models that are capable of capturing the complex hierarchical structure of music. 
 오디오 신호에서 장르, 분위기, 악기 및 서정적 테마와 같은 높은 수준의 속성을 추출하려면 음악의 복잡한 계층 구조를 캡처 할 수있는 강력한 모델이 필요합니다.
 
-
+* 오디오 신호로 만으로 얻을 수 없는 속성: 아티스트의 인기, 명성, 위치  
 Additionally, some properties are impossible to obtain from audio signals alone, such as the popularity of the artist, their reputation and and their location. 
 또한 아티스트의 인기, 명성 및 위치와 같은 일부 속성은 오디오 신호만으로는 얻을 수 없습니다.
 
-
+* 음악 정보 검색(MIR: music information retrieval) 분야
 Researchers in the domain of music information retrieval (MIR) concern themselves with extracting these high-level properties from music. 
 음악 정보 검색 (MIR) 분야의 연구자들은 음악에서 이러한 높은 수준의 속성을 추출하는 데 관심이 있습니다.
 
-
+* 단순 분류기: SVM, 선형 회귀
+* MFCC(mel-frequency cepstral coefficients): 특정 엔지니어링 오디오 기능 세트에 의존
 They have grown to rely on a particular set of engineered audio features, such as mel-frequency cepstral coefficients (MFCCs), which are used as input to simple classifiers or regressors, such as SVMs and linear regression [9]. 
 SVM 및 선형 회귀 [9]와 같은 단순 분류기 또는 회귀 자에 대한 입력으로 사용되는 MFCC (mel-frequency cepstral coefficients)와 같은 특정 엔지니어링 오디오 기능 세트에 의존하도록 성장했습니다.
 
 Recently this traditional approach has been challenged by some authors who have applied deep neural networks to MIR problems [10, 11, 12].
 최근에 이러한 전통적인 접근 방식은 심층 신경망을 MIR 문제에 적용한 일부 저자에 의해 도전을 받았습니다 [10, 11, 12].
 
-
+* 음악 오디오의 잠재 요인을 예측       심층 컨볼 루션 신경망         음악의 의미 적 격차를 해소
 In this paper, we strive to bridge the semantic gap in music by training deep convolutional neural networks to predict latent factors from music audio. 
 이 논문에서 우리는 음악 오디오의 잠재 요인을 예측하기 위해 심층 컨볼 루션 신경망을 훈련시켜 음악의 의미 적 격차를 해소하기 위해 노력합니다.
-
-
-We evaluate our approach on an industrialscale dataset with audio excerpts of over 380,000 songs, and compare it with a more conventional approach using a bag-of-words feature representation for each song. 
-우리는 38 만 곡 이상의 오디오 발췌로 산업 규모 데이터 세트에 대한 접근 방식을 평가하고 각 노래에 대한 단어 모음 기능 표현을 사용하는보다 일반적인 접근 방식과 비교합니다.
-
-
-We assess to what extent it is possible to extract characteristics that affect user preference directly from audio signals, and evaluate the predictions from our models in a music recommendation setting. 
-오디오 신호에서 직접 사용자 선호도에 영향을 미치는 특성을 추출 할 수있는 정도를 평가하고 음악 추천 설정에서 모델의 예측을 평가합니다.
 
 ---
 
 ### 2. The dataset 
-
-The Million Song Dataset (MSD) [13] is a collection of metadata and precomputed audio features for one million contemporary songs. 
-Million Song Dataset (MSD) [13]은 현재 백만 곡에 대한 메타 데이터 및 미리 계산 된 오디오 기능 모음입니다.
-
-
-Several other datasets linked to the MSD are also available, featuring lyrics, cover songs, tags and user listening data. 
-가사, 리메이크 곡, 태그 및 사용자 청취 데이터를 특징으로하는 MSD에 연결된 여러 데이터 세트도 사용할 수 있습니다.
-
-
-This makes the dataset suitable for a wide range of different music information retrieval tasks. 
-이로 인해 데이터 세트는 다양한 음악 정보 검색 작업에 적합합니다.
-
-
-Two linked datasets are of interest for our experiments:
-두 개의 연결된 데이터 세트가 실험에 유용합니다.
-
-
-• The Echo Nest Taste Profile Subset provides play counts for over 380,000 songs in the MSD, gathered from 1 million users. 
-
-The dataset was used in the Million Song Dataset challenge [14] last year.
-• Echo Nest Taste Profile Subset은 백만 명의 사용자가 수집 한 MSD에있는 38 만 곡 이상의 노래에 대한 재생 횟수를 제공합니다.
-
-이 데이터 세트는 작년 Million Song Dataset Challenge [14]에서 사용되었습니다.
-
-
-• The Last.fm dataset provides tags for over 500,000 songs.
-• Last.fm 데이터 세트는 500,000 개 이상의 노래에 대한 태그를 제공합니다.
-
-
-Traditionally, research in music information retrieval (MIR) on large-scale datasets was limited to industry, because large collections of music audio cannot be published easily due to licensing issues.
-전통적으로 대규모 데이터 세트에 대한 MIR (Music Information Retrieval) 연구는 라이선스 문제로 인해 대규모 음악 오디오 컬렉션을 쉽게 게시 할 수 없기 때문에 업계로 제한되었습니다.
-
-
-The authors of the MSD circumvented these issues by providing precomputed features instead of raw audio. 
-MSD 작성자는 원시 오디오 대신 미리 계산 된 기능을 제공하여 이러한 문제를 피했습니다.
-
-
-Unfortunately, the audio features provided with the MSD are of limited use, and the process by which they were obtained is not very well documented. 
-안타깝게도 MSD와 함께 제공되는 오디오 기능은 제한적으로 사용되며 이러한 기능을 얻은 프로세스는 잘 문서화되어 있지 않습니다.
-
-
-The feature set was extended by Rauber et al. [15], but the absence of raw audio data, or at least a mid-level representation, is still an issue.
-기능 세트는 Rauber et al. 그러나 원시 오디오 데이터가 없거나 적어도 중간 수준의 표현이 여전히 문제입니다.
-
-
-However, we were able to attain 29 second audio clips for over 99% of the dataset from 7digital.com. 
-그러나 7digital.com에서 데이터 세트의 99 % 이상에 대해 29 초 오디오 클립을 얻을 수있었습니다.
-
-
-Due to its size, the MSD allows for the music recommendation problem to be studied in a more realistic setting than was previously possible. 
-크기 때문에 MSD는 이전에 가능했던 것보다 더 현실적인 환경에서 음악 추천 문제를 연구 할 수 있도록합니다.
-
-
-It is also worth noting that the Taste Profile Subset is one of the largest collaborative filtering datasets that are publicly available today.
-또한 Taste Profile Subset이 오늘날 공개적으로 사용 가능한 가장 큰 협업 필터링 데이터 세트 중 하나라는 점도 주목할 가치가 있습니다.
+* dataset: Million Song Dataset(MSD), Last.fm, 7digital.com, Taste Profile Subset    
 
 ---
 
@@ -281,11 +211,11 @@ for example, they might not be aware of it, or they might expect not to enjoy it
 This setting is not compatible with traditional matrix factorization algorithms, which are aimed at predicting ratings. 
 이 설정은 등급 예측을 목표로하는 기존의 행렬 분해 알고리즘과 호환되지 않습니다.
 
-
+* WMF(Weighted Matrix Factorization) 알고리즘: 모든 사용자 및 항목의 잠재 요인 표현을 학습  
 We used the weighted matrix factorization (WMF) algorithm, proposed by Hu et al. [16], to learn latent factor representations of all users and items in the Taste Profile Subset. 
 Hu 등이 제안한 WMF (Weighted Matrix Factorization) 알고리즘을 사용했습니다. [16], Taste Profile Subset에서 모든 사용자 및 항목의 잠재 요인 표현을 학습합니다.
 
-
+* 암시적 피드백 데이터세트를 목표로하는 수정된 매트릭스 분해 알고리즘
 This is a modified matrix factorization algorithm aimed at implicit feedback datasets. 
 이것은 암시 적 피드백 데이터 세트를 목표로하는 수정 된 매트릭스 분해 알고리즘입니다.
 
@@ -344,23 +274,22 @@ Hu et al. 대신 사용한 효율적인 교번 최소 제곱 (ALS) 최적화 방
 ---
 
 ### 4. Predicting latent factors from music audio 
-
+* 회귀 문제: 오디오 신호에서 주어진 노래의 잠재 요인을 예측  
 Predicting latent factors for a given song from the corresponding audio signal is a regression problem. 
 해당 오디오 신호에서 주어진 노래의 잠재 요인을 예측하는 것은 회귀 문제입니다.
 
-
+* 시계열을 실수 벡터에 매핑하는 함수를 학습
 It requires learning a function that maps a time series to a vector of real numbers. 
 시계열을 실수 벡터에 매핑하는 함수를 학습해야합니다.
 
-
+* 평가(2):  
+  * 오디오 신호에서 로컬 특징을 추출 > BoW (bag-of-words) 표현으로 집계 > MIR의 기존 접근 방식 > 기존 회귀 기법(특징 표현을 요인에 매핑)  
 We evaluate two methods to achieve this: one follows the conventional approach in MIR by extracting local features from audio signals and aggregating them into a bag-of-words (BoW) representation. 
 이를 달성하기 위해 두 가지 방법을 평가합니다. 하나는 오디오 신호에서 로컬 특징을 추출하고이를 BoW (bag-of-words) 표현으로 집계하여 MIR의 기존 접근 방식을 따릅니다.
-
-
 Any traditional regression technique can then be used to map this feature representation to the factors. 
 그런 다음 기존 회귀 기법을 사용하여이 특징 표현을 요인에 매핑 할 수 있습니다.
 
-
+  * deep convolutional network  
 The other method is to use a deep convolutional network. 
 다른 방법은 심층 컨볼 루션 네트워크를 사용하는 것입니다.
 
@@ -559,20 +488,7 @@ The following models were used to predict latent factor vectors:
 • 대신 WMF 목표에서 가중 예측 오차 (WPE)를 최소화하도록 훈련 된 동일한 컨벌루션 신경망.
 
 
-For our initial experiments, we used a subset of the dataset containing only the 9,330 most popular songs, and listening data for only 20,000 users. 
-초기 실험에서는 9,330 개의 가장 인기있는 노래와 20,000 명의 사용자에 대한 청취 데이터 만 포함 된 데이터 세트의 하위 집합을 사용했습니다.
 
-
-We used 1,881 songs for testing. 
-테스트를 위해 1,881 곡을 사용했습니다.
-
-
-For the other experiments, we used all available data: we used all songs that we have usage data for and that we were able to download an audio clip for (382,410 songs and 1 million users in total, 46,728 songs were used for testing).
-다른 실험에서는 사용 가능한 모든 데이터를 사용했습니다. 사용 데이터가 있고 오디오 클립을 다운로드 할 수있는 모든 노래를 사용했습니다 (382,410 곡, 총 사용자 100 만 명, 테스트에 46,728 곡 사용).
-
-
-We report the mean average precision (mAP, cut off at 500 recommendations per user) and the area under the ROC curve (AUC) of the predictions. 
-평균 평균 정밀도 (mAP, 사용자 당 권장 사항 500 개에서 잘림)와 예측의 ROC 곡선 아래 영역 (AUC)을보고합니다.
 
 
 We evaluated all models on the subset, using latent factor vectors with 50 dimensions. 
@@ -582,10 +498,8 @@ We evaluated all models on the subset, using latent factor vectors with 50 dimen
 We compared the convolutional neural network with linear regression on the bag-of-words representation on the full dataset as well, using latent factor vectors with 400 dimensions. 
 컨벌루션 신경망과 전체 데이터 세트의 단어 모음 표현에 대한 선형 회귀를 400 차원의 잠재 인자 벡터를 사용하여 비교했습니다.
 
-![T2](./image/T2.PNG)
-Results are shown in Tables 2 and 3 respectively.
-결과는 각각 표 2 및 3에 나와 있습니다.
-
+* ![T2](./image/T2.PNG)
+*   * 평가 측도: AUC, mAP(mean average precision): 사용자마다 500개 자름  
 
 On the subset, predicting the latent factors seems to outperform the metric learning approach. 
 하위 집합에서 잠재 요인을 예측하는 것은 메트릭 학습 접근 방식을 능가하는 것으로 보입니다.
@@ -593,19 +507,19 @@ On the subset, predicting the latent factors seems to outperform the metric lear
 Using an MLP instead of linear regression results in a slight improvement, but the limitation here is clearly the bag-of-words feature representation. 
 선형 회귀 대신 MLP를 사용하면 약간의 개선이 이루어 지지만 여기서 한계는 분명히 bag-of-words 기능 표현입니다.
 
-
+* CNN > 성능 ↑  
 Using a convolutional neural network results in another large increase in performance. 
 컨볼 루션 신경망을 사용하면 성능이 크게 향상됩니다.
 
-
+  * bag-of-words 표현: 시간적 구조 반영 X 
 Most likely this is because the bag-of-words representation does not reflect any kind of temporal structure.
 아마도 이것은 bag-of-words 표현이 어떤 종류의 시간적 구조도 반영하지 않기 때문입니다.
 
-
+* WPE 목표: 성능 향상 X  
 Interestingly, the WPE objective does not result in improved performance. 
 흥미롭게도 WPE 목표는 성능 향상을 가져 오지 않습니다.
 
-
+  * 노래 중요성(가중치) ∝ 인기  
 Presumably this is because the weighting causes the importance of the songs to be proportional to their popularity. 
 아마도 이것은 가중치로 인해 노래의 중요성이 인기에 비례하기 때문일 것입니다.
 
@@ -613,7 +527,7 @@ Presumably this is because the weighting causes the importance of the songs to b
 In other words, the model will be encouraged to predict latent factor vectors for popular songs from the training set very well, at the expense of all other songs.
 즉, 모델은 다른 모든 노래를 희생시키면서 훈련 세트에서 인기있는 노래에 대한 잠재 인자 벡터를 매우 잘 예측하도록 권장됩니다.
 
-
+* bag-of-words v.s CNN  
 On the full dataset, the difference between the bag-ofwords approach and the convolutional neural network is much more pronounced. 
 전체 데이터 세트에서 bag-ofwords 접근 방식과 컨볼 루션 신경망 간의 차이가 훨씬 더 두드러집니다.
 
@@ -655,27 +569,20 @@ For each song, we searched for similar songs by measuring the cosine similarity 
 
 We compared the usage patterns predicted using the latent factors obtained with WMF (50 dimensions), with those using latent factors predicted with a convolutional neural network. 
 WMF (50 차원)로 얻은 잠재 인자를 사용하여 예측 한 사용 패턴과 컨벌루션 신경망으로 예측 한 잠재 인자를 사용하여 예측 한 사용 패턴을 비교했습니다.
-
-![T4](./image/T4.PNG)
-A few songs and their closest matches according to both models are shown in Table 4. 
-두 모델에 따른 몇 곡과 가장 가까운 곡이 표 4에 나와 있습니다.
+* 곡과 가장 가까운 곡  
+  * ![T4](./image/T4.PNG)
 
 
 When the predicted latent factors are used, the matches are mostly different, but the results are quite reasonable in the sense that the matched songs are likely to appeal to the same audience. 
 예측 된 잠재 요인을 활용하면 경기가 대부분 다르지만 일치하는 곡이 같은 청중에게 어필 할 가능성이 높다는 점에서 결과는 상당히 합리적이다.
 
-
+* 다양성  
 Furthermore, they seem to be a bit more varied, which is a useful property for recommender systems.
 더욱이 그것들은 좀 더 다양해 보이는데, 이것은 추천 시스템에 유용한 속성입니다.
 
 
-Following McFee et al. [5], we also visualized the distribution of predicted usage patterns in two dimensions using t-SNE [27]. 
-McFee et al. [5], t-SNE를 사용하여 예측 된 사용 패턴의 분포를 2 차원으로 시각화했습니다 [27].
-
 ![Fig1](./image/Fig1.PNG)
-
-A few close-ups are shown in Figure 1. 
-그림 1에는 몇 가지 클로즈업이 나와 있습니다.
+  *  t-SNE; 예측된 사용 패턴 분포  
 
 
 Clusters of songs that appeal to the same audience seem to be preserved quite well, even though the latent factor vectors for all songs were predicted from audio.
