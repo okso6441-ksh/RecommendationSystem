@@ -42,7 +42,7 @@
 
 #### Problem Formulation
 * 시나리오: 사용자 암시적 피드백 순위 학습  
-* <img src="https://latex.codecogs.com/gif.latex?I_u%5E&plus;>: 사용자 u 명시적 긍정 피드백 항목 집합   
+* <img src="https://latex.codecogs.com/gif.latex?I_u%5E&plus;">: 사용자 u 명시적 긍정 피드백 항목 집합   
 * 목표: 각 사용자에게 아직 피드백 제공하지 않은 항목의 개인화 순위 생성  
 
 #### Preference Predictor 
