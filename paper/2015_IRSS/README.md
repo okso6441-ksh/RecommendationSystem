@@ -55,10 +55,10 @@
 
 * 객체 > 다른 객체 시각적 appearance 대한 선호 표현 방법   
   * 데이터 양에 따라 확장 되는 모델  
-  * $ x \in \mathbb R^F $: F차원 feature 벡터  
-  * $ r_{ij} \in R $: objects i/j 관계 세트(관계 카테고리 중 하나에 속함)  
-* 목표: 거리변환 파라미터($ d(x_i, x_j) $) 학습  
-  * d(·,·): $ P (r_{ij \in R}), -d(x_i, x_j) $ 단조 증가 하기 위해 찾음  
+  * <img src="https://latex.codecogs.com/gif.latex?x%20%5Cin%20%5Cmathbb%20R%5EF">: F차원 feature 벡터  
+  * <img src="https://latex.codecogs.com/gif.latex?r_%7Bij%7D%20%5Cin%20R">: objects i/j 관계 세트(관계 카테고리 중 하나에 속함)  
+* 목표: 거리변환 파라미터(<img src="https://latex.codecogs.com/gif.latex?d%28x_i%2C%20x_j%29">) 학습  
+  * d(·,·): <img src="https://latex.codecogs.com/gif.latex?P%20%28r_%7Bij%20%5Cin%20R%7D%29%2C%20-d%28x_i%2C%20x_j%29"> 단조 증가 하기 위해 찾음  
 
 
 ##### Distances and probabilities
@@ -67,9 +67,9 @@
   * ![Fig2](./image/Fig2.PNG)  
     * cast logistic regression    
 * item i/j 거리: (c; 예측 정확도 최대화 위해 미정)  
-  * $ d(x_i, x_j) = c $: 확률 0.5     
-  * $ d(x_i, x_j) > c $: 0.5 ↑      
-  * $ d(x_i, x_j) > c $: 0.5 ↓      
+  * <img src="https://latex.codecogs.com/gif.latex?d%28x_i%2C%20x_j%29"> = c: 확률 0.5     
+  * <img src="https://latex.codecogs.com/gif.latex?d%28x_i%2C%20x_j%29"> > c: 0.5 ↑      
+  * <img src="https://latex.codecogs.com/gif.latex?d%28x_i%2C%20x_j%29"> > c: 0.5 ↓      
 
 * 잠재적(potential) 거리 함수 세트  
   * Weighted nearest neighbor: 특정 관계와 관련된 특정 차원 학습  
@@ -78,13 +78,13 @@
     * Mahalanobis 거리 > 이미지 특징을 연결 > 서로 다른 특성 차원 관련(호환)  
     * ![(3)](./image/(3).PNG)  
       * M: full rank p.s.d. matrix(positive symmetric definite): 과적합 위험, 실용성 ↓ >   
-      * $ M \simeq YY^T $ 근사(Y: 차원 F x K 행렬):   
+      * <img src="https://latex.codecogs.com/gif.latex?M%20%5Csimeq%20YY%5ET"> 근사(Y: 차원 F x K 행렬):   
         * ![(4)](./image/(4).PNG)  
 
 #### 2.1 Style space
 * ![(4)](./image/(4).PNG)  
-  * features $ x_i, x_j $ 저차원 임베딩 생성(Style space)  
-  * K차원 벡터 $ s_i = x_iY $(Y: 시각적 유사 X, 관련 객체가 가깝게 식별)      
+  * features <img src="https://latex.codecogs.com/gif.latex?x_i%2C%20x_j"> 저차원 임베딩 생성(Style space)  
+  * K차원 벡터 <img src="https://latex.codecogs.com/gif.latex?s_i%20%3D%20x_iY">(Y: 시각적 유사 X, 관련 객체가 가깝게 식별)      
     * ![(5)](./image/(5).PNG)   
 
 #### 2.2 Personalizing styles to individual users  
@@ -92,14 +92,14 @@
 
 * 개인화 된 거리 함수: 사용자 u - 항목 i/j 거리 측정  
   * ![(6)](./image/(6).PNG)
-    * $ D^{(u)}: K \times K$: diagonal(positive semidefinite) matrix  
-    * $ D_{kk}^{(u)} $: 사용자u가 k번째 스타일 차원에 대해 '관심'있는 정도   
-    * $ D_{kk}^{(u)} = X_{uk} $: 되도록 U X K 행렬 X 만듦  
+    * <img src="https://latex.codecogs.com/gif.latex?D%5E%7B%28u%29%7D%3A%20K%20%5Ctimes%20K">: diagonal(positive semidefinite) matrix  
+    * <img src="https://latex.codecogs.com/gif.latex?D_%7Bkk%7D%5E%7B%28u%29%7D">: 사용자u가 k번째 스타일 차원에 대해 '관심'있는 정도   
+    * <img src="https://latex.codecogs.com/gif.latex?D_%7Bkk%7D%5E%7B%28u%29%7D%20%3D%20X_%7Buk%7D">: 되도록 U X K 행렬 X 만듦  
 
 * 개인화 거리(eq.5 > 단순화  > eq.7)  
     * ![(5)](./image/(5).PNG)  
     * ![(7)](./image/(7).PNG)  
-      * $ X_u $: 스타일 공간 차원에 투영된 개인화 가중치  
+      * <img src="https://latex.codecogs.com/gif.latex?X_u">: 스타일 공간 차원에 투영된 개인화 가중치  
 
 * 개인화 된 공식(eq.6, eq.7)  
   * 의미 있는 경우: 데이터 세트 각 엣지와 관련된 사용자가 있는 경우  
@@ -118,13 +118,13 @@
 
 ### 3. Training
 * 각 관계 존재/부재 확률 최대화  
-  * 무작위 negative set $ Q = {r_{ij} |r_{ij} \notin R} $, |Q| = |R| log likelihood 최적화  
+  * 무작위 negative set <img src="https://latex.codecogs.com/gif.latex?Q%20%3D%20%7Br_%7Bij%7D%20%7Cr_%7Bij%7D%20%5Cnotin%20R%7D">, |Q| = |R| log likelihood 최적화  
     * ![(8)](./image/(8).PNG)  
       * gradient ascent; Y와 c에 대해 l(Y,c|R, Q) 최적화 학습  
       * L-BFGS: *quasi-Newton method*; 변수 多; 비선형 최적화  
         * quasi-Newton method: 비선형 최적화, 각 반복에서 목적 함수에 대한 기울기만 필요   
           (이차 미분 필요한 Newton method보다 계싼 부담 적음)  
-      * Likelihood(eq.8), 미분 계산; 모든 쌍 $ r_{ij} \in R \cup Q $; na¨ıvely parallelized  
+      * Likelihood(eq.8), 미분 계산; 모든 쌍 <img src="https://latex.codecogs.com/gif.latex?r_%7Bij%7D%20%5Cin%20R%20%5Ccup%20Q">; na¨ıvely parallelized  
 
 ---
 
@@ -136,7 +136,7 @@
 
 * WNN(Weighted Nearest Neighbor) baseline; 각 제품의 리뷰에 대한 주제 모델을 훈련  
   * ![(9)](./image/(9).PNG)
-    * $ \theta_i, \theta_j $: 제품 i,j 리뷰 파생 topic 벡터  
+    * <img src="https://latex.codecogs.com/gif.latex?%5Ctheta_i%2C%20%5Ctheta_j">: 제품 i,j 리뷰 파생 topic 벡터  
     * 단순 이미지 feature 보다 주제 벡터 사용하도록 조정  
     * 경쟁력 ↓  
       * 이유(2)  
@@ -176,9 +176,9 @@
 ---
 
 ### 5. Visualizing Style Space
-* 이미지 > $ s_i = x_iY $ [변환] > ‘style-space’ 투영  
+* 이미지 > <img src="https://latex.codecogs.com/gif.latex?s_i%20%3D%20x_iY"> [변환] > ‘style-space’ 투영  
   * 쌍별 거리 기반; 임베딩이 동형(isomorphism) 下 불변  
-* $ s_i, s_j $: 회전/평행이동/반사 => 거리(eq.5) 유지  
+* <img src="https://latex.codecogs.com/gif.latex?s_i%2C%20s_j">: 회전/평행이동/반사 => 거리(eq.5) 유지  
   * ![(5)](./image/(5).PNG)    
 * 임베딩 효과 시각화  
   * K-차원 임베디드 좌표; k-means clustering  
@@ -204,7 +204,7 @@
   * query item ex: (사용자) 현재 탐색 중 or 방금 구매 제품   
   * 시각적 스타일 기반 연결 가능성 높은 범주 항목 추천 > 선택  
 * 각 범주(C)에 대한 recommendations 생성  
-  * (given) 쿼리 항목($ x_q $)
+  * (given) 쿼리 항목(<img src="https://latex.codecogs.com/gif.latex?x_q">)
   * ![(10)](./image/(10).PNG)     
   * 원하는 범주 속하는 objects간 측정  
     * (min 거리) ![(4)](./image/(4).PNG)   

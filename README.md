@@ -18,11 +18,11 @@ yet> 2013_DcbmR [Deep content-based music recommendation](https://github.com/oks
 
 2015_AutoRec [AutoRec: Autoencoders Meet Collaborative Filtering](https://github.com/okso6441-ksh/RecommendationSystem/tree/main/paper/2015_AutoRec/README.md)
 
-ing> 2015_IRSS [Image-based Recommendations on Styles and Substitutes](https://github.com/okso6441-ksh/RecommendationSystem/tree/main/paper/2015_IRSS/README.md)
+2015_IRSS [Image-based Recommendations on Styles and Substitutes](https://github.com/okso6441-ksh/RecommendationSystem/tree/main/paper/2015_IRSS/README.md)
 
 yet> 2015_SBRRNN [SESSION-BASED RECOMMENDATIONS WITH RECURRENT NEURAL NETWORKS](https://github.com/okso6441-ksh/RecommendationSystem/tree/main/paper/2015_SBRRNN/README.md)
 
-yet> 2015_VBPR [VBPR: Visual Bayesian Personalized Ranking from Implicit Feedback](https://github.com/okso6441-ksh/RecommendationSystem/tree/main/paper/2015_VBPR/README.md)
+2015_VBPR [VBPR: Visual Bayesian Personalized Ranking from Implicit Feedback](https://github.com/okso6441-ksh/RecommendationSystem/tree/main/paper/2015_VBPR/README.md)
 
 2016_WDLRS [Wide & Deep Learning for Recommender Systems](https://github.com/okso6441-ksh/RecommendationSystem/tree/main/paper/2016_WDLRS/README.md)
 
