@@ -14,29 +14,7 @@
 ---
 
 ### 1. INTRODUCTION
-
-Session-based recommendation is a relatively unappreciated problem in the machine learning and recommender systems community. 
-세션 기반 추천은 기계 학습 및 추천 시스템 커뮤니티에서 상대적으로 인정받지 못하는 문제입니다.
-
-
-Many e-commerce recommender systems (particularly those of small retailers) and most of news and media sites do not typically track the user-id’s of the users that visit their sites over a long period of time. 
-많은 전자 상거래 추천 시스템 (특히 소규모 소매 업체의 시스템)과 대부분의 뉴스 및 미디어 사이트는 일반적으로 오랜 기간 동안 사이트를 방문하는 사용자의 사용자 ID를 추적하지 않습니다.
-
-
-While cookies and browser fingerprinting can provide some level of user recognizability, those technologies are often not reliable enough and moreover raise privacy concerns. 
-쿠키와 브라우저 핑거 프린팅은 일정 수준의 사용자 인식을 제공 할 수 있지만 이러한 기술은 종종 충분히 신뢰할 수 없으며 개인 정보 보호 문제를 야기합니다.
-
-
-Even if tracking is possible, lots of users have only one or two sessions on a smaller e-commerce site, and in certain domains (e.g. classified sites) the behavior of users often shows session-based traits. 
-추적이 가능하더라도 많은 사용자가 소규모 전자 상거래 사이트에서 한두 개의 세션 만 가지고 있으며 특정 도메인 (예 : 분류 된 사이트)에서 사용자의 행동은 종종 세션 기반 특성을 나타냅니다.
-
-* 동일 사용자 후속 세션 - 독립적 처리  
-
-* 세션 기반 추천 시스템: 사용자 프로필 사용 X  
-
-
-While effective, those methods often take only the last click or selection of the user into account ignoring the information of past clicks.
-효과적이지만 이러한 방법은 종종 마지막 클릭 또는 사용자의 선택 만 고려하여 과거 클릭 정보를 무시합니다.
+* 세션 기반 특성(session-based traits)    
 
 * 추천 시스템 일반적인 방법:  
   * 요인 모델(factor models): 희소 사용자-항목 상호작용 행렬 > 각 항목/사용자 d차원 벡터 세트로 분해  
@@ -133,8 +111,11 @@ While effective, those methods often take only the last click or selection of th
 * pairwise ranking loss(2):   
   * BPR(Bayesian Personalized Ranking): matrix factorization; 긍정/부정 항목 점수 비교 > 평균(손실)    
     * <img src="https://latex.codecogs.com/gif.latex?L_s%20%3D%20-%5Cfrac%7B1%7D%7BN_S%7D%5Ccdot%5Csum_%7Bj%3D1%7D%5E%7BN_s%7D%20log%20%28%5Csigma%20%28%5Chat%20r_%7Bs%2Ci%7D%20-%20%5Chat%20r_%7Bs%2Cj%7D%20%29%29">  
+    
       * <img src="https://latex.codecogs.com/gif.latex?N_s">: 표본 크기  
+
       * <img src="https://latex.codecogs.com/gif.latex?%5Chat%20r_%7Bs%2Ck%7D">: 세션의 주어진 지점에서 항목 k에 대한 점수  
+
       * i: 원하는 항목(세션의 다음 항목)  
       * j: 음의 샘플  
   * TOP1: (고안) 관련 항목의 상대적 순위에 대한 정규화 된 근사치;    
