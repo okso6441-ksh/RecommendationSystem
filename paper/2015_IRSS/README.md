@@ -25,9 +25,9 @@
 * 인간 개념을 모델링   
   * 한 쌍의 객체: 본질적 연결 X, 인간의 개념만 존재(다른 쌍보다 적합)  
   * 접근방식: 수작업 레이블 이미지 활용      
-* 레이블 작업: 대부분 적은 데이터세트 > 과적합 피하기 위한 작업 필요   
-  * 작업 노력 ↑ => 수동 주석 작업 X 제안   
-    * 제안: 조금만 관련 있어도(loosely related) 더 큰 데이터 세트에서 작동하는 소스를 찾는것    
+    * 레이블 작업: 대부분 적은 데이터세트 > 과적합 피하기 위한 작업 필요   
+      * 작업 노력 ↑ => 수동 주석 작업 X 제안   
+        * 제안: 조금만 관련 있어도(loosely related) 더 큰 데이터 세트에서 작동하는 소스를 찾는것    
 
 #### 1.1 A visual dataset of styles and substitutes
 * Amazon 웹 스토어 기반 데이터 세트 개발  
@@ -54,7 +54,7 @@
   * ![T2](./image/T2.PNG)   
 
 * 객체 > 다른 객체 시각적 appearance 대한 선호 표현 방법   
-  * 데이터 양에 따라 확장 되는 모델  
+  * 데이터 양에 따라 확장되는 모델  
   * <img src="https://latex.codecogs.com/gif.latex?x%20%5Cin%20%5Cmathbb%20R%5EF">: F차원 feature 벡터  
   * <img src="https://latex.codecogs.com/gif.latex?r_%7Bij%7D%20%5Cin%20R">: objects i/j 관계 세트(관계 카테고리 중 하나에 속함)  
 * 목표: 거리변환 파라미터(<img src="https://latex.codecogs.com/gif.latex?d%28x_i%2C%20x_j%29">) 학습  
@@ -123,7 +123,7 @@
       * gradient ascent; Y와 c에 대해 l(Y,c|R, Q) 최적화 학습  
       * L-BFGS: *quasi-Newton method*; 변수 多; 비선형 최적화  
         * quasi-Newton method: 비선형 최적화, 각 반복에서 목적 함수에 대한 기울기만 필요   
-          (이차 미분 필요한 Newton method보다 계싼 부담 적음)  
+          (이차 미분 필요한 Newton method보다 계산 부담 적음)  
       * Likelihood(eq.8), 미분 계산; 모든 쌍 <img src="https://latex.codecogs.com/gif.latex?r_%7Bij%7D%20%5Cin%20R%20%5Ccup%20Q">; na¨ıvely parallelized  
 
 ---

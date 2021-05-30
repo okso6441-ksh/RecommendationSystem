@@ -8,7 +8,7 @@
 * 기존 방법: 강한 bias, 전문적인 feature 엔지니어링 요구  
 * DeepFM: 딥러닝 + FM    
     * 종단간 학습 모델(end-to-end learning)  
-    * low- and highorder feature interactions 모두 강조  
+    * low/high order feature interactions 모두 강조  
 * Wide & Deep 과 비교   
   * feature engineering 필요 X > “wide” and “deep” 부분, 공유 입력    
 
@@ -28,11 +28,11 @@
     * (order-3): 슈팅게임 남자 청소년 다운 ↑ (앱 카테고리 - 성별 - 연령)    
 
 * Wide & Deep 통찰     
-  * low- and high-order feature interactions 동시 고려  
+  * low/high-order feature interactions 동시 고려  
   * Wide: 전문가 feature 엔지니어링   
 
 * 과제: feature 상호작용 모델링   
-  * (일부)전문가 설계, feature 수 많을수록 어려움      
+  * (일부) 전문가 설계, feature 수 많을수록 어려움      
   * (대부분) 사전 식별 어려움(hidden)   
 
 * FTRL[McMahan et al., 2013]  
@@ -139,7 +139,7 @@
     * |H|: hidden layers 수  
 
 * FM 컴포넌트 + 딥 컴포넌트 동일 feature 임베딩 공유 이점(2):  
-  * 1) raw feature에서 low- and high-order feature 상호작용 모두 학습   
+  * 1) raw feature에서 low/high-order feature 상호작용 모두 학습   
   * 2) Wide & Deep처럼 전문 feature 엔지니어링이 필요 X  
 
 #### 2.2 Relationship with Other Neural Networks

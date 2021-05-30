@@ -43,11 +43,10 @@
 * 여행 지역: 사용자 장소 방문 시, 제한된 거리 이동하려는 경향  
   * 추천 후보: 이동 거리가 더 가까운 공간 항목 우선순위   
 
-#### B. Our Contribution: LARS - A Location-Aware Recommender Like traditional recommender systems, LARS suggests k items personalized for a querying user u. 
-
-* 사용자 분할: 선호지역성 활용  
+#### B. Our Contribution: LARS - A Location-Aware Recommender 
+* 사용자 분할: 선호 지역성 활용  
   * (user, ulocation, rating, item)  
-  * 적응 형 피라미드 구조(adaptive pyramid structure)  
+  * 적응형 피라미드 구조(adaptive pyramid structure)  
     * 사용자 위치 속성별 등급, 다른 계층 구조에서 다양한 크기의 공간 영역으로 분할  
     * R 지역에있는 쿼리 사용자의 경우 R에있는 등급만 활용하는 기존 CF 적용  
     * 피라미드의 모든 영역을 유지 여부: 확장성, 지역성 균형(상반되는 요소) => 동적 조정  

@@ -5,10 +5,10 @@
 ---
 ### Abstract  
 * Factorization Machine(FM) = SVM(Support Vector Machine) + Factorization model   
-  * 인수 분해 된 매개 변수를 사용, 변수 간의 모든 상호 작용 모델링  
+  * 인수 분해 된 매개변수를 사용, 변수 간의 모든 상호작용 모델링  
     * SVM 문제(huge sparsity) 동작 가능  
   * FM 모델 방정식: 선형 시간으로 계산, 직접 최적화 가능  
-    * SVM 비선형 > 이중 형태 변환 필요 없으며, 제원 벡터 없이 직접 추정 됨  
+    * SVM 비선형 > 이중 형태 변환 필요 없으며, 지원 벡터 없이 직접 추정 됨  
     * factorization models: 행렬 분해, 병렬 요인 분석, SVD++, PITF or FPMC  
       * 일반 예측 X, only special input data 작동    
 
@@ -24,15 +24,15 @@
 
 ||SVM|factorization machine models|
 |---|---|---|
-|특징|일반 예측자|모든 중첩 변수 상호 작용 모델링| 
+|특징|일반 예측자|모든 중첩 변수 상호작용 모델링| 
 |단점|희소 데이터에서 복잡한(비선형) 커널 공간에서<br>신뢰할 수 있는 매개변수(‘hyperplanes’) 학습 X |표준 예측 데이터 적용 X<br>특수 모델 적용 X |
-|매개변수화|조밀 한 매개변수화|인수 분해 된 매개변수화|
+|매개변수화|조밀한 매개변수화|인수분해 된 매개변수화|
 |최적화|dual form 최적화|매개변수 직접 최적화/저장|
-|계산|훈련데이터(support vectors)에 따라 예측 계산|선형 매개 변수 수에만 의존<br>> 선형 시간으로 계산|
+|계산|훈련데이터(support vectors)에 따라 예측 계산|선형 매개변수 수에만 의존<br>> 선형 시간으로 계산|
 
 
 * SVM + factorization machine models = **FM** 장점  
-    * 1) SVM이 실패하는 매우 희소한 데이터에서 매개 변수 추정을 허용  
+    * 1) SVM이 실패하는 매우 희소한 데이터에서 매개변수 추정을 허용  
     * 2) 선형 복잡도, primal 에서 최적화, support vectors에 의존 X, 대규모 데이터 세트로 확장  
     * 3) FM은 실제값 feature 벡터와 함께 작동 할 수 있는 일반적인 예측기  
       * 입력 데이터 feature 벡터 정의 > state-of-the-art 모방(biased MF, SVD++, PITF or FPMC)  
@@ -78,26 +78,26 @@
 S = {(A, TI, 2010-1, 5),(A, NH, 2010-2, 3),(A, SW, 2010-4, 1), (B, SW, 2009-5, 4),(B, ST, 2009-8, 5), (C, TI, 2009-9, 1),(C, SW, 2009-12, 5)}
   
 * ![Fig1](./image/Fig1.PNG)  
-  * S에서 feature 벡터를 생성하는 방법  
-  * |U| active user 이진 표시기 변수(파란색): 트랜잭션당 1 active user   
-  * |I| active item 이진 표시기 변수(빨간색): 트랜잭션당 1 active item   
-  * user 평가한 다른 모든 item에 대한 표시기 변수(노란색) - 정규화(합=1)  
-    * 예: user A(Alice)는 TI(Titanic), NH(Notting Hill), SW(Star Wars) 평가  
-  * 시간 변수 (녹색): 2009년 1 월 ~ 월단위  
-  * (갈색): user가 active item 평가하기 전 평가 한 마지막 영화   
+  * 관찰 된 데이터(S)에서 feature 벡터를 생성하는 방법  
+    * |U| active user 이진 표시기 변수(파란색): 트랜잭션당 1 active user   
+    * |I| active item 이진 표시기 변수(빨간색): 트랜잭션당 1 active item   
+    * user 평가한 다른 모든 item에 대한 표시기 변수(노란색) - 정규화(합=1)  
+      * 예: user A(Alice)는 TI(Titanic), NH(Notting Hill), SW(Star Wars) 평가  
+    * 시간 변수 (녹색): 2009년 1 월 ~ 월단위  
+    * (갈색): user가 active item 평가하기 전 평가 한 마지막 영화   
 
 ---
 
 ### 3. FACTORIZATION MACHINES(FM)  
 #### A. Factorization Machine Model  
 ##### 1) Model Equation: 
-* 2-way FM(d = 2): 변수 간의 모든 단일 및 쌍별 상호 작용 캡처  
+* 2-way FM(d = 2): 변수 간의 모든 단일 및 쌍별 상호작용 캡처  
   * ![(1)](./image/(1).PNG)  
     * <img src="https://latex.codecogs.com/gif.latex?w_0">: 전역 편향  
     * <img src="https://latex.codecogs.com/gif.latex?w_i">: i 번째 변수의 강도  
-    * <img src="https://latex.codecogs.com/gif.latex?%5Chat%20w_%7Bi%2Cj%7D">: <vi, vj> i, j 변수 간의 *상호 작용을 인수 분해하여 모델링*   
+    * <img src="https://latex.codecogs.com/gif.latex?%5Chat%20w_%7Bi%2Cj%7D">: <vi, vj> i, j 변수 간의 *상호작용을 인수 분해하여 모델링*   
     * ![(2)](./image/(2).PNG)
-        * 추정해야하는 모델 매개 변수  
+        * 추정해야하는 모델 매개변수  
     * <·,·>: 크기가 k 인 두 벡터의 내적
     * ![(3)](./image/(3).PNG)
         * vi행: V내에 k요인 가진 i번째 변수  
@@ -111,13 +111,13 @@ S = {(A, TI, 2010-1, 5),(A, NH, 2010-2, 3),(A, SW, 2010-4, 1), (B, SW, 2009-5, 4
 
 
 ##### 3) Parameter Estimation Under Sparsity:  
-* sparse settings, 변수 간의 상호 작용을 직접적/독립적 추정, 충분한 데이터 X  
-* FM: 상호 작용 매개 변수를 분해 > 독립성을 깨뜨림 > sparse settings에서도 상호작용 추정 가능  
+* sparse settings, 변수 간의 상호작용을 직접적/독립적 추정, 충분한 데이터 X  
+* FM: 상호작용 매개변수를 분해 > 독립성을 깨뜨림 > sparse settings에서도 상호작용 추정 가능  
 
 * ![Fig1-1](./image/Fig1-1.PNG)  
-  * target y (rating) 예측을 위한 user A(Alice), item ST(Star Trek) 상호 작용 추정  
-  * <img src="https://latex.codecogs.com/gif.latex?x_A%2C%20x_%7BST%7D"> 변수 모두 0이 아님(직접 추정-> 상호 작용 없음)  
-  * <img src="https://latex.codecogs.com/gif.latex?%3Cv_A%2C%20v_%7BST%7D%3E">: 인수분해 된(factorized) 상호작용 매개변수 => 상호 작용 추정 가능   
+  * target y (rating) 예측을 위한 user A(Alice), item ST(Star Trek) 상호작용 추정  
+  * <img src="https://latex.codecogs.com/gif.latex?x_A%2C%20x_%7BST%7D"> 변수 모두 0이 아님(직접 추정-> 상호작용 없음)  
+  * <img src="https://latex.codecogs.com/gif.latex?%3Cv_A%2C%20v_%7BST%7D%3E">: 인수분해 된(factorized) 상호작용 매개변수 => 상호작용 추정 가능   
 
   <br>
 
@@ -136,7 +136,7 @@ S = {(A, TI, 2010-1, 5),(A, NH, 2010-2, 3),(A, SW, 2010-4, 1), (B, SW, 2009-5, 4
 * eq (1) 은 선형 시간복잡도 <img src="https://latex.codecogs.com/gif.latex?O%28kn%29"> 로 재구성 가능    
 
 ###### Proof
-* 쌍대 상호 작용 분해, 두 변수 직접 의존 모델 매개 변수 X  
+* 쌍대 상호작용 분해, 두 변수 직접 의존 모델 매개변수 X  
   * ![3-1](./image/3-1.PNG)
 
 * (sparsity), x 대부분 0(0이 아닌 요소만 계산하면 됨), 시간복잡도 <img src="https://latex.codecogs.com/gif.latex?O%28k%20%5Cbar%20%7Bm_D%7D%29">  
@@ -146,7 +146,7 @@ S = {(A, TI, 2010-1, 5),(A, NH, 2010-2, 3),(A, SW, 2010-4, 1), (B, SW, 2009-5, 4
 *  prediction tasks: 회귀, 이진 분류, 순위(Ranking)  
 
 #### C. Learning Factorization Machines
-* FM의 모델 매개 변수 학습: SGD  
+* FM의 모델 매개변수 학습: SGD  
 * FM 모델 기울기: O(1)   
   * ![(4)](./image/(4).PNG)
 * LIB**FM**: SGD 사용, 요소별/쌍별 손실 모두 지원하는 일반 구현  
@@ -155,22 +155,22 @@ S = {(A, TI, 2010-1, 5),(A, NH, 2010-2, 3),(A, SW, 2010-4, 1), (B, SW, 2009-5, 4
 * 2-way FM > d-way FM 으로 일반화  
   * ![(5)](./image/(5).PNG)
     * 시간복잡도: <img src="https://latex.codecogs.com/gif.latex?O%28k_d%20n%5Ed%29">, 선형시간으로 계산 가능    
-    * l 번째 상호 작용 매개 변수: 모델 매개 변수 + PARAFAC 모델에 의해 분해  
+    * l 번째 상호작용 매개변수: 모델 매개변수 + PARAFAC 모델에 의해 분해  
       * ![(6)](./image/(6).PNG)
 
 #### E. Summary
 * FM: 
-  * 전체 매개 변수화 된 상호 작용 -> 인수 분해 된 상호 작용  
-  * => x(feature 벡터) 모든 상호 작용 모델링  
+  * 전체 매개변수화 된 상호작용 -> 인수 분해 된 상호작용  
+  * => x(feature 벡터) 모든 상호작용 모델링  
 * 장점(2):  
-  * 1) 희소성이 높은 경우도 추정 가능, 관찰되지 않은 상호 작용으로 일반화 가능       
-  * 2) 매개 변수의 수, 예측, 학습 시간: 선형  
+  * 1) 희소성이 높은 경우도 추정 가능, 관찰되지 않은 상호작용으로 일반화 가능       
+  * 2) 매개변수의 수, 예측, 학습 시간: 선형  
 
 ---
 
 ### 4. FMS VS. SVMS
 #### A. SVM model
-* SVM 모델 방정식: 내적(변환 된 입력 x, 모델 매개 변수 w)   
+* SVM 모델 방정식: 내적(변환 된 입력 x, 모델 매개변수 w)   
   * <img src="https://latex.codecogs.com/gif.latex?w%3A%5Chat%20y%28x%29%20%3D%20%3C%5Cphi%20%28x%29%2C%20w%3E">    
 
     * φ: feature space <img src="https://latex.codecogs.com/gif.latex?%5Cmathbb%7BR%7D%5En">에 매핑  
@@ -184,7 +184,7 @@ S = {(A, TI, 2010-1, 5),(A, NH, 2010-2, 3),(A, SW, 2010-4, 1), (B, SW, 2009-5, 4
     * 모델 방정식:
       * ![(7)](./image/(7).PNG)  
         * 등식 (7) == 등식 (5) (d=1)  
-  * 2) Polynomial kernel(다항 커널): SVM이 변수 간의 더 높은 상호 작용을 모델링 가능   
+  * 2) Polynomial kernel(다항 커널): SVM이 변수 간의 더 높은 상호작용을 모델링 가능   
     * <img src="https://latex.codecogs.com/gif.latex?K%28x%2C%20z%29%20%3A%3D%20%28%3Cx%2Cz%3E&plus;1%29%5Ed">  
     * d=2, 매핑: ![(8)](./image/(8).PNG)  
     * dual form, 매핑 φ는 명시 적으로 수행되지 X   
@@ -196,11 +196,11 @@ S = {(A, TI, 2010-1, 5),(A, NH, 2010-2, 3),(A, SW, 2010-4, 1), (B, SW, 2009-5, 4
       
     *  모델 방정식:    
       * ![(9)](./image/(9).PNG)    
-        * 모델 매개 변수: <img src="https://latex.codecogs.com/gif.latex?w_0%20%5Cin%20%5Cmathbb%7BR%7D%2C%20w%20%5Cin%20%5Cmathbb%7BR%7D%5En%2C%20W%5E%7B%282%29%7D%20%5Cin%20%5Cmathbb%7BR%7D%5E%7Bn%20%5Ctimes%20n%7D"> (symmetric matrix 대칭 행렬)    
+        * 모델 매개변수: <img src="https://latex.codecogs.com/gif.latex?w_0%20%5Cin%20%5Cmathbb%7BR%7D%2C%20w%20%5Cin%20%5Cmathbb%7BR%7D%5En%2C%20W%5E%7B%282%29%7D%20%5Cin%20%5Cmathbb%7BR%7D%5E%7Bn%20%5Ctimes%20n%7D"> (symmetric matrix 대칭 행렬)    
     
-* SVM - FM 주요 차이점: 매개 변수화   
-  * SVM: 모든 상호 작용 매개 변수 <img src="https://latex.codecogs.com/gif.latex?w_%7Bi%2Cj%7D"> 완전히 독립적  
-  * 상호 작용 매개 변수는 분해(factorized), <img src="https://latex.codecogs.com/gif.latex?%3Cv_i%2C%20v_j%3E%20and%20%3Cv_i%2C%20v_l%3E"> 매개 변수가 겹치고 공유(<img src="https://latex.codecogs.com/gif.latex?v_i">), 서로 의존  
+* SVM - FM 주요 차이점: 매개변수화   
+  * SVM: 모든 상호작용 매개변수 <img src="https://latex.codecogs.com/gif.latex?w_%7Bi%2Cj%7D"> 완전히 독립적  
+  * 상호작용 매개변수는 분해(factorized), <img src="https://latex.codecogs.com/gif.latex?%3Cv_i%2C%20v_j%3E%20and%20%3Cv_i%2C%20v_l%3E"> 매개변수가 겹치고 공유(<img src="https://latex.codecogs.com/gif.latex?v_i">), 서로 의존  
 
 #### B. Parameter Estimation Under Sparsity
 * (Sparsity), linear / polynomial SVMs 실패 이유  
@@ -215,7 +215,7 @@ S = {(A, TI, 2010-1, 5),(A, NH, 2010-2, 3),(A, SW, 2010-4, 1), (B, SW, 2009-5, 4
   * ![Fig2](./image/Fig2.PNG)  
     * 경험적 예측 품질은 일반적으로 낮음  
 
-* 2) 다항식 SVM: 다항식 커널, 고차 상호 작용 캡처   
+* 2) 다항식 SVM: 다항식 커널, 고차 상호작용 캡처   
   * m(x) = 2, 모델 방정식:  
     * ![4-2](./image/4-2.PNG)    
       * <img src="https://latex.codecogs.com/gif.latex?w_u%20%5Cleftrightarrow%20w_%7Bu%2Cu%7D%5E%7B%282%29%7D"> 일 때, 추가 상호작용 <img src="https://latex.codecogs.com/gif.latex?w_%7Bu%2Ci%7D%5E%7B%282%29%7D"> 존재  
@@ -278,7 +278,7 @@ S = {(A, TI, 2010-1, 5),(A, NH, 2010-2, 3),(A, SW, 2010-4, 1), (B, SW, 2009-5, 4
     * 쌍별 순위 최적화 FM모델   
       * PITF - FM 차이점:  
         * FM: t에 대한 바이어스 항 wt 존재  
-        * (u, t) / (i, t) 상호 작용 사이의 태그 (<img src="https://latex.codecogs.com/gif.latex?v_t">) 매개변수 공유 여부; FM 공유, PITF 개별적  
+        * (u, t) / (i, t) 상호작용 사이의 태그 (<img src="https://latex.codecogs.com/gif.latex?v_t">) 매개변수 공유 여부; FM 공유, PITF 개별적  
 
 * ![Fig3](./image/Fig3.PNG)  
   * 비슷한 예측 품질 달성  

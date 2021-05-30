@@ -26,7 +26,7 @@
 
 ### 2. MODEL
 * U-AutoRec 접근법 + deeper(*사전훈련 X*)    
-  * a) scaled exponential linear units”(SELUs)  
+  * a) scaled exponential linear units(SELUs)  
   * b) dropout ↑  
   * d) iterative output re-feeding   
 
@@ -47,10 +47,10 @@
   * decoder mirror encoder > 디코더 가중치는 전치된 인코더 가중치와 동일하게 제한/연결 가능 <img src="https://latex.codecogs.com/gif.latex?W_d%5El%20-%20W_e%5El">(free parameters 2배 적어짐)    
 
 #### Forward pass and inference  
-* 사용자 등급 벡터 $ x \in R^n $  
+* 사용자 등급 벡터 <img src="https://latex.codecogs.com/gif.latex?x%20%5Cin%20R%5En">  
   * n: 항목 수   
   * x: sparse  
-* decoder output $ f(x) \in R^n $  
+* decoder output <img src="https://latex.codecogs.com/gif.latex?f%28x%29%20%5Cin%20R%5En">  
   * dense, corpus 모든 항목 등급 예측 포함  
 
 #### 2.1 Loss function
@@ -61,7 +61,7 @@
 * RMSE = √MMSE  
 
 #### 2.2 Dense re-feeding
-* $ x \in R^n $: input (sparse)     
+* <img src="https://latex.codecogs.com/gif.latex?x%20%5Cin%20R%5En">: input (sparse)     
 * f(x): 오토인코더 출력 (dense)    
 * f 시나리오(ideal)   
   * <img src="https://latex.codecogs.com/gif.latex?f%28x%29_i%20%3D%20x_i%2C%20%5Cforall%20_i%20%3A%20xi%20%5Cneq%200%2C%20f%28x%29_i%20%3D%3E%20x_i%3D0"> 아이템에 대한 모든 사용자 미래 등급 정확히 예측   

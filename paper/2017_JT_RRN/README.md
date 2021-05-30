@@ -6,7 +6,7 @@
 
 ### ABSTRACT
 * ratings + reviews + temporal patterns => NN 모델  
-  * recurrent architecture: user/itme dynamic components states   
+  * recurrent architecture: user/item dynamic components states   
   * numerical ratings + NL(natural language) reviews  
 
 ---
@@ -60,7 +60,7 @@
 
 #### Rating Emissions 
 * 프로파일 벡터  
-  * 시간에 따라 변화($ u_{it}, m_{jt} $) > [보완] > 고정(<img src="https://latex.codecogs.com/gif.latex?u_i%2C%20m_j">)<encode> > 시간 불변 속성(사용자 장기적 선호, 영화 장르)  
+  * 시간에 따라 변화(<img src="https://latex.codecogs.com/gif.latex?u_%7Bit%7D%2C%20m_%7Bjt%7D">) > [보완] > 고정(<img src="https://latex.codecogs.com/gif.latex?u_i%2C%20m_j">)<encode> > 시간 불변 속성(사용자 장기적 선호, 영화 장르)  
     * ∴ review rating: dynamic and stationary states 함수로 모델링  
     * ![(1)](./image/(1).PNG)  
       * <img src="https://latex.codecogs.com/gif.latex?%5Ctilde%20u_%7Bit%7D%2C%20%5Ctilde%20m_%7Bjt%7D">: <img src="https://latex.codecogs.com/gif.latex?u_%7Bit%7D%2C%20m_%7Bjt%7D">의 affine functions  
