@@ -7,7 +7,8 @@
 
 ### Paper
 2008_CF_IFD [Collaborative Filtering for Implicit Feedback Datasets](https://github.com/okso6441-ksh/RecommendationSystem/tree/main/paper/2008_CF_IFD/README.md)
-  
+> CF, Implicit, profile/관계(내적), cold-start, + 간단한 설명, pair(u, i), 이웃, 잠재요인, ALS  
+
 2009_BPR [BPR: Bayesian Personalized Ranking from Implicit Feedback](https://github.com/okso6441-ksh/RecommendationSystem/tree/main/paper/2009_BPR/README.md)
 
 2010_FM [Factorization Machines](https://github.com/okso6441-ksh/RecommendationSystem/tree/main/paper/2010_FM/README.md)
