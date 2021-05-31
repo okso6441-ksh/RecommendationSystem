@@ -5,7 +5,15 @@
 추천 시스템 공부해보자!!
 ```
 
+### Code  
+
+
+---
+
 ### Paper
+2001_IB_CFR [Item-Based Collaborative Filtering Recommendation](https://github.com/okso6441-ksh/RecommendationSystem/tree/main/paper/2001_IB_CFR/README.md)
+>   
+
 2008_CF_IFD [Collaborative Filtering for Implicit Feedback Datasets](https://github.com/okso6441-ksh/RecommendationSystem/tree/main/paper/2008_CF_IFD/README.md)
 > CF, Implicit, profile/관계(내적), cold-start, (+) 간단한 설명, 이웃, 잠재요인, ALS  
 
@@ -48,8 +56,12 @@
 2017_Neural_CF [Neural Collaborative Filtering](https://github.com/okso6441-ksh/RecommendationSystem/tree/main/paper/2017_Neural_CF/README.md)
 > NCF, CF 내적 의존 극복, Implicit Data, DNN, F/W[User/Item Latent 벡터 > Multi-layers > NCF > 출력], NeuMF[GMF(선형) + MLP(비선형)]  
   
+---  
+
 ### Article
 2009_MFTFRS [MATRIX FACTORIZATION TECHNIQUES FOR RECOMMENDER SYSTEMS](https://github.com/okso6441-ksh/RecommendationSystem/tree/main/article/2009_MFTFRS/README.md)
+
+---
 
 ### Support or Contact
 okso6441@gmail.com  
