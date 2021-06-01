@@ -1,5 +1,4 @@
 ## Recommendation System
-[GitHub](https://github.com/okso6441-ksh/RecommendationSystem/edit/main/README.md) 
 
 ### Code  
 
