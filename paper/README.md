@@ -12,7 +12,10 @@
   
 2010_FM [Factorization Machines](https://github.com/okso6441-ksh/RecommendationSystem/tree/main/paper/2010_FM/README.md)
 > SVM + Factorization, huge sparse, 상호작용 모델링, 일반 예측기  
-  
+
+미작성> 2010_tYTVRS [The YouTube Video Recommendation System](https://github.com/okso6441-ksh/RecommendationSystem/tree/main/paper/2010_tYTVRS/README.md)
+>  
+
 2012_LARS [LARS: A Location-Aware Recommender System](https://github.com/okso6441-ksh/RecommendationSystem/tree/main/paper/2012_LARS/README.md)
 > Location, 사용자 분할(적응형 피라미드 구조), 이동/여행 패널티, 선호 지역성  
   
@@ -34,6 +37,9 @@
 2016_WDLRS [Wide & Deep Learning for Recommender Systems](https://github.com/okso6441-ksh/RecommendationSystem/tree/main/paper/2016_WDLRS/README.md)
 > memorization + generalization, wide[(linear;일반화; cross-product 변환) FTRL + L1] + deep[(NN;임베딩) AdaGrad], joint training(학습결합), 웜 스타트 시스템(dry run, sanity check)  
   
+미작성> 2016_DNNfYTR [Deep Neural Networks for YouTube Recommendations](https://github.com/okso6441-ksh/RecommendationSystem/tree/main/paper/2016_DNNfYTR/README.md)
+> 
+
 2017_DAE_CF [Training Deep AutoEncoders for Collaborative Filtering](https://github.com/okso6441-ksh/RecommendationSystem/tree/main/paper/2017_DAE_CF/README.md)
 > CF(sparseness/missing 극복), U-AutoRec + deeper(사전훈련 X), SELUs, dropout, iterative output e-feeding  
   
@@ -48,3 +54,6 @@
 
 미작성> 2018_VACF [Variational Autoencoders for Collaborative Filtering](https://github.com/okso6441-ksh/RecommendationSystem/tree/main/paper/2018_VACF/README.md)
 >   
+
+미작성> 2019_RWVtWN [Recommending What Video to Watch Next_a multitask ranking system](https://github.com/okso6441-ksh/RecommendationSystem/tree/main/paper/2019_RWVtWN/README.md)  
+>  
