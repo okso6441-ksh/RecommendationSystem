@@ -20,7 +20,7 @@
       * Latent Factor: User-Item $\in$ Vector space  
       * Matrix Factorization
         * SGD, ALS  
-  * Context-based  
+  * Context-based: 3D(user X item X context) > rating; pre/post-filtering, modeling       
     * Context-aware, Location-based, Real-Time/Time-Sensitive  
   * Community-based  
   * Knowledge-based  

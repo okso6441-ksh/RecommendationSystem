@@ -25,12 +25,12 @@
 2015_IRSS [Image-based Recommendations on Styles and Substitutes](https://github.com/okso6441-ksh/RecommendationSystem/tree/main/paper/2015_IRSS/README.md)
 > appearance, 대안/보완, 시각적 관계에 대한 인간의 개념(수작업/loosely related)  
   
-2015_SBRRNN [SESSION-BASED RECOMMENDATIONS WITH RECURRENT NEURAL NETWORKS](https://github.com/okso6441-ksh/RecommendationSystem/tree/main/paper/2015_SBRRNN/README.md)
-> RS + RNN, short session-based data, GRU-based RNN, 1-of-N encoding, pairwise(TOP1), Item-KNN  
-  
 2015_VBPR [VBPR: Visual Bayesian Personalized Ranking from Implicit Feedback](https://github.com/okso6441-ksh/RecommendationSystem/tree/main/paper/2015_VBPR/README.md)
 > MF(선호 예측), BPR, 사전훈련 Deep CNN, 항목 visual appearance, 임베딩 공유  
-  
+
+2016_SBRRNN [SESSION-BASED RECOMMENDATIONS WITH RECURRENT NEURAL NETWORKS](https://github.com/okso6441-ksh/RecommendationSystem/tree/main/paper/2016_SBRRNN/README.md)
+> RS + RNN, short session-based data, GRU-based RNN, 1-of-N encoding, pairwise(TOP1), Item-KNN  
+    
 2016_WDLRS [Wide & Deep Learning for Recommender Systems](https://github.com/okso6441-ksh/RecommendationSystem/tree/main/paper/2016_WDLRS/README.md)
 > memorization + generalization, wide[(linear;일반화; cross-product 변환) FTRL + L1] + deep[(NN;임베딩) AdaGrad], joint training(학습결합), 웜 스타트 시스템(dry run, sanity check)  
   
@@ -45,4 +45,6 @@
   
 2017_Neural_CF [Neural Collaborative Filtering](https://github.com/okso6441-ksh/RecommendationSystem/tree/main/paper/2017_Neural_CF/README.md)
 > NCF, CF 내적 의존 극복, Implicit Data, DNN, F/W[User/Item Latent 벡터 > Multi-layers > NCF > 출력], NeuMF[GMF(선형) + MLP(비선형)]  
-  
+
+미작성> 2018_VACF [Variational Autoencoders for Collaborative Filtering](https://github.com/okso6441-ksh/RecommendationSystem/tree/main/paper/2018_VACF/README.md)
+>   

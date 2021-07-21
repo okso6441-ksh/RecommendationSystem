@@ -25,10 +25,10 @@
   
 2015_IRSS [Image-based Recommendations on Styles and Substitutes](https://github.com/okso6441-ksh/RecommendationSystem/tree/main/paper/2015_IRSS/README.md)
   
-2015_SBRRNN [SESSION-BASED RECOMMENDATIONS WITH RECURRENT NEURAL NETWORKS](https://github.com/okso6441-ksh/RecommendationSystem/tree/main/paper/2015_SBRRNN/README.md)
-  
 2015_VBPR [VBPR: Visual Bayesian Personalized Ranking from Implicit Feedback](https://github.com/okso6441-ksh/RecommendationSystem/tree/main/paper/2015_VBPR/README.md)
-  
+
+2016_SBRRNN [SESSION-BASED RECOMMENDATIONS WITH RECURRENT NEURAL NETWORKS](https://github.com/okso6441-ksh/RecommendationSystem/tree/main/paper/2016_SBRRNN/README.md)
+   
 2016_WDLRS [Wide & Deep Learning for Recommender Systems](https://github.com/okso6441-ksh/RecommendationSystem/tree/main/paper/2016_WDLRS/README.md)
   
 2017_DAE_CF [Training Deep AutoEncoders for Collaborative Filtering](https://github.com/okso6441-ksh/RecommendationSystem/tree/main/paper/2017_DAE_CF/README.md)
@@ -38,7 +38,9 @@
 2017_JT_RRN [JOINT TRAINING OF RATINGS AND REVIEWS WITH RECURRENT RECOMMENDER NETWORKS](https://github.com/okso6441-ksh/RecommendationSystem/tree/main/paper/2017_JT_RRN/README.md)
   
 2017_Neural_CF [Neural Collaborative Filtering](https://github.com/okso6441-ksh/RecommendationSystem/tree/main/paper/2017_Neural_CF/README.md)
-  
+
+미작성> 2018_VACF [Variational Autoencoders for Collaborative Filtering](https://github.com/okso6441-ksh/RecommendationSystem/tree/main/paper/2018_VACF/README.md)
+    
 ---  
 
 ### Article
