@@ -20,7 +20,7 @@
 ---
 
 ### 1. INTRODUCTION
-* 기존 모델의 특성: 본질적 선형, 모델링 용량 제한됨  
+* 기존 모델의 특성: 선형, 모델링 용량 제한됨  
 * VAEs: 선형 잠재 요인 모델 일반화, 대규모 데이터 세트에서 신경망으로 구동되는 비선형 확률적 잠재 변수 모델 탐색  
   * a neural generative model with multinomial conditional likelihood  
     * multinomial likelihood: implicit feedback 적합, 순위 손실에 더 가까운 프록시  
@@ -34,39 +34,27 @@
 
 ### 2. METHOD  
 * user-by-item matrix  
-  * <img src="https://latex.codecogs.com/gif.latex?X%20%5Cin%20%5Cmathbb%7BN%7D%5E%7BU%5Ctimes%20I%7D">  
-* <img src="https://latex.codecogs.com/gif.latex?x_u%20%3D%20%5Bx_%7Bu1%7D%2C...%2Cx_%7BuI%7D%5D%5E%5Ctau%20%5Cin%20%5Cmathbb%7BN%7D%5EI">: 사용자의 각 항목에 대한 클릭 수를 갖는 bag-of-words 벡터(이진화)  
+  * <img src="https://latex.codecogs.com/gif.latex?X%20%5Cin%20%5Cmathbb%7BN%7D%5E%7BU%5Ctimes%20I%7D">   
+
+    * <img src="https://latex.codecogs.com/gif.latex?x_u%20%3D%20%5Bx_%7Bu1%7D%2C...%2Cx_%7BuI%7D%5D%5E%5Ctau%20%5Cin%20%5Cmathbb%7BN%7D%5EI">: 사용자의 각 항목에 대한 클릭 수를 갖는 bag-of-words 벡터(이진화)  
 
 #### 2.1 Model
+* 사용자 model: standard Gaussian prior > (샘플링) > k-차원 잠재 표현(<img src="https://latex.codecogs.com/gif.latex?z_u">)  
+  * <img src="https://latex.codecogs.com/gif.latex?z_u">: 비선형 함수(<img src="https://latex.codecogs.com/gif.latex?f_%5Ctheta%28%5Ccdot%20%29%20%5Cin%20%5Cmathbb%7BR%7D%5EI">) > (변환) > 아이템(I) 클릭 기록(<img src="https://latex.codecogs.com/gif.latex?%5Cpi%28z_u%29"> 확률분포   
+  * ![(1)](./image/(1).PNG)     
+    * <img src="https://latex.codecogs.com/gif.latex?f_%5Ctheta%28%5Ccdot%20%29">: 비선형함수, 매개변수 θ를 갖는 다층 퍼셉트론  
+    * 출력: softmax 함수(정규화)
+      * <img src="https://latex.codecogs.com/gif.latex?%5Cpi%28z_u%29%20%5Cin%20%5Cmathbb%7BS%7D%5E%7BI-1%7D">: (I-1)-simplex    
+* <img src="https://latex.codecogs.com/gif.latex?N_u%20%3D%20%5Csum_i%20x_%7Bui%7D">: 사용자 총 클릭 수       
+  * <img src="https://latex.codecogs.com/gif.latex?x_u">: 관찰된 bag-of-words vector  
+    * (가정) 확률이 <img src="https://latex.codecogs.com/gif.latex?%5Cpi%28z_u%29"> 인 다항분포에서 샘플링  
 
-
-For each useru, the model starts by sampling a K-dimensional latent representation zu from a standard Gaussian prior. 
-각 사용자에 대해 모델은 표준 가우스 사전에서 K 차원 잠재 표현 zu를 샘플링하여 시작합니다.
-
-
-The latent representation zu is transformed via a non-linear function fθ(·) ∈ RI to produce a probability distribution over I items π(zu ) from which the click history xu is assumed to have been drawn:
-잠재 표현 zu는 비선형 함수 fθ(·) ∈ RI를 통해 변환되어 클릭 기록 xu가 그려졌다고 가정되는 I 항목 π(zu )에 대한 확률 분포를 생성합니다. 
-
-<img src="https://latex.codecogs.com/gif.latex?f_%5Ctheta%28%5Ccdot%20%29%20%5Cin%20%5Cmathbb%7BR%7D%5EI">  
-
-* ![(1)](./image/(1).PNG)    
-
-The non-linear function fθ(·) is a multilayer perceptron with parameters θ. 
-비선형 함수 fθ(·)는 매개변수 θ를 갖는 다층 퍼셉트론입니다.
-<img src="https://latex.codecogs.com/gif.latex?f_%5Ctheta%28%5Ccdot%20%29">
-
-The output of this transformation is normalized via a softmax function to produce a probability vector π(zu ) ∈ SI−1 (an(I − 1)-simplex) over the entire item set. 
-이 변환의 출력은 전체 항목 세트에 대한 확률 벡터 π(zu ) ∈ SI−1 (an(I − 1)-단순)을 생성하기 위해 softmax 함수를 통해 정규화됩니다.
-
-
-Given the total number of clicks Nu = Íi xui from user u, the observed bag-of-words vector xu is assumed to be sampled from a multinomial distribution with probability π(zu ). 
-사용자 u의 총 클릭 수 Nu = Íi xui가 주어지면 관찰된 단어 자루 벡터 xu는 확률이 π(zu)인 다항 분포에서 샘플링된 것으로 가정합니다.
-<img src="https://latex.codecogs.com/gif.latex?%5Cpi%28z_u%29%20%5Cin%20%5Cmathbb%7BS%7D%5E%7BI-1%7D">
 
 This generative model generalizes the latentfactor model — we can recover classical matrix factorization by setting fθ(·) to be linear and using a Gaussian likelihood.
 이 생성 모델은 잠재 인자 모델을 일반화합니다. fθ(·)를 선형으로 설정하고 가우스 우도를 사용하여 고전적인 행렬 분해를 복구할 수 있습니다. 
 
 * ![(2)](./image/(2).PNG)    
+
 The log-likelihood for user u (conditioned on the latent representation) is:
 This multinomial likelihood is commonly used in language models, e.g., latent Dirichlet allocation, and economics, e.g., multinomial logit choice model. 
 사용자 u의 로그 가능성(잠재 표현에 따라 결정됨)은 다음과 같습니다.
