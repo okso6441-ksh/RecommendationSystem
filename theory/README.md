@@ -41,7 +41,7 @@
 
 * 한계/어려움          
   * Scalability, Proactive, **Cold-Start** Problem, Privacy, Mobile Device/User Context, Long/Short-term user preference, Generic Model/Cross Domain, Stavation/Diversity
-  * 필터버블(정보의 비대칭)    
+  * 필터버블(정보의 비대칭), 정답이 없음(metric 중요)    
 
   ---
   *참고 출처: [fastcampus] 딥러닝을 활용한 추천시스템 구현 올인원 패키지 Online*
